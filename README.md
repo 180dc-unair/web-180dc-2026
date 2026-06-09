@@ -1,4 +1,4 @@
-# ISAC-2026
+# 180DC Uniar
 
 Laravel 13 + React/Inertia + TanStack Query + Vite + MySQL + Nginx + Docker Compose Watch.
 
@@ -70,7 +70,7 @@ Perilaku watch:
 ```bash
 docker compose exec app sh
 docker compose exec node sh
-docker compose exec mysql mysql -uisac -pisac_password isac2026
+docker compose exec mysql mysql -uisac -pisac_password 180dc_unair
 ```
 
 ## Troubleshooting
@@ -121,3 +121,4 @@ docker compose logs node
 ```
 
 Pastikan `npm run dev` berjalan dengan host `0.0.0.0` agar bisa diakses dari host.
+# web-180dc-2026
