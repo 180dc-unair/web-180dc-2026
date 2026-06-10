@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const appName = import.meta.env.VITE_APP_NAME || 'ISAC 2026';
+const appName = import.meta.env.VITE_APP_NAME || '180DC Uniar';
 
 const queryClient = new QueryClient({
     defaultOptions: {

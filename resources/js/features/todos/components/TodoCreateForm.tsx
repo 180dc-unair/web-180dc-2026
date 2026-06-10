@@ -34,7 +34,7 @@ export function TodoCreateForm({
     }
 
     return (
-        <section className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-xl">
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
             <form onSubmit={handleSubmit} className="flex flex-col gap-3 md:flex-row">
                 <input
                     type="text"
@@ -44,26 +44,26 @@ export function TodoCreateForm({
                         setValidationError(null);
                     }}
                     placeholder="Tulis todo baru..."
-                    className="min-h-12 flex-1 rounded-2xl border border-white/10 bg-slate-900 px-5 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400"
+                    className="min-h-12 flex-1 rounded-2xl border border-slate-200 bg-white px-5 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500"
                 />
 
                 <button
                     type="submit"
                     disabled={isSubmitting || !title.trim()}
-                    className="min-h-12 rounded-2xl bg-blue-500 px-6 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition hover:bg-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="min-h-12 rounded-2xl bg-blue-600 px-6 text-sm font-bold text-white shadow-sm transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                     {isSubmitting ? 'Menyimpan...' : 'Tambah Todo'}
                 </button>
             </form>
 
             {validationError && (
-                <p className="mt-3 text-sm text-yellow-300">
+                <p className="mt-3 text-sm text-amber-600">
                     {validationError}
                 </p>
             )}
 
             {errorMessage && (
-                <p className="mt-3 text-sm text-red-300">
+                <p className="mt-3 text-sm text-red-600">
                     Gagal menambah todo: {errorMessage}
                 </p>
             )}
