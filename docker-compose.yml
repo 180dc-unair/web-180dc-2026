@@ -48,7 +48,6 @@ services:
       DB_DATABASE: 180dc_unair
       DB_USERNAME: isac
       DB_PASSWORD: isac_password
-    command: sh -c "composer install && php-fpm"
     depends_on:
       mysql:
         condition: service_healthy
