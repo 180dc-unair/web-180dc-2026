@@ -1,5 +1,5 @@
 {
-    "name": "ISAC-2026",
+    "name": "180dc-2026",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "app",
     "workspaceFolder": "/var/www/html",
