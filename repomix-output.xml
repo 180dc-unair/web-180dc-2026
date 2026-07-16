@@ -48,23 +48,11 @@ app/
       Controller.php
     Middleware/
       HandleInertiaRequests.php
-    Requests/
-      Todo/
-        StoreTodoRequest.php
-        UpdateTodoRequest.php
-    Resources/
-      TodoResource.php
   Models/
     Todo.php
     User.php
   Providers/
     AppServiceProvider.php
-  Repositories/
-    Contracts/
-      TodoRepositoryInterface.php
-    TodoRepository.php
-  Services/
-    TodoService.php
 bootstrap/
   cache/
     .gitignore
@@ -95,40 +83,15 @@ database/
 docker/
   nginx/
     default.conf
-docs/
-  public/
-    .htaccess
-    favicon.ico
-    fonts-manifest.dev.json
-    hot
-    index.php
-    robots.txt
-  api_workflow.md
-  client_workflow.md
-  Sample_app_infrastructure.md
+public/
+  .htaccess
+  favicon.ico
+  index.php
+  robots.txt
 resources/
   css/
     app.css
   js/
-    features/
-      todos/
-        api/
-          todoApi.ts
-        components/
-          TodoCreateForm.tsx
-          TodoEmptyState.tsx
-          TodoErrorState.tsx
-          TodoHero.tsx
-          TodoItem.tsx
-          TodoList.tsx
-          TodoLoadingState.tsx
-          TodoStats.tsx
-        hooks/
-          useTodos.ts
-        schemas/
-          todoSchema.ts
-        types/
-          todoTypes.ts
     lib/
       api.ts
     Pages/
@@ -191,3500 +154,68 @@ vite.config.js
 <files>
 This section contains the contents of the repository's files.
 
-<file path="docs/public/.htaccess">
-<IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
-    RewriteEngine On
-
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-    # Handle X-XSRF-Token Header
-    RewriteCond %{HTTP:x-xsrf-token} .
-    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
-
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
-</IfModule>
-</file>
-
-<file path="docs/public/fonts-manifest.dev.json">
-{
-  "version": 1,
-  "style": {
-    "inline": "@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/57809002f32f21ba.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/c6f4c1d2d4d444b8.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/4426f208f52b27d6.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/5efe0859d141e855.woff\") format(\"woff\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/6a11a51c018a795e.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/9c0bf9540aa66558.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/a7931507c0f7a197.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/4f0d9d7e04689bc6.woff\") format(\"woff\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/9a4beeb6922bf506.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/832bd5fce0264148.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/3965c06efb7215ff.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/1eefbcdf36be6c21.woff\") format(\"woff\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n:root {\n  --font-instrument-sans: \"Instrument Sans\", \"Instrument Sans fallback\";\n}\n\n.font-instrument-sans {\n  font-family: var(--font-instrument-sans);\n}\n",
-    "familyStyles": {
-      "instrument-sans": "@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/57809002f32f21ba.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/c6f4c1d2d4d444b8.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/4426f208f52b27d6.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/5efe0859d141e855.woff\") format(\"woff\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/6a11a51c018a795e.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/9c0bf9540aa66558.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/a7931507c0f7a197.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/4f0d9d7e04689bc6.woff\") format(\"woff\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/9a4beeb6922bf506.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/832bd5fce0264148.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/3965c06efb7215ff.woff2\") format(\"woff2\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n@font-face {\n  font-family: \"Instrument Sans\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://localhost:5173/__laravel_vite_plugin__/fonts/1eefbcdf36be6c21.woff\") format(\"woff\");\n  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;\n}\n\n.font-instrument-sans {\n  font-family: var(--font-instrument-sans);\n}"
-    },
-    "variables": {
-      "instrument-sans": "--font-instrument-sans: \"Instrument Sans\", \"Instrument Sans fallback\";"
-    }
-  },
-  "preloads": [
-    {
-      "alias": "instrument-sans",
-      "family": "Instrument Sans",
-      "weight": 400,
-      "style": "normal",
-      "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/57809002f32f21ba.woff2",
-      "as": "font",
-      "type": "font/woff2",
-      "crossorigin": "anonymous"
-    },
-    {
-      "alias": "instrument-sans",
-      "family": "Instrument Sans",
-      "weight": 400,
-      "style": "normal",
-      "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/4426f208f52b27d6.woff2",
-      "as": "font",
-      "type": "font/woff2",
-      "crossorigin": "anonymous"
-    },
-    {
-      "alias": "instrument-sans",
-      "family": "Instrument Sans",
-      "weight": 500,
-      "style": "normal",
-      "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/6a11a51c018a795e.woff2",
-      "as": "font",
-      "type": "font/woff2",
-      "crossorigin": "anonymous"
-    },
-    {
-      "alias": "instrument-sans",
-      "family": "Instrument Sans",
-      "weight": 500,
-      "style": "normal",
-      "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/a7931507c0f7a197.woff2",
-      "as": "font",
-      "type": "font/woff2",
-      "crossorigin": "anonymous"
-    },
-    {
-      "alias": "instrument-sans",
-      "family": "Instrument Sans",
-      "weight": 600,
-      "style": "normal",
-      "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/9a4beeb6922bf506.woff2",
-      "as": "font",
-      "type": "font/woff2",
-      "crossorigin": "anonymous"
-    },
-    {
-      "alias": "instrument-sans",
-      "family": "Instrument Sans",
-      "weight": 600,
-      "style": "normal",
-      "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/3965c06efb7215ff.woff2",
-      "as": "font",
-      "type": "font/woff2",
-      "crossorigin": "anonymous"
-    }
-  ],
-  "families": {
-    "instrument-sans": {
-      "family": "Instrument Sans",
-      "variable": "--font-instrument-sans",
-      "fallbackFamily": "Instrument Sans fallback",
-      "variants": {
-        "400:normal": {
-          "files": [
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/57809002f32f21ba.woff2",
-              "format": "woff2",
-              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
-            },
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/c6f4c1d2d4d444b8.woff",
-              "format": "woff",
-              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
-            },
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/4426f208f52b27d6.woff2",
-              "format": "woff2",
-              "unicodeRange": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
-            },
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/5efe0859d141e855.woff",
-              "format": "woff",
-              "unicodeRange": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
-            }
-          ]
-        },
-        "500:normal": {
-          "files": [
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/6a11a51c018a795e.woff2",
-              "format": "woff2",
-              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
-            },
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/9c0bf9540aa66558.woff",
-              "format": "woff",
-              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
-            },
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/a7931507c0f7a197.woff2",
-              "format": "woff2",
-              "unicodeRange": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
-            },
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/4f0d9d7e04689bc6.woff",
-              "format": "woff",
-              "unicodeRange": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
-            }
-          ]
-        },
-        "600:normal": {
-          "files": [
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/9a4beeb6922bf506.woff2",
-              "format": "woff2",
-              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
-            },
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/832bd5fce0264148.woff",
-              "format": "woff",
-              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
-            },
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/3965c06efb7215ff.woff2",
-              "format": "woff2",
-              "unicodeRange": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
-            },
-            {
-              "url": "http://localhost:5173/__laravel_vite_plugin__/fonts/1eefbcdf36be6c21.woff",
-              "format": "woff",
-              "unicodeRange": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
-            }
-          ]
-        }
-      }
-    }
-  }
-}
-</file>
-
-<file path="docs/public/hot">
-http://localhost:5173
-</file>
-
-<file path="docs/public/index.php">
-<?php
-
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
-
-define('LARAVEL_START', microtime(true));
-
-// Determine if the application is in maintenance mode...
-if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
-    require $maintenance;
-}
-
-// Register the Composer autoloader...
-require __DIR__.'/../vendor/autoload.php';
-
-// Bootstrap Laravel and handle the request...
-/** @var Application $app */
-$app = require_once __DIR__.'/../bootstrap/app.php';
-
-$app->handleRequest(Request::capture());
-</file>
-
-<file path="docs/public/robots.txt">
-User-agent: *
-Disallow:
-</file>
-
-<file path="docs/api_workflow.md">
-# Backend API Workflow Standard
-
-Dokumentasi ini menjelaskan standar workflow backend Laravel untuk membuat fitur API baru.
-
-Pola utama yang digunakan:
-
-```txt
-Route
--> Controller
--> Request
--> Service
--> Repository Contract
--> Repository
--> Model
--> Resource
--> Response
-```
-
-Tujuan workflow ini:
-
-* Backend lebih rapi.
-* Controller tidak terlalu penuh.
-* Validasi request terpisah.
-* Logic utama ada di service.
-* Query database ada di repository.
-* Bentuk response API dijaga oleh resource.
-* Response frontend lebih konsisten.
-* Fitur lebih mudah dites dan dikembangkan.
-
----
-
-## 1. Generate File Backend
-
-Misal ingin membuat fitur baru bernama `Team`.
-
-### Perintah Artisan Biasa
-
-```bash
-php artisan make:controller Api/TeamController
-php artisan make:request Team/StoreTeamRequest
-php artisan make:request Team/UpdateTeamRequest
-php artisan make:resource TeamResource
-php artisan make:model Team -m
-php artisan make:class Services/TeamService
-php artisan make:class Repositories/TeamRepository
-php artisan make:class Repositories/Contracts/TeamRepositoryInterface
-```
-
-### Perintah Versi Docker
-
-```bash
-docker compose exec app php artisan make:controller Api/TeamController
-docker compose exec app php artisan make:request Team/StoreTeamRequest
-docker compose exec app php artisan make:request Team/UpdateTeamRequest
-docker compose exec app php artisan make:resource TeamResource
-docker compose exec app php artisan make:model Team -m
-docker compose exec app php artisan make:class Services/TeamService
-docker compose exec app php artisan make:class Repositories/TeamRepository
-docker compose exec app php artisan make:class Repositories/Contracts/TeamRepositoryInterface
-```
-
-Jika Laravel sudah punya command `make:interface`, gunakan:
-
-```bash
-php artisan make:interface Repositories/Contracts/TeamRepositoryInterface
-```
-
-Jika belum ada, gunakan `make:class`, lalu ubah manual:
-
-```php
-class TeamRepositoryInterface
-{
-}
-```
-
-menjadi:
-
-```php
-interface TeamRepositoryInterface
-{
-}
-```
-
----
-
-## 2. Hasil Struktur Folder
-
-Setelah generate, struktur file akan seperti ini:
-
-```txt
-app/
-  Http/
-    Controllers/
-      Api/
-        TeamController.php
-    Requests/
-      Team/
-        StoreTeamRequest.php
-        UpdateTeamRequest.php
-    Resources/
-      TeamResource.php
-  Models/
-    Team.php
-  Services/
-    TeamService.php
-  Repositories/
-    Contracts/
-      TeamRepositoryInterface.php
-    TeamRepository.php
-
-database/
-  migrations/
-    xxxx_xx_xx_xxxxxx_create_teams_table.php
-```
-
----
-
-## 3. Fungsi Setiap Bagian Backend
-
-### 3.1 Route
-
-Lokasi:
-
-```txt
-routes/api.php
-```
-
-Route adalah alamat endpoint API.
-
-Contoh:
-
-```php
-use App\Http\Controllers\Api\TeamController;
-use Illuminate\Support\Facades\Route;
-
-Route::prefix('teams')->group(function () {
-    Route::get('/', [TeamController::class, 'index']);
-    Route::post('/', [TeamController::class, 'store']);
-    Route::get('/{team}', [TeamController::class, 'show']);
-    Route::put('/{team}', [TeamController::class, 'update']);
-    Route::patch('/{team}', [TeamController::class, 'update']);
-    Route::delete('/{team}', [TeamController::class, 'destroy']);
-});
-```
-
-Fungsi route:
-
-```txt
-Menentukan URL API.
-Menentukan HTTP method.
-Menghubungkan endpoint ke controller.
-```
-
-Route tidak boleh berisi:
-
-```txt
-Query database.
-Logic bisnis panjang.
-Validasi manual panjang.
-Response kompleks.
-```
-
----
-
-### 3.2 Controller
-
-Lokasi:
-
-```txt
-app/Http/Controllers/Api/TeamController.php
-```
-
-Controller adalah pintu masuk request API.
-
-Tugas controller:
-
-```txt
-Menerima request.
-Memanggil Request validation.
-Memanggil Service.
-Mengembalikan response JSON.
-```
-
-Contoh:
-
-```php
-<?php
-
-namespace App\Http\Controllers\Api;
-
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Team\StoreTeamRequest;
-use App\Http\Requests\Team\UpdateTeamRequest;
-use App\Http\Resources\TeamResource;
-use App\Models\Team;
-use App\Services\TeamService;
-use Illuminate\Http\JsonResponse;
-
-class TeamController extends Controller
-{
-    public function __construct(
-        private readonly TeamService $teamService,
-    ) {
-        //
-    }
-
-    public function index(): JsonResponse
-    {
-        $teams = $this->teamService->getTeams();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Teams retrieved successfully.',
-            'data' => TeamResource::collection($teams),
-            'metadata' => [],
-            'error' => null,
-        ]);
-    }
-
-    public function store(StoreTeamRequest $request): JsonResponse
-    {
-        $team = $this->teamService->createTeam($request->validated());
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Team created successfully.',
-            'data' => new TeamResource($team),
-            'metadata' => [],
-            'error' => null,
-        ], 201);
-    }
-
-    public function show(Team $team): JsonResponse
-    {
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Team detail retrieved successfully.',
-            'data' => new TeamResource($team),
-            'metadata' => [],
-            'error' => null,
-        ]);
-    }
-
-    public function update(UpdateTeamRequest $request, Team $team): JsonResponse
-    {
-        $updatedTeam = $this->teamService->updateTeam(
-            $team,
-            $request->validated(),
-        );
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Team updated successfully.',
-            'data' => new TeamResource($updatedTeam),
-            'metadata' => [],
-            'error' => null,
-        ]);
-    }
-
-    public function destroy(Team $team): JsonResponse
-    {
-        $this->teamService->deleteTeam($team);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Team deleted successfully.',
-            'data' => null,
-            'metadata' => [],
-            'error' => null,
-        ]);
-    }
-}
-```
-
-Controller tidak boleh terlalu pintar.
-
-Jangan taruh ini di controller:
-
-```txt
-Query database panjang.
-Business logic panjang.
-Transaction kompleks.
-Hitung score.
-Generate code.
-Manipulasi data terlalu banyak.
-```
-
----
-
-### 3.3 Request
-
-Lokasi:
-
-```txt
-app/Http/Requests/Team/StoreTeamRequest.php
-app/Http/Requests/Team/UpdateTeamRequest.php
-```
-
-Request digunakan untuk validasi input dari frontend.
-
-#### StoreTeamRequest
-
-Digunakan saat create data baru.
-
-```php
-<?php
-
-namespace App\Http\Requests\Team;
-
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreTeamRequest extends FormRequest
-{
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    public function rules(): array
-    {
-        return [
-            'name' => [
-                'required',
-                'string',
-                'min:2',
-                'max:255',
-            ],
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-            ],
-            'phone' => [
-                'nullable',
-                'string',
-                'max:20',
-            ],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'Nama team wajib diisi.',
-            'name.min' => 'Nama team minimal 2 karakter.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-        ];
-    }
-}
-```
-
-#### UpdateTeamRequest
-
-Digunakan saat update data.
-
-```php
-<?php
-
-namespace App\Http\Requests\Team;
-
-use Illuminate\Foundation\Http\FormRequest;
-
-class UpdateTeamRequest extends FormRequest
-{
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    public function rules(): array
-    {
-        return [
-            'name' => [
-                'sometimes',
-                'required',
-                'string',
-                'min:2',
-                'max:255',
-            ],
-            'email' => [
-                'sometimes',
-                'required',
-                'email',
-                'max:255',
-            ],
-            'phone' => [
-                'sometimes',
-                'nullable',
-                'string',
-                'max:20',
-            ],
-        ];
-    }
-}
-```
-
-Perbedaan:
-
-```txt
-StoreRequest:
-Field biasanya wajib karena membuat data baru.
-
-UpdateRequest:
-Field biasanya pakai sometimes karena update bisa sebagian.
-```
-
----
-
-### 3.4 Service
-
-Lokasi:
-
-```txt
-app/Services/TeamService.php
-```
-
-Service adalah tempat logic utama fitur.
-
-```php
-<?php
-
-namespace App\Services;
-
-use App\Models\Team;
-use App\Repositories\Contracts\TeamRepositoryInterface;
-
-class TeamService
-{
-    public function __construct(
-        private readonly TeamRepositoryInterface $teamRepository,
-    ) {
-        //
-    }
-
-    public function getTeams()
-    {
-        return $this->teamRepository->allLatest();
-    }
-
-    public function createTeam(array $data): Team
-    {
-        return $this->teamRepository->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'] ?? null,
-        ]);
-    }
-
-    public function updateTeam(Team $team, array $data): Team
-    {
-        return $this->teamRepository->update($team, $data);
-    }
-
-    public function deleteTeam(Team $team): void
-    {
-        $this->teamRepository->delete($team);
-    }
-}
-```
-
-Service cocok untuk:
-
-```txt
-Business logic.
-Default value.
-Transaction.
-Orchestration beberapa repository.
-Validasi flow bisnis.
-Approve/reject.
-Hitung score.
-Generate code.
-Create/update/delete logic.
-```
-
-Contoh logic yang cocok di service:
-
-```txt
-Saat membuat team, generate team code.
-Saat membuat todo, is_completed default false.
-Saat approve pembayaran, update status registration.
-Saat submit exam, hitung score.
-```
-
----
-
-### 3.5 Repository Contract
-
-Lokasi:
-
-```txt
-app/Repositories/Contracts/TeamRepositoryInterface.php
-```
-
-Repository Contract adalah interface atau aturan method repository.
-
-```php
-<?php
-
-namespace App\Repositories\Contracts;
-
-use App\Models\Team;
-
-interface TeamRepositoryInterface
-{
-    public function allLatest();
-
-    public function create(array $data): Team;
-
-    public function update(Team $team, array $data): Team;
-
-    public function delete(Team $team): void;
-}
-```
-
-Fungsi contract:
-
-```txt
-Menentukan method apa saja yang wajib dimiliki repository.
-Membuat service tidak bergantung langsung ke class repository.
-Memudahkan testing.
-Memudahkan ganti implementasi repository.
-```
-
-Ringkasnya:
-
-```txt
-Contract = aturan kerja repository.
-```
-
----
-
-### 3.6 Repository
-
-Lokasi:
-
-```txt
-app/Repositories/TeamRepository.php
-```
-
-Repository adalah tempat query database.
-
-```php
-<?php
-
-namespace App\Repositories;
-
-use App\Models\Team;
-use App\Repositories\Contracts\TeamRepositoryInterface;
-
-class TeamRepository implements TeamRepositoryInterface
-{
-    public function allLatest()
-    {
-        return Team::query()
-            ->latest()
-            ->get();
-    }
-
-    public function create(array $data): Team
-    {
-        return Team::query()->create($data);
-    }
-
-    public function update(Team $team, array $data): Team
-    {
-        $team->update($data);
-
-        return $team->fresh();
-    }
-
-    public function delete(Team $team): void
-    {
-        $team->delete();
-    }
-}
-```
-
-Repository cocok untuk:
-
-```txt
-Query list.
-Query detail.
-Create data.
-Update data.
-Delete data.
-Filter data.
-Search data.
-Pagination.
-Count summary.
-Query relation.
-```
-
-Repository tidak boleh berisi:
-
-```txt
-Toast.
-Redirect.
-Response JSON.
-Request validation.
-UI logic.
-```
-
----
-
-### 3.7 Model
-
-Lokasi:
-
-```txt
-app/Models/Team.php
-```
-
-Model adalah representasi tabel database.
-
-```php
-<?php
-
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-
-class Team extends Model
-{
-    protected $fillable = [
-        'name',
-        'email',
-        'phone',
-    ];
-}
-```
-
-Model cocok untuk:
-
-```txt
-Fillable.
-Casts.
-Relationship.
-Accessor.
-Mutator.
-Scope kecil.
-Behavior kecil milik entity.
-```
-
-Contoh relationship:
-
-```php
-public function members()
-{
-    return $this->hasMany(Member::class);
-}
-```
-
-Model tidak disarankan untuk logic bisnis besar.
-
----
-
-### 3.8 Resource
-
-Lokasi:
-
-```txt
-app/Http/Resources/TeamResource.php
-```
-
-Resource membentuk data yang keluar ke frontend.
-
-```php
-<?php
-
-namespace App\Http\Resources;
-
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-
-class TeamResource extends JsonResource
-{
-    public function toArray(Request $request): array
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'created_at' => $this->created_at?->toISOString(),
-            'updated_at' => $this->updated_at?->toISOString(),
-        ];
-    }
-}
-```
-
-Resource digunakan agar backend tidak langsung mengirim isi model mentah.
-
-Fungsi resource:
-
-```txt
-Menentukan field yang dikirim ke frontend.
-Menyembunyikan field sensitif.
-Mengubah format tanggal.
-Menjaga API contract.
-Membuat response konsisten.
-```
-
-Contoh:
-
-```txt
-UserResource boleh kirim id, name, email.
-UserResource tidak boleh kirim password dan remember_token.
-```
-
----
-
-### 3.9 Response
-
-Response adalah hasil akhir yang dikirim ke frontend.
-
-Format standar sukses:
-
-```json
-{
-  "status": "success",
-  "message": "Data berhasil diambil.",
-  "data": {},
-  "metadata": {},
-  "error": null
-}
-```
-
-Format standar error:
-
-```json
-{
-  "status": "error",
-  "message": "Validasi gagal.",
-  "data": null,
-  "metadata": {},
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": {
-      "email": [
-        "Email wajib diisi."
-      ]
-    }
-  }
-}
-```
-
-Agar tidak menulis response berulang, bisa dibuat helper:
-
-```txt
-app/Support/ApiResponse.php
-```
-
-Contoh:
-
-```php
-<?php
-
-namespace App\Support;
-
-use Illuminate\Http\JsonResponse;
-
-class ApiResponse
-{
-    public static function success(
-        mixed $data = null,
-        string $message = 'Success.',
-        array $metadata = [],
-        int $statusCode = 200,
-    ): JsonResponse {
-        return response()->json([
-            'status' => 'success',
-            'message' => $message,
-            'data' => $data,
-            'metadata' => $metadata,
-            'error' => null,
-        ], $statusCode);
-    }
-
-    public static function error(
-        string $message = 'Error.',
-        string $code = 'SERVER_ERROR',
-        array $details = [],
-        int $statusCode = 500,
-    ): JsonResponse {
-        return response()->json([
-            'status' => 'error',
-            'message' => $message,
-            'data' => null,
-            'metadata' => [],
-            'error' => [
-                'code' => $code,
-                'details' => $details,
-            ],
-        ], $statusCode);
-    }
-}
-```
-
-Pemakaian di controller:
-
-```php
-return ApiResponse::success(
-    data: new TeamResource($team),
-    message: 'Team created successfully.',
-    statusCode: 201,
-);
-```
-
----
-
-## 4. Binding Repository
-
-Jika service memakai interface, Laravel harus diberi tahu interface itu memakai class apa.
-
-Tambahkan binding di:
-
-```txt
-app/Providers/AppServiceProvider.php
-```
-
-Contoh:
-
-```php
-<?php
-
-namespace App\Providers;
-
-use App\Repositories\Contracts\TeamRepositoryInterface;
-use App\Repositories\TeamRepository;
-use Illuminate\Support\ServiceProvider;
-
-class AppServiceProvider extends ServiceProvider
-{
-    public function register(): void
-    {
-        $this->app->bind(
-            TeamRepositoryInterface::class,
-            TeamRepository::class,
-        );
-    }
-
-    public function boot(): void
-    {
-        //
-    }
-}
-```
-
-Tanpa binding, Laravel bisa error karena tidak tahu harus mengisi `TeamRepositoryInterface` dengan class apa.
-
----
-
-## 5. Register Route API
-
-Tambahkan route di:
-
-```txt
-routes/api.php
-```
-
-Contoh:
-
-```php
-use App\Http\Controllers\Api\TeamController;
-
-Route::prefix('teams')->group(function () {
-    Route::get('/', [TeamController::class, 'index']);
-    Route::post('/', [TeamController::class, 'store']);
-    Route::get('/{team}', [TeamController::class, 'show']);
-    Route::put('/{team}', [TeamController::class, 'update']);
-    Route::patch('/{team}', [TeamController::class, 'update']);
-    Route::delete('/{team}', [TeamController::class, 'destroy']);
-});
-```
-
-Cek route:
-
-```bash
-php artisan route:list
-```
-
-Versi Docker:
-
-```bash
-docker compose exec app php artisan route:list
-```
-
----
-
-## 6. Migration
-
-File migration dibuat oleh command:
-
-```bash
-php artisan make:model Team -m
-```
-
-Contoh migration:
-
-```php
-Schema::create('teams', function (Blueprint $table) {
-    $table->id();
-    $table->string('name');
-    $table->string('email');
-    $table->string('phone')->nullable();
-    $table->timestamps();
-});
-```
-
-Jalankan migration:
-
-```bash
-php artisan migrate
-```
-
-Versi Docker:
-
-```bash
-docker compose exec app php artisan migrate
-```
-
----
-
-## 7. Flow API
-
-### 7.1 GET Many
-
-Endpoint:
-
-```txt
-GET /api/teams
-```
-
-Alur:
-
-```txt
-Frontend request list teams
--> routes/api.php
--> TeamController@index
--> TeamService@getTeams
--> TeamRepositoryInterface
--> TeamRepository@allLatest
--> Team Model query database
--> TeamResource::collection
--> response JSON ke frontend
-```
-
-Response:
-
-```json
-{
-  "status": "success",
-  "message": "Teams retrieved successfully.",
-  "data": [
-    {
-      "id": 1,
-      "name": "Team Alpha",
-      "email": "alpha@example.com",
-      "phone": "08123456789",
-      "created_at": "2026-06-14T10:00:00.000Z",
-      "updated_at": "2026-06-14T10:00:00.000Z"
-    }
-  ],
-  "metadata": {},
-  "error": null
-}
-```
-
----
-
-### 7.2 GET One
-
-Endpoint:
-
-```txt
-GET /api/teams/{team}
-```
-
-Alur:
-
-```txt
-Frontend request detail team
--> routes/api.php
--> Laravel route model binding mencari Team
--> TeamController@show
--> TeamResource
--> response JSON ke frontend
-```
-
-Response:
-
-```json
-{
-  "status": "success",
-  "message": "Team detail retrieved successfully.",
-  "data": {
-    "id": 1,
-    "name": "Team Alpha",
-    "email": "alpha@example.com",
-    "phone": "08123456789",
-    "created_at": "2026-06-14T10:00:00.000Z",
-    "updated_at": "2026-06-14T10:00:00.000Z"
-  },
-  "metadata": {},
-  "error": null
-}
-```
-
----
-
-### 7.3 POST Create
-
-Endpoint:
-
-```txt
-POST /api/teams
-```
-
-Request:
-
-```json
-{
-  "name": "Team Alpha",
-  "email": "alpha@example.com",
-  "phone": "08123456789"
-}
-```
-
-Alur:
-
-```txt
-Frontend submit form
--> routes/api.php
--> TeamController@store
--> StoreTeamRequest validasi input
--> TeamService@createTeam
--> TeamRepository@create
--> Team Model insert database
--> TeamResource bentuk response data
--> response JSON ke frontend
-```
-
-Response:
-
-```json
-{
-  "status": "success",
-  "message": "Team created successfully.",
-  "data": {
-    "id": 1,
-    "name": "Team Alpha",
-    "email": "alpha@example.com",
-    "phone": "08123456789",
-    "created_at": "2026-06-14T10:00:00.000Z",
-    "updated_at": "2026-06-14T10:00:00.000Z"
-  },
-  "metadata": {},
-  "error": null
-}
-```
-
----
-
-### 7.4 PUT Update Full
-
-Endpoint:
-
-```txt
-PUT /api/teams/{team}
-```
-
-Request:
-
-```json
-{
-  "name": "Team Alpha Updated",
-  "email": "alpha.updated@example.com",
-  "phone": "08999999999"
-}
-```
-
-Alur:
-
-```txt
-Frontend submit update full
--> routes/api.php
--> Laravel mencari Team berdasarkan ID
--> TeamController@update
--> UpdateTeamRequest validasi input
--> TeamService@updateTeam
--> TeamRepository@update
--> Team Model update database
--> TeamResource bentuk response data
--> response JSON ke frontend
-```
-
-PUT digunakan jika frontend mengirim data lengkap.
-
----
-
-### 7.5 PATCH Update Partial
-
-Endpoint:
-
-```txt
-PATCH /api/teams/{team}
-```
-
-Request:
-
-```json
-{
-  "phone": "08999999999"
-}
-```
-
-Alur:
-
-```txt
-Frontend submit update sebagian field
--> routes/api.php
--> Laravel mencari Team berdasarkan ID
--> TeamController@update
--> UpdateTeamRequest validasi input
--> TeamService@updateTeam
--> TeamRepository@update
--> Team Model update database
--> TeamResource bentuk response data
--> response JSON ke frontend
-```
-
-PATCH digunakan jika frontend hanya mengirim sebagian field.
-
----
-
-### 7.6 DELETE
-
-Endpoint:
-
-```txt
-DELETE /api/teams/{team}
-```
-
-Alur:
-
-```txt
-Frontend klik delete
--> routes/api.php
--> Laravel mencari Team berdasarkan ID
--> TeamController@destroy
--> TeamService@deleteTeam
--> TeamRepository@delete
--> Team Model delete database
--> response JSON ke frontend
-```
-
-Response:
-
-```json
-{
-  "status": "success",
-  "message": "Team deleted successfully.",
-  "data": null,
-  "metadata": {},
-  "error": null
-}
-```
-
----
-
-## 8. Middleware
-
-Middleware adalah layer sebelum request masuk ke controller.
-
-Fungsinya:
-
-```txt
-Cek user sudah login atau belum.
-Cek role user.
-Cek CSRF.
-Handle Inertia shared props.
-Redirect jika tidak punya akses.
-Memodifikasi request sebelum masuk controller.
-Memodifikasi response sebelum balik ke browser.
-```
-
-Contoh middleware di project:
-
-```txt
-app/Http/Middleware/HandleInertiaRequests.php
-```
-
-Middleware ini khusus untuk Inertia.
-
-Contoh share data global:
-
-```php
-public function share(Request $request): array
-{
-    return [
-        ...parent::share($request),
-
-        'auth' => [
-            'user' => $request->user(),
-        ],
-    ];
-}
-```
-
-Dengan ini, frontend bisa menerima data user login dari semua page Inertia.
-
----
-
-## 9. API Contract vs Repository Contract
-
-Ada dua istilah contract.
-
-### API Contract
-
-API Contract adalah kesepakatan antara frontend dan backend.
-
-Contoh:
-
-```txt
-GET /api/teams harus mengembalikan status, message, data, metadata, error.
-```
-
-API Contract mengatur:
-
-```txt
-Endpoint.
-Method.
-Request body.
-Query params.
-Response success.
-Response error.
-Status code.
-```
-
-### Repository Contract
-
-Repository Contract adalah interface backend.
-
-Contoh:
-
-```txt
-TeamRepositoryInterface
-```
-
-Repository Contract mengatur:
-
-```txt
-Method apa saja yang wajib dimiliki repository.
-```
-
-Ringkasnya:
-
-```txt
-API Contract = aturan komunikasi frontend dan backend.
-Repository Contract = aturan class backend.
-```
-
----
-
-## 10. Urutan Membuat Fitur API Baru
-
-Gunakan urutan ini setiap membuat fitur baru:
-
-```txt
-1. Tentukan nama fitur.
-2. Generate file backend.
-3. Isi migration.
-4. Isi model fillable, casts, dan relation.
-5. Isi request validation.
-6. Isi resource response.
-7. Isi repository contract.
-8. Isi repository query.
-9. Isi service logic.
-10. Isi controller response.
-11. Binding repository di AppServiceProvider.
-12. Daftarkan route di routes/api.php.
-13. Jalankan migrate.
-14. Cek route:list.
-15. Test API via curl/Postman.
-16. Buat feature test jika diperlukan.
-```
-
----
-
-## 11. Checklist Fitur API Baru
-
-```txt
-[ ] Controller dibuat.
-[ ] StoreRequest dibuat.
-[ ] UpdateRequest dibuat.
-[ ] Resource dibuat.
-[ ] Service dibuat.
-[ ] Repository dibuat.
-[ ] RepositoryInterface dibuat.
-[ ] Model dibuat.
-[ ] Migration dibuat.
-[ ] Fillable model diisi.
-[ ] Rules request diisi.
-[ ] Resource hanya mengirim field aman.
-[ ] Service berisi logic utama.
-[ ] Repository berisi query database.
-[ ] Controller tidak berisi query panjang.
-[ ] Binding repository sudah ditambahkan.
-[ ] Route API sudah dibuat.
-[ ] Migration sudah dijalankan.
-[ ] route:list sudah dicek.
-[ ] Response mengikuti API contract.
-[ ] Error validation aman.
-[ ] API sudah dites manual.
-```
-
----
-
-## 12. Command Cek Akhir
-
-Cek route:
-
-```bash
-php artisan route:list
-```
-
-Jalankan migration:
-
-```bash
-php artisan migrate
-```
-
-Clear cache:
-
-```bash
-php artisan optimize:clear
-```
-
-Jalankan test:
-
-```bash
-php artisan test
-```
-
-Versi Docker:
-
-```bash
-docker compose exec app php artisan route:list
-docker compose exec app php artisan migrate
-docker compose exec app php artisan optimize:clear
-docker compose exec app php artisan test
-```
-
----
-
-## 13. Hafalan Cepat
-
-```txt
-Route = alamat endpoint.
-
-Controller = penerima request dan pengirim response.
-
-Request = validasi input.
-
-Service = logic utama aplikasi.
-
-Repository Contract = aturan method repository.
-
-Repository = query database.
-
-Model = representasi tabel database.
-
-Resource = bentuk data keluar ke frontend.
-
-Response = hasil akhir ke frontend.
-
-Middleware = penjaga sebelum masuk controller.
-```
-
----
-
-## 14. Analogi Restoran
-
-```txt
-Route = alamat restoran.
-
-Middleware = satpam.
-
-Controller = pelayan.
-
-Request = pengecek pesanan valid atau tidak.
-
-Service = koki utama yang mengatur proses masak.
-
-Repository = orang yang mengambil bahan dari gudang.
-
-Model = bahan/data utama.
-
-Resource = plating makanan.
-
-Response = makanan yang sampai ke customer.
-```
-</file>
-
-<file path="docs/client_workflow.md">
-# Frontend API Workflow Standard
-
-Dokumentasi ini menjelaskan standar workflow frontend untuk memanggil API di project React + Inertia + TypeScript + TanStack Query.
-
-Standar ini mengikuti pola fitur `todos`.
-
----
-
-## 1. Pola Utama Frontend
-
-Alur frontend wajib seperti ini:
-
-```txt
-Page
--> Component
--> Custom Hook
--> TanStack Query
--> Feature API Function
--> API Client
--> Backend API
-```
-
-Contoh real:
-
-```txt
-Pages/Todos/Index.tsx
--> TodoCreateForm / TodoList
--> useTodos()
--> useQuery / useMutation
--> todoApi.ts
--> lib/api.ts
--> /api/todos
-```
-
----
-
-## 2. Prinsip Utama
-
-Frontend tidak boleh langsung memanggil API dari component.
-
-Jangan buat seperti ini:
-
-```tsx
-fetch('/api/teams')
-```
-
-atau:
-
-```tsx
-axios.get('/api/teams')
-```
-
-langsung di component.
-
-Yang benar:
-
-```txt
-Component
--> panggil props action dari Page
--> Page dapat action dari hook
--> Hook memakai TanStack Query
--> Hook memanggil API function
--> API function memakai API client
-```
-
----
-
-## 3. Struktur Folder Feature
-
-Misal membuat fitur `teams`.
-
-Gunakan struktur:
-
-```txt
-resources/js/features/teams/
-  api/
-    teamApi.ts
-  components/
-    TeamCreateForm.tsx
-    TeamList.tsx
-    TeamItem.tsx
-    TeamLoadingState.tsx
-    TeamErrorState.tsx
-    TeamEmptyState.tsx
-  hooks/
-    useTeams.ts
-  schemas/
-    teamSchema.ts
-  types/
-    teamTypes.ts
-
-resources/js/Pages/Teams/
-  Index.tsx
-```
-
-Jika perlu buat folder:
-
-```bash
-mkdir -p resources/js/features/teams/api
-mkdir -p resources/js/features/teams/components
-mkdir -p resources/js/features/teams/hooks
-mkdir -p resources/js/features/teams/schemas
-mkdir -p resources/js/features/teams/types
-mkdir -p resources/js/Pages/Teams
-```
-
----
-
-## 4. Tanggung Jawab Setiap File
-
-### Page
-
-Contoh:
-
-```txt
-resources/js/Pages/Teams/Index.tsx
-```
-
-Tugas Page:
-
-```txt
-Menjadi entry halaman Inertia.
-Memanggil custom hook.
-Menyusun layout halaman.
-Mengirim data ke component.
-Mengirim loading/error state ke component.
-Mengirim action mutation ke component.
-```
-
-Page boleh memakai:
-
-```txt
-useTeams()
-Head / Seo
-Layout
-Component feature
-```
-
-Page tidak boleh:
-
-```txt
-Menulis fetch langsung.
-Menulis query API langsung.
-Menulis validasi form panjang.
-Menulis logic UI terlalu banyak.
-```
-
----
-
-### Component
-
-Contoh:
-
-```txt
-TeamCreateForm.tsx
-TeamList.tsx
-TeamItem.tsx
-```
-
-Tugas Component:
-
-```txt
-Menampilkan UI.
-Menerima props dari Page.
-Memanggil callback seperti onCreate, onUpdate, onDelete.
-Menampilkan loading, error, empty state.
-```
-
-Component tidak boleh:
-
-```txt
-fetch langsung ke API.
-useQuery langsung.
-useMutation langsung.
-import teamApi.ts langsung.
-```
-
-Component harus tetap fokus UI.
-
----
-
-### Hook
-
-Contoh:
-
-```txt
-resources/js/features/teams/hooks/useTeams.ts
-```
-
-Tugas Hook:
-
-```txt
-Mengatur TanStack Query.
-Mengatur useQuery untuk GET.
-Mengatur useMutation untuk POST, PUT, PATCH, DELETE.
-Mengatur invalidateQueries setelah mutation sukses.
-Mengolah data ringan seperti stats atau derived data.
-Mengembalikan data, query state, dan mutation state ke Page.
-```
-
-Hook adalah pusat penghubung antara UI dan API.
-
----
-
-### API Function
-
-Contoh:
-
-```txt
-resources/js/features/teams/api/teamApi.ts
-```
-
-Tugas API Function:
-
-```txt
-Menyediakan function request API.
-Memanggil API client dari lib/api.ts.
-Menggunakan type response.
-Tidak mengatur UI.
-Tidak mengatur toast.
-Tidak mengatur cache.
-Tidak mengatur loading state.
-```
-
----
-
-### API Client
-
-Contoh:
-
-```txt
-resources/js/lib/api.ts
-```
-
-Tugas API Client:
-
-```txt
-Membungkus fetch.
-Mengatur header JSON.
-Mengatur CSRF token.
-Mengubah response error menjadi Error.
-Menjadi utility request reusable.
-```
-
----
-
-### Types
-
-Contoh:
-
-```txt
-resources/js/features/teams/types/teamTypes.ts
-```
-
-Tugas Types:
-
-```txt
-Mendefinisikan bentuk data dari backend.
-Mendefinisikan bentuk response API.
-Mendefinisikan payload create/update/delete.
-```
-
----
-
-### Schema
-
-Contoh:
-
-```txt
-resources/js/features/teams/schemas/teamSchema.ts
-```
-
-Tugas Schema:
-
-```txt
-Validasi form frontend.
-Biasanya memakai Zod.
-Menjadi sumber type input form.
-```
-
----
-
-## 5. Standar API Response Type
-
-Gunakan type global:
-
-```ts
-export type ApiStatus = 'success' | 'error';
-
-export type ApiResponse<T> = {
-    status: ApiStatus;
-    message: string;
-    data: T;
-};
-```
-
-Jika backend sudah memakai metadata dan error, boleh diperluas menjadi:
-
-```ts
-export type ApiStatus = 'success' | 'error';
-
-export type ApiError = {
-    code: string;
-    details?: Record<string, string[] | string>;
-};
-
-export type ApiMetadata = {
-    page?: number;
-    perPage?: number;
-    totalItems?: number;
-    totalPages?: number;
-    [key: string]: unknown;
-};
-
-export type ApiResponse<T> = {
-    status: ApiStatus;
-    message: string;
-    data: T;
-    metadata?: ApiMetadata;
-    error?: ApiError | null;
-};
-```
-
----
-
-## 6. Contoh Types
-
-File:
-
-```txt
-resources/js/features/teams/types/teamTypes.ts
-```
-
-Isi:
-
-```ts
-import type { ApiResponse } from '@/types';
-import type { CreateTeamInput, UpdateTeamInput } from '../schemas/teamSchema';
-
-export type Team = {
-    id: number;
-    name: string;
-    email: string;
-    phone: string | null;
-    created_at: string;
-    updated_at: string;
-};
-
-export type TeamListResponse = ApiResponse<Team[]>;
-
-export type TeamResponse = ApiResponse<Team>;
-
-export type DeleteTeamResponse = ApiResponse<null>;
-
-export type CreateTeamPayload = CreateTeamInput;
-
-export type UpdateTeamPayload = UpdateTeamInput;
-```
-
----
-
-## 7. Contoh Schema
-
-File:
-
-```txt
-resources/js/features/teams/schemas/teamSchema.ts
-```
-
-Isi:
-
-```ts
-import { z } from 'zod';
-
-export const createTeamSchema = z.object({
-    name: z
-        .string()
-        .trim()
-        .min(2, 'Nama team minimal 2 karakter.')
-        .max(255, 'Nama team maksimal 255 karakter.'),
-
-    email: z
-        .string()
-        .trim()
-        .min(1, 'Email wajib diisi.')
-        .email('Format email tidak valid.')
-        .max(255, 'Email maksimal 255 karakter.'),
-
-    phone: z
-        .string()
-        .trim()
-        .max(20, 'Nomor HP maksimal 20 karakter.')
-        .optional()
-        .or(z.literal('')),
-});
-
-export const updateTeamSchema = z.object({
-    name: z
-        .string()
-        .trim()
-        .min(2, 'Nama team minimal 2 karakter.')
-        .max(255, 'Nama team maksimal 255 karakter.')
-        .optional(),
-
-    email: z
-        .string()
-        .trim()
-        .email('Format email tidak valid.')
-        .max(255, 'Email maksimal 255 karakter.')
-        .optional(),
-
-    phone: z
-        .string()
-        .trim()
-        .max(20, 'Nomor HP maksimal 20 karakter.')
-        .optional()
-        .or(z.literal('')),
-});
-
-export type CreateTeamInput = z.infer<typeof createTeamSchema>;
-
-export type UpdateTeamInput = z.infer<typeof updateTeamSchema>;
-```
-
----
-
-## 8. Tambah Route Constant
-
-File:
-
-```txt
-resources/js/constants/routes.ts
-```
-
-Tambahkan:
-
-```ts
-export const ROUTES = {
-    home: '/',
-    login: '/auth/login',
-    register: '/auth/register',
-    dashboard: '/dashboard',
-    todos: '/todos',
-    teams: '/teams',
-
-    api: {
-        todos: '/api/todos',
-        dashboardSummary: '/api/dashboard/summary',
-        teams: '/api/teams',
-    },
-} as const;
-```
-
-Jangan hardcode endpoint di banyak file.
-
-Jangan seperti ini:
-
-```ts
-fetchJson('/api/teams')
-```
-
-Lebih baik:
-
-```ts
-fetchJson(ROUTES.api.teams)
-```
-
----
-
-## 9. Contoh API Function
-
-File:
-
-```txt
-resources/js/features/teams/api/teamApi.ts
-```
-
-Isi:
-
-```ts
-import {
-    deleteJson,
-    fetchJson,
-    patchJson,
-    postJson,
-} from '@/lib/api';
-
-import { ROUTES } from '@/constants/routes';
-
-import type {
-    CreateTeamPayload,
-    DeleteTeamResponse,
-    TeamListResponse,
-    TeamResponse,
-    UpdateTeamPayload,
-} from '../types/teamTypes';
-
-export function getTeams(): Promise<TeamListResponse> {
-    return fetchJson<TeamListResponse>(ROUTES.api.teams);
-}
-
-export function createTeam(payload: CreateTeamPayload): Promise<TeamResponse> {
-    return postJson<TeamResponse>(ROUTES.api.teams, payload);
-}
-
-export function updateTeam(
-    id: number,
-    payload: UpdateTeamPayload,
-): Promise<TeamResponse> {
-    return patchJson<TeamResponse>(`${ROUTES.api.teams}/${id}`, payload);
-}
-
-export function deleteTeam(id: number): Promise<DeleteTeamResponse> {
-    return deleteJson<DeleteTeamResponse>(`${ROUTES.api.teams}/${id}`);
-}
-```
-
-Aturan:
-
-```txt
-GET many -> getTeams()
-POST create -> createTeam()
-PATCH update partial -> updateTeam()
-DELETE -> deleteTeam()
-```
-
-Jika butuh PUT full update, tambahkan helper `putJson` di `lib/api.ts`.
-
----
-
-## 10. API Client Standard
-
-File:
-
-```txt
-resources/js/lib/api.ts
-```
-
-Standar yang dipakai:
-
-```ts
-export async function fetchJson<T>(
-    url: string,
-    options: RequestInit = {},
-): Promise<T> {
-    const { headers, ...restOptions } = options;
-
-    const response = await fetch(url, {
-        ...restOptions,
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            ...(headers || {}),
-        },
-    });
-
-    const data = await response.json().catch(() => null);
-
-    if (!response.ok) {
-        const validationMessage =
-            data?.errors && typeof data.errors === 'object'
-                ? Object.values(data.errors).flat().join(' ')
-                : null;
-
-        const message = validationMessage || data?.message || 'Request failed';
-
-        throw new Error(message);
-    }
-
-    return data as T;
-}
-```
-
-Untuk request yang mengubah data, gunakan CSRF token:
-
-```ts
-export function getCsrfToken(): string {
-    const token = document
-        .querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
-        ?.getAttribute('content');
-
-    return token || '';
-}
-```
-
-POST:
-
-```ts
-export async function postJson<T>(
-    url: string,
-    body: unknown,
-    options: RequestInit = {},
-): Promise<T> {
-    const { headers, ...restOptions } = options;
-
-    return fetchJson<T>(url, {
-        ...restOptions,
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-            'X-CSRF-TOKEN': getCsrfToken(),
-            ...(headers || {}),
-        },
-    });
-}
-```
-
-PATCH:
-
-```ts
-export async function patchJson<T>(
-    url: string,
-    body: unknown,
-    options: RequestInit = {},
-): Promise<T> {
-    const { headers, ...restOptions } = options;
-
-    return fetchJson<T>(url, {
-        ...restOptions,
-        method: 'PATCH',
-        body: JSON.stringify(body),
-        headers: {
-            'X-CSRF-TOKEN': getCsrfToken(),
-            ...(headers || {}),
-        },
-    });
-}
-```
-
-DELETE:
-
-```ts
-export async function deleteJson<T>(
-    url: string,
-    options: RequestInit = {},
-): Promise<T> {
-    const { headers, ...restOptions } = options;
-
-    return fetchJson<T>(url, {
-        ...restOptions,
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': getCsrfToken(),
-            ...(headers || {}),
-        },
-    });
-}
-```
-
----
-
-## 11. Contoh Hook TanStack Query
-
-File:
-
-```txt
-resources/js/features/teams/hooks/useTeams.ts
-```
-
-Isi:
-
-```ts
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
-import {
-    createTeam,
-    deleteTeam,
-    getTeams,
-    updateTeam,
-} from '../api/teamApi';
-
-import type {
-    CreateTeamPayload,
-    DeleteTeamResponse,
-    TeamListResponse,
-    TeamResponse,
-    UpdateTeamPayload,
-} from '../types/teamTypes';
-
-const TEAMS_QUERY_KEY = ['teams'] as const;
-
-type UpdateTeamVariables = {
-    id: number;
-    payload: UpdateTeamPayload;
-};
-
-export function useTeams() {
-    const queryClient = useQueryClient();
-
-    const teamsQuery = useQuery<TeamListResponse, Error>({
-        queryKey: TEAMS_QUERY_KEY,
-        queryFn: getTeams,
-    });
-
-    const createTeamMutation = useMutation<TeamResponse, Error, CreateTeamPayload>({
-        mutationFn: createTeam,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: TEAMS_QUERY_KEY,
-            });
-        },
-    });
-
-    const updateTeamMutation = useMutation<TeamResponse, Error, UpdateTeamVariables>({
-        mutationFn: ({ id, payload }) => updateTeam(id, payload),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: TEAMS_QUERY_KEY,
-            });
-        },
-    });
-
-    const deleteTeamMutation = useMutation<DeleteTeamResponse, Error, number>({
-        mutationFn: deleteTeam,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: TEAMS_QUERY_KEY,
-            });
-        },
-    });
-
-    const teams = teamsQuery.data?.data ?? [];
-
-    return {
-        teams,
-        teamsQuery,
-        createTeamMutation,
-        updateTeamMutation,
-        deleteTeamMutation,
-    };
-}
-```
-
-Aturan penting:
-
-```txt
-GET -> useQuery
-POST -> useMutation
-PATCH -> useMutation
-DELETE -> useMutation
-Setelah mutation sukses -> invalidateQueries
-```
-
----
-
-## 12. Contoh Page
-
-File:
-
-```txt
-resources/js/Pages/Teams/Index.tsx
-```
-
-Isi:
-
-```tsx
-import { Head } from '@inertiajs/react';
-
-import { TeamCreateForm } from '@/features/teams/components/TeamCreateForm';
-import { TeamList } from '@/features/teams/components/TeamList';
-import { useTeams } from '@/features/teams/hooks/useTeams';
-
-type TeamsIndexProps = {
-    title?: string;
-};
-
-export default function TeamsIndex({ title }: TeamsIndexProps) {
-    const {
-        teams,
-        teamsQuery,
-        createTeamMutation,
-        updateTeamMutation,
-        deleteTeamMutation,
-    } = useTeams();
-
-    return (
-        <>
-            <Head title={title || 'Teams'} />
-
-            <main className="min-h-screen bg-slate-950 px-6 py-10 text-white">
-                <div className="mx-auto max-w-5xl space-y-8">
-                    <TeamCreateForm
-                        isSubmitting={createTeamMutation.isPending}
-                        errorMessage={createTeamMutation.error?.message}
-                        onCreate={(payload) => {
-                            createTeamMutation.mutate(payload);
-                        }}
-                    />
-
-                    <TeamList
-                        teams={teams}
-                        isLoading={teamsQuery.isLoading}
-                        isError={teamsQuery.isError}
-                        errorMessage={teamsQuery.error?.message}
-                        isFetching={teamsQuery.isFetching}
-                        isUpdating={updateTeamMutation.isPending}
-                        isDeleting={deleteTeamMutation.isPending}
-                        onUpdate={(id, payload) => {
-                            updateTeamMutation.mutate({
-                                id,
-                                payload,
-                            });
-                        }}
-                        onDelete={(id) => {
-                            deleteTeamMutation.mutate(id);
-                        }}
-                    />
-                </div>
-            </main>
-        </>
-    );
-}
-```
-
-Page hanya mengatur komposisi.
-
-Page tidak melakukan fetch langsung.
-
----
-
-## 13. Contoh Create Form Component
-
-File:
-
-```txt
-resources/js/features/teams/components/TeamCreateForm.tsx
-```
-
-Isi sederhana:
-
-```tsx
-import { FormEvent, useState } from 'react';
-
-import type { CreateTeamPayload } from '../types/teamTypes';
-
-type TeamCreateFormProps = {
-    isSubmitting: boolean;
-    errorMessage?: string;
-    onCreate: (payload: CreateTeamPayload) => void;
-};
-
-export function TeamCreateForm({
-    isSubmitting,
-    errorMessage,
-    onCreate,
-}: TeamCreateFormProps) {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        onCreate({
-            name,
-            email,
-            phone,
-        });
-
-        setName('');
-        setEmail('');
-        setPhone('');
-    }
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Team name"
-            />
-
-            <input
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="Team email"
-            />
-
-            <input
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                placeholder="Phone"
-            />
-
-            {errorMessage && <p>{errorMessage}</p>}
-
-            <button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Saving...' : 'Create Team'}
-            </button>
-        </form>
-    );
-}
-```
-
-Kalau memakai React Hook Form + Zod, component tetap sama prinsipnya:
-
-```txt
-Form validasi lokal
--> hasil valid dikirim ke onCreate
--> onCreate dari Page
--> Page menjalankan mutation
-```
-
-Form tidak boleh langsung import `createTeam`.
-
----
-
-## 14. Contoh List Component
-
-File:
-
-```txt
-resources/js/features/teams/components/TeamList.tsx
-```
-
-Isi:
-
-```tsx
-import type { Team, UpdateTeamPayload } from '../types/teamTypes';
-
-type TeamListProps = {
-    teams: Team[];
-    isLoading: boolean;
-    isError: boolean;
-    errorMessage?: string;
-    isFetching: boolean;
-    isUpdating: boolean;
-    isDeleting: boolean;
-    onUpdate: (id: number, payload: UpdateTeamPayload) => void;
-    onDelete: (id: number) => void;
-};
-
-export function TeamList({
-    teams,
-    isLoading,
-    isError,
-    errorMessage,
-    isFetching,
-    isUpdating,
-    isDeleting,
-    onUpdate,
-    onDelete,
-}: TeamListProps) {
-    if (isLoading) {
-        return <p>Loading teams...</p>;
-    }
-
-    if (isError) {
-        return <p>{errorMessage || 'Failed to load teams.'}</p>;
-    }
-
-    if (teams.length === 0) {
-        return <p>No teams found.</p>;
-    }
-
-    return (
-        <section>
-            {isFetching && <p>Refreshing...</p>}
-
-            {teams.map((team) => (
-                <article key={team.id}>
-                    <h2>{team.name}</h2>
-                    <p>{team.email}</p>
-                    <p>{team.phone}</p>
-
-                    <button
-                        type="button"
-                        disabled={isUpdating}
-                        onClick={() => {
-                            onUpdate(team.id, {
-                                name: `${team.name} Updated`,
-                            });
-                        }}
-                    >
-                        Update
-                    </button>
-
-                    <button
-                        type="button"
-                        disabled={isDeleting}
-                        onClick={() => {
-                            onDelete(team.id);
-                        }}
-                    >
-                        Delete
-                    </button>
-                </article>
-            ))}
-        </section>
-    );
-}
-```
-
----
-
-## 15. Flow GET Many
-
-Endpoint:
-
-```txt
-GET /api/teams
-```
-
-Frontend flow:
-
-```txt
-Teams/Index.tsx dibuka
--> useTeams()
--> useQuery()
--> getTeams()
--> fetchJson(ROUTES.api.teams)
--> Backend GET /api/teams
--> Response masuk ke teamsQuery.data
--> teams = teamsQuery.data?.data ?? []
--> TeamList menerima teams
--> UI menampilkan list
-```
-
----
-
-## 16. Flow POST Create
-
-Endpoint:
-
-```txt
-POST /api/teams
-```
-
-Frontend flow:
-
-```txt
-User isi TeamCreateForm
--> submit form
--> onCreate(payload)
--> createTeamMutation.mutate(payload)
--> useMutation menjalankan createTeam(payload)
--> createTeam memanggil postJson()
--> Backend POST /api/teams
--> Jika sukses, onSuccess jalan
--> invalidateQueries(['teams'])
--> useQuery GET /api/teams jalan ulang
--> UI list otomatis refresh
-```
-
----
-
-## 17. Flow PATCH Update
-
-Endpoint:
-
-```txt
-PATCH /api/teams/{id}
-```
-
-Frontend flow:
-
-```txt
-User klik update
--> onUpdate(id, payload)
--> updateTeamMutation.mutate({ id, payload })
--> useMutation menjalankan updateTeam(id, payload)
--> updateTeam memanggil patchJson()
--> Backend PATCH /api/teams/{id}
--> Jika sukses, invalidateQueries(['teams'])
--> List teams otomatis refresh
-```
-
----
-
-## 18. Flow DELETE
-
-Endpoint:
-
-```txt
-DELETE /api/teams/{id}
-```
-
-Frontend flow:
-
-```txt
-User klik delete
--> onDelete(id)
--> deleteTeamMutation.mutate(id)
--> useMutation menjalankan deleteTeam(id)
--> deleteTeam memanggil deleteJson()
--> Backend DELETE /api/teams/{id}
--> Jika sukses, invalidateQueries(['teams'])
--> List teams otomatis refresh
-```
-
----
-
-## 19. Aturan TanStack Query
-
-Wajib:
-
-```txt
-GET data memakai useQuery.
-POST data memakai useMutation.
-PUT data memakai useMutation.
-PATCH data memakai useMutation.
-DELETE data memakai useMutation.
-Mutation sukses harus invalidate query yang terdampak.
-Query key harus konsisten.
-API function tidak boleh mengatur UI.
-Component tidak boleh call API langsung.
-Page tidak boleh fetch langsung.
-```
-
-Tidak boleh:
-
-```tsx
-useEffect(() => {
-    fetch('/api/teams');
-}, []);
-```
-
-Yang benar:
-
-```tsx
-const { teams, teamsQuery } = useTeams();
-```
-
-Tidak boleh:
-
-```tsx
-<button onClick={() => createTeam(payload)}>
-    Save
-</button>
-```
-
-Yang benar:
-
-```tsx
-<button onClick={() => createTeamMutation.mutate(payload)}>
-    Save
-</button>
-```
-
----
-
-## 20. Standar Query Key
-
-Untuk fitur kecil, boleh lokal di hook:
-
-```ts
-const TEAMS_QUERY_KEY = ['teams'] as const;
-```
-
-Untuk fitur besar, lebih baik buat:
-
-```txt
-resources/js/query/keys.ts
-```
-
-Contoh:
-
-```ts
-export const queryKeys = {
-    teams: ['teams'] as const,
-    teamDetail: (id: number) => ['teams', id] as const,
-};
-```
-
-Lalu hook memakai:
-
-```ts
-queryKey: queryKeys.teams
-```
-
-Dan invalidate:
-
-```ts
-queryClient.invalidateQueries({
-    queryKey: queryKeys.teams,
-});
-```
-
----
-
-## 21. Standar Loading dan Error
-
-Dari hook, Page mengambil:
-
-```tsx
-teamsQuery.isLoading
-teamsQuery.isError
-teamsQuery.error?.message
-teamsQuery.isFetching
-```
-
-Lalu dikirim ke component:
-
-```tsx
-<TeamList
-    teams={teams}
-    isLoading={teamsQuery.isLoading}
-    isError={teamsQuery.isError}
-    errorMessage={teamsQuery.error?.message}
-    isFetching={teamsQuery.isFetching}
-/>
-```
-
-Component yang menentukan tampilan:
-
-```tsx
-if (isLoading) {
-    return <p>Loading teams...</p>;
-}
-
-if (isError) {
-    return <p>{errorMessage || 'Failed to load teams.'}</p>;
-}
-
-if (teams.length === 0) {
-    return <p>No teams found.</p>;
-}
-```
-
----
-
-## 22. Checklist Fitur Frontend API Baru
-
-```txt
-[ ] Folder feature dibuat.
-[ ] File api dibuat.
-[ ] File hook dibuat.
-[ ] File types dibuat.
-[ ] File schema dibuat jika ada form.
-[ ] File components dibuat.
-[ ] Page Inertia dibuat.
-[ ] Route constant ditambahkan.
-[ ] API function memakai lib/api.ts.
-[ ] GET memakai useQuery.
-[ ] POST memakai useMutation.
-[ ] PATCH/PUT memakai useMutation.
-[ ] DELETE memakai useMutation.
-[ ] Mutation sukses invalidate query.
-[ ] Component tidak call API langsung.
-[ ] Page tidak fetch langsung.
-[ ] Type response memakai ApiResponse<T>.
-[ ] Error/loading state dipassing ke component.
-[ ] Build berhasil.
-```
-
----
-
-## 23. Command Cek
-
-Jalankan build:
-
-```bash
-npm run build
-```
-
-Versi Docker:
-
-```bash
-docker compose exec node npm run build
-```
-
-Jika perlu cek TypeScript:
-
-```bash
-npx tsc --noEmit
-```
-
-Versi Docker:
-
-```bash
-docker compose exec node npx tsc --noEmit
-```
-
----
-
-## 24. Ringkasan Cepat
-
-```txt
-types = bentuk data
-schema = validasi form
-api = function request ke backend
-hook = TanStack Query
-page = susun data dan UI
-component = tampilan saja
-lib/api = fetch wrapper
-```
-
-Flow standar:
-
-```txt
-Page
--> useFeatureHook
--> useQuery / useMutation
--> featureApi
--> lib/api
--> backend
-```
-
-Contoh:
-
-```txt
-TeamsIndex
--> useTeams
--> useQuery getTeams
--> teamApi.getTeams
--> fetchJson
--> GET /api/teams
-```
-</file>
-
-<file path="docs/Sample_app_infrastructure.md">
-# App Infrastructure dan Foldering
-
-Dokumentasi ini menjelaskan struktur aplikasi ISAC-2026 setelah refactor foldering. Fokus refactor adalah merapikan code management tanpa mengubah UI, behavior fitur Todo, response API Todo, database schema, copywriting, styling, atau alur user-facing yang sudah berjalan.
-
-## Scope Domain
-
-Domain yang masuk scope saat ini:
-
-- Auth
-- Todos
-- Dashboard
-
-Domain di luar scope seperti Participants, Competitions, Payments, Admin, Products, Orders, Settings, dan Profile tidak dibuat.
-
-## Ringkasan Arsitektur
-
-Aplikasi menggunakan Laravel sebagai backend, React Inertia dengan TypeScript sebagai frontend, dan TanStack Query untuk state data fetching di frontend.
-
-Backend mengikuti layering:
-
-```text
-Controller -> Request -> Resource -> Service -> Repository -> Model
-```
-
-Frontend mengikuti pola:
-
-```text
-Pages tipis -> features untuk domain logic -> components untuk reusable UI/layout
-```
-
-Prinsip utama:
-
-- Controller hanya mengatur HTTP request/response.
-- Request menangani validasi input.
-- Resource menjaga bentuk response JSON.
-- Service menyimpan business/use-case logic.
-- Repository menangani akses data.
-- Model tetap fokus pada behavior Eloquent.
-- Inertia Pages hanya menjadi entry page.
-- API call, hook, schema, type, dan component domain berada di folder `features`.
-
-## Backend Foldering
-
-Struktur backend utama:
-
-```text
-app/
-  Http/
-    Controllers/
-      Api/
-        AuthController.php
-        DashboardController.php
-        TodoController.php
-      Controller.php
-    Middleware/
-      HandleInertiaRequests.php
-    Requests/
-      Auth/
-        LoginRequest.php
-        RegisterRequest.php
-      Todo/
-        StoreTodoRequest.php
-        UpdateTodoRequest.php
-    Resources/
-      DashboardSummaryResource.php
-      TodoResource.php
-      UserResource.php
-  Models/
-    Todo.php
-    User.php
-  Providers/
-    AppServiceProvider.php
-  Repositories/
-    Contracts/
-      DashboardRepositoryInterface.php
-      TodoRepositoryInterface.php
-    DashboardRepository.php
-    TodoRepository.php
-  Services/
-    AuthService.php
-    DashboardService.php
-    TodoService.php
-```
-
-### Backend Layer Responsibility
-
-| Layer | Lokasi | Tanggung jawab |
-| --- | --- | --- |
-| Controller | `app/Http/Controllers/Api` | Menerima request, memanggil service, mengembalikan response |
-| Request | `app/Http/Requests` | Validasi input per domain |
-| Resource | `app/Http/Resources` | Menjaga kontrak response JSON |
-| Service | `app/Services` | Use-case dan orchestration domain |
-| Repository Contract | `app/Repositories/Contracts` | Interface akses data |
-| Repository | `app/Repositories` | Query Eloquent dan persistence |
-| Model | `app/Models` | Entity Eloquent dan behavior model |
-| Provider | `app/Providers` | Binding dependency injection |
-
-### Todos Backend
-
-Todo adalah domain existing yang dijaga stabil.
-
-File penting:
-
-- `app/Http/Controllers/Api/TodoController.php`
-- `app/Http/Requests/Todo/StoreTodoRequest.php`
-- `app/Http/Requests/Todo/UpdateTodoRequest.php`
-- `app/Http/Resources/TodoResource.php`
-- `app/Services/TodoService.php`
-- `app/Repositories/TodoRepository.php`
-- `app/Repositories/Contracts/TodoRepositoryInterface.php`
-- `app/Models/Todo.php`
-
-Kontrak yang dijaga:
-
-- Endpoint `/api/todos` tetap sama.
-- Response JSON Todo tetap sama.
-- Validasi `StoreTodoRequest` dan `UpdateTodoRequest` tetap sama.
-- Alur create, update/toggle, dan delete Todo tetap sama.
-- Todo UI tidak bergantung pada perubahan backend selain import endpoint constant di frontend.
-
-### Dashboard Backend
-
-Dashboard memakai summary Todo secara read-only.
-
-File penting:
-
-- `app/Http/Controllers/Api/DashboardController.php`
-- `app/Http/Resources/DashboardSummaryResource.php`
-- `app/Services/DashboardService.php`
-- `app/Repositories/DashboardRepository.php`
-- `app/Repositories/Contracts/DashboardRepositoryInterface.php`
-
-Endpoint:
-
-```text
-GET /api/dashboard/summary
-```
-
-Response:
-
-```json
-{
-  "status": "success",
-  "message": "Dashboard summary retrieved successfully.",
-  "data": {
-    "total": 0,
-    "active": 0,
-    "completed": 0
-  }
-}
-```
-
-Dashboard tidak mengubah Todo logic. Repository hanya membaca agregasi jumlah Todo.
-
-### Auth Backend
-
-Auth saat ini hanya disiapkan sebagai struktur minimal.
-
-File penting:
-
-- `app/Http/Controllers/Api/AuthController.php`
-- `app/Http/Requests/Auth/LoginRequest.php`
-- `app/Http/Requests/Auth/RegisterRequest.php`
-- `app/Services/AuthService.php`
-- `app/Http/Resources/UserResource.php`
-
-Catatan:
-
-- API route Auth belum dipasang.
-- Tidak ada session/token/auth flow baru yang dipaksakan.
-- Struktur disiapkan agar implementasi Auth berikutnya tetap masuk domain Auth, bukan bercampur dengan Todo/Dashboard.
-
-### Dependency Injection
-
-Binding repository ada di:
-
-```text
-app/Providers/AppServiceProvider.php
-```
-
-Binding aktif:
-
-```php
-DashboardRepositoryInterface::class -> DashboardRepository::class
-TodoRepositoryInterface::class -> TodoRepository::class
-```
-
-## Frontend Foldering
-
-Struktur frontend utama:
-
-```text
-resources/js/
-  app.tsx
-  vite-env.d.ts
-  Pages/
-    Auth/
-      Login.tsx
-      Register.tsx
-    Dashboard/
-      Index.tsx
-    Todos/
-      Index.tsx
-  features/
-    auth/
-      api/
-        authApi.ts
-      components/
-        AuthShell.tsx
-        LoginForm.tsx
-        RegisterForm.tsx
-      hooks/
-        useLogin.ts
-        useLogout.ts
-        useRegister.ts
-      schemas/
-        authSchema.ts
-      types/
-        authTypes.ts
-    dashboard/
-      api/
-        dashboardApi.ts
-      components/
-        DashboardHero.tsx
-        DashboardStats.tsx
-        DashboardSummaryCard.tsx
-        RecentTodosCard.tsx
-        TodoProgressCard.tsx
-      hooks/
-        useDashboard.ts
-      types/
-        dashboardTypes.ts
-    todos/
-      api/
-        todoApi.ts
-      components/
-        TodoCreateForm.tsx
-        TodoEmptyState.tsx
-        TodoErrorState.tsx
-        TodoHero.tsx
-        TodoItem.tsx
-        TodoList.tsx
-        TodoLoadingState.tsx
-        TodoStats.tsx
-      hooks/
-        useTodos.ts
-      schemas/
-        todoSchema.ts
-      types/
-        todoTypes.ts
-  components/
-    layouts/
-    shared/
-    ui/
-  constants/
-    app.ts
-    navigation.ts
-    routes.ts
-  hooks/
-    use-debounce.ts
-    use-mobile.ts
-  lib/
-    api.ts
-    formatters.ts
-    utils.ts
-  providers/
-    QueryProvider.tsx
-  types/
-    index.ts
-    inertia.ts
-```
-
-### Pages
-
-`Pages` adalah entry Inertia.
-
-Aturan:
-
-- Boleh import `Head` dari Inertia.
-- Boleh import layout.
-- Boleh import hook feature.
-- Boleh import feature components.
-- Tidak boleh berisi API request langsung.
-- Tidak boleh menyimpan business logic besar.
-- Tidak boleh menampung semua component inline.
-
-Page existing Todo:
-
-```text
-resources/js/Pages/Todos/Index.tsx
-```
-
-Page ini tetap merender UI Todo yang sama dan menggunakan:
-
-- `useTodos`
-- `TodoHero`
-- `TodoCreateForm`
-- `TodoList`
-
-### Features
-
-Folder `features` menyimpan logic per domain.
-
-Konvensi per domain:
-
-```text
-features/<domain>/
-  api/
-  components/
-  hooks/
-  schemas/
-  types/
-```
-
-Untuk Dashboard tidak ada schema karena belum ada form input Dashboard.
-
-#### Todos Feature
-
-`features/todos` adalah feature yang paling stabil dan harus dijaga.
-
-File penting:
-
-- `api/todoApi.ts`
-- `hooks/useTodos.ts`
-- `schemas/todoSchema.ts`
-- `types/todoTypes.ts`
-- `components/TodoCreateForm.tsx`
-- `components/TodoList.tsx`
-- `components/TodoItem.tsx`
-- state components Todo lain
-
-Kontrak yang dijaga:
-
-- Endpoint tetap `/api/todos`.
-- Hook `useTodos` tetap mengatur list/create/toggle/delete.
-- Schema Todo tetap menjaga validasi input.
-- Type Todo tetap berada di `features/todos/types/todoTypes.ts`, bukan di global `types`.
-- Komponen Todo tidak dipindah ke `components/shared` atau `components/ui`.
-
-#### Dashboard Feature
-
-`features/dashboard` menyimpan fetch summary dashboard dan komponen display Dashboard.
-
-File penting:
-
-- `api/dashboardApi.ts`
-- `hooks/useDashboard.ts`
-- `types/dashboardTypes.ts`
-- `components/DashboardStats.tsx`
-- `components/TodoProgressCard.tsx`
-
-Dashboard mengambil data dari:
-
-```text
-/api/dashboard/summary
-```
-
-#### Auth Feature
-
-`features/auth` menyimpan struktur Auth.
-
-File penting:
-
-- `api/authApi.ts`
-- `hooks/useLogin.ts`
-- `hooks/useRegister.ts`
-- `hooks/useLogout.ts`
-- `schemas/authSchema.ts`
-- `types/authTypes.ts`
-- `components/AuthShell.tsx`
-- `components/LoginForm.tsx`
-- `components/RegisterForm.tsx`
-
-Catatan:
-
-- Auth API belum diaktifkan di route backend.
-- Form Auth mencegah submit default supaya tidak membuat request ke endpoint yang belum tersedia.
-- Implementasi Auth berikutnya harus tetap berada di domain Auth.
-
-### Components
-
-Folder `components` dipakai untuk komponen reusable lintas halaman atau primitive UI.
-
-```text
-components/
-  ui/
-  layouts/
-  shared/
-```
-
-Aturan:
-
-- `components/ui` hanya primitive UI reusable.
-- `components/layouts` hanya layout halaman.
-- `components/shared` hanya block reusable lintas halaman.
-- Komponen domain seperti `TodoItem` dan `TodoCreateForm` tetap berada di `features/todos/components`.
-
-### Constants, Hooks, Lib, Providers, Types
-
-Folder global:
-
-- `constants`: constant global seperti route dan navigation.
-- `hooks`: hook reusable lintas domain.
-- `lib`: helper teknis global seperti fetch wrapper, formatter, dan utility class.
-- `providers`: provider global React.
-- `types`: type global lintas domain.
-
-Catatan:
-
-- Business logic domain tidak boleh masuk `lib`.
-- Type Todo tidak boleh masuk `types/index.ts`; tetap di `features/todos/types/todoTypes.ts`.
-- `QueryProvider` memindahkan konfigurasi TanStack Query dari `app.tsx` tanpa mengubah behavior query.
-
-## Route Web
-
-Route web final:
-
-| Method | Path | Inertia Page | Name |
-| --- | --- | --- | --- |
-| GET | `/` | `Todos/Index` | `todos.index` |
-| GET | `/login` | `Auth/Login` | `login` |
-| GET | `/register` | `Auth/Register` | `register` |
-| GET | `/dashboard` | `Dashboard/Index` | `dashboard.index` |
-| GET | `/todos` | `Todos/Index` | `todos.page` |
-
-`/` tetap render Todo untuk menjaga perubahan minimal.
-
-## Route API
-
-Route API final:
-
-| Method | Path | Controller |
-| --- | --- | --- |
-| GET | `/api/system/status` | Closure |
-| GET | `/api/todos` | `TodoController@index` |
-| POST | `/api/todos` | `TodoController@store` |
-| PATCH | `/api/todos/{todo}` | `TodoController@update` |
-| DELETE | `/api/todos/{todo}` | `TodoController@destroy` |
-| GET | `/api/dashboard/summary` | `DashboardController@summary` |
-
-Auth route API belum dibuat karena belum ada implementasi Auth existing yang aman untuk diekspos.
-
-## Command Verifikasi
-
-Command yang digunakan untuk verifikasi setelah refactor:
-
-```bash
-npm run typecheck
-npm run build
-composer install --no-interaction --no-progress
-php artisan route:list
-php artisan test
-```
-
-Hasil:
-
-- TypeScript typecheck berhasil.
-- Frontend build berhasil.
-- Laravel route list berhasil setelah dependency Composer lengkap.
-- Laravel test berhasil: 2 tests passed.
-
-## Batasan Perubahan
-
-Hal yang sengaja tidak diubah:
-
-- UI Todo.
-- Styling Todo.
-- Copywriting Todo.
-- Struktur visual Todo.
-- Behavior loading, error, empty state Todo.
-- Logic create/update/toggle/delete Todo.
-- Response JSON `/api/todos`.
-- Validasi Todo.
-- Database schema.
-- Endpoint existing Todo.
-
-## Catatan Maintenance
-
-Saat menambah domain baru, jangan langsung menaruh file di global folder. Buat folder feature domain terlebih dahulu:
-
-```text
-resources/js/features/<domain>/
-```
-
-Lalu pisahkan:
-
-- `api` untuk request.
-- `hooks` untuk query/mutation/state.
-- `components` untuk UI domain.
-- `schemas` untuk validasi form.
-- `types` untuk type domain.
-
-Di backend, domain baru harus mengikuti pola:
-
-```text
-Controller -> Request -> Resource -> Service -> Repository -> Model
-```
-
-Binding repository hanya ditambahkan jika service memakai interface.
-</file>
-
 <file path="app/Http/Controllers/Api/TodoController.php">
 <?php
 
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Todo\StoreTodoRequest;
-use App\Http\Requests\Todo\UpdateTodoRequest;
-use App\Http\Resources\TodoResource;
 use App\Models\Todo;
-use App\Services\TodoService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
-    public function __construct(
-        private readonly TodoService $todoService,
-    ) {
-        //
-    }
-
     public function index(): JsonResponse
     {
-        $todos = $this->todoService->getTodos();
+        $todos = Todo::query()
+            ->latest()
+            ->get();
 
         return response()->json([
             'status' => 'success',
             'message' => 'Todos retrieved successfully.',
-            'data' => TodoResource::collection($todos),
+            'data' => $todos,
         ]);
     }
 
-    public function store(StoreTodoRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
-        $todo = $this->todoService->createTodo($request->validated());
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'min:1', 'max:255'],
+        ]);
+
+        $todo = Todo::query()->create([
+            'title' => $validated['title'],
+            'is_completed' => false,
+        ]);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Todo created successfully.',
-            'data' => new TodoResource($todo),
+            'data' => $todo,
         ], 201);
     }
 
-    public function update(UpdateTodoRequest $request, Todo $todo): JsonResponse
+    public function update(Request $request, Todo $todo): JsonResponse
     {
-        $updatedTodo = $this->todoService->updateTodo($todo, $request->validated());
+        $validated = $request->validate([
+            'title' => ['sometimes', 'required', 'string', 'min:1', 'max:255'],
+            'is_completed' => ['sometimes', 'boolean'],
+        ]);
+
+        $todo->update($validated);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Todo updated successfully.',
-            'data' => new TodoResource($updatedTodo),
+            'data' => $todo->fresh(),
         ]);
     }
 
     public function destroy(Todo $todo): JsonResponse
     {
-        $this->todoService->deleteTodo($todo);
+        $todo->delete();
 
         return response()->json([
             'status' => 'success',
@@ -3692,17 +223,6 @@ class TodoController extends Controller
             'data' => null,
         ]);
     }
-}
-</file>
-
-<file path="app/Http/Controllers/Controller.php">
-<?php
-
-namespace App\Http\Controllers;
-
-abstract class Controller
-{
-    //
 }
 </file>
 
@@ -3745,112 +265,6 @@ class HandleInertiaRequests extends Middleware
 }
 </file>
 
-<file path="app/Http/Requests/Todo/StoreTodoRequest.php">
-<?php
-
-namespace App\Http\Requests\Todo;
-
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreTodoRequest extends FormRequest
-{
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @return array<string, array<int, string>>
-     */
-    public function rules(): array
-    {
-        return [
-            'title' => ['required', 'string', 'min:1', 'max:255'],
-        ];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {
-        return [
-            'title.required' => 'The title field is required.',
-            'title.string' => 'The title must be a valid text.',
-            'title.min' => 'The title cannot be empty.',
-            'title.max' => 'The title may not be greater than 255 characters.',
-        ];
-    }
-}
-</file>
-
-<file path="app/Http/Requests/Todo/UpdateTodoRequest.php">
-<?php
-
-namespace App\Http\Requests\Todo;
-
-use Illuminate\Foundation\Http\FormRequest;
-
-class UpdateTodoRequest extends FormRequest
-{
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @return array<string, array<int, string>>
-     */
-    public function rules(): array
-    {
-        return [
-            'title' => ['sometimes', 'required', 'string', 'min:1', 'max:255'],
-            'is_completed' => ['sometimes', 'boolean'],
-        ];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {
-        return [
-            'title.required' => 'The title field is required.',
-            'title.string' => 'The title must be a valid text.',
-            'title.min' => 'The title cannot be empty.',
-            'title.max' => 'The title may not be greater than 255 characters.',
-            'is_completed.boolean' => 'The completion status must be true or false.',
-        ];
-    }
-}
-</file>
-
-<file path="app/Http/Resources/TodoResource.php">
-<?php
-
-namespace App\Http\Resources;
-
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-
-class TodoResource extends JsonResource
-{
-    /**
-     * @return array<string, mixed>
-     */
-    public function toArray(Request $request): array
-    {
-        return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'is_completed' => (bool) $this->is_completed,
-            'created_at' => $this->created_at?->toISOString(),
-            'updated_at' => $this->updated_at?->toISOString(),
-        ];
-    }
-}
-</file>
-
 <file path="app/Models/Todo.php">
 <?php
 
@@ -3876,6 +290,749 @@ class Todo extends Model
             set: fn (string $value) => trim($value),
         );
     }
+}
+</file>
+
+<file path="database/migrations/2026_06_09_122240_create_todos_table.php">
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('todos', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->boolean('is_completed')->default(false);
+            $table->timestamps();
+
+            $table->index('is_completed');
+            $table->index('created_at');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('todos');
+    }
+};
+</file>
+
+<file path="docker/nginx/default.conf">
+server {
+    listen 80;
+    server_name localhost;
+
+    root /var/www/html/public;
+    index index.php index.html;
+
+    client_max_body_size 50M;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location = /robots.txt {
+        access_log off;
+        log_not_found off;
+    }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass app:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+</file>
+
+<file path="resources/js/lib/api.ts">
+export async function fetchJson<T>(
+    url: string,
+    options: RequestInit = {},
+): Promise<T> {
+    const response = await fetch(url, {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            ...(options.headers || {}),
+        },
+        ...options,
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+        const message = data?.message || 'Request failed';
+        throw new Error(message);
+    }
+
+    return data as T;
+}
+
+export function getCsrfToken(): string {
+    const token = document
+        .querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
+        ?.getAttribute('content');
+
+    return token || '';
+}
+
+export async function postJson<T>(
+    url: string,
+    body: unknown,
+    options: RequestInit = {},
+): Promise<T> {
+    return fetchJson<T>(url, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+            'X-CSRF-TOKEN': getCsrfToken(),
+            ...(options.headers || {}),
+        },
+        ...options,
+    });
+}
+
+export async function patchJson<T>(
+    url: string,
+    body: unknown,
+    options: RequestInit = {},
+): Promise<T> {
+    return fetchJson<T>(url, {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+        headers: {
+            'X-CSRF-TOKEN': getCsrfToken(),
+            ...(options.headers || {}),
+        },
+        ...options,
+    });
+}
+
+export async function deleteJson<T>(
+    url: string,
+    options: RequestInit = {},
+): Promise<T> {
+    return fetchJson<T>(url, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': getCsrfToken(),
+            ...(options.headers || {}),
+        },
+        ...options,
+    });
+}
+</file>
+
+<file path="resources/js/Pages/Todos/Index.tsx">
+import { FormEvent, useMemo, useState } from 'react';
+import { Head } from '@inertiajs/react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { deleteJson, fetchJson, patchJson, postJson } from '@/lib/api';
+import type { ApiResponse, Todo, TodoListResponse, TodoResponse } from '@/types';
+
+type TodosIndexProps = {
+    title?: string;
+};
+
+export default function TodosIndex({ title }: TodosIndexProps) {
+    const [newTitle, setNewTitle] = useState('');
+    const queryClient = useQueryClient();
+
+    const {
+        data,
+        isLoading,
+        isError,
+        error,
+        isFetching,
+    } = useQuery<TodoListResponse, Error>({
+        queryKey: ['todos'],
+        queryFn: () => fetchJson<TodoListResponse>('/api/todos'),
+    });
+
+    const createTodo = useMutation<TodoResponse, Error, string>({
+        mutationFn: (title) => postJson<TodoResponse>('/api/todos', { title }),
+        onSuccess: () => {
+            setNewTitle('');
+            queryClient.invalidateQueries({ queryKey: ['todos'] });
+        },
+    });
+
+    const toggleTodo = useMutation<TodoResponse, Error, Todo>({
+        mutationFn: (todo) =>
+            patchJson<TodoResponse>(`/api/todos/${todo.id}`, {
+                is_completed: !todo.is_completed,
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['todos'] });
+        },
+    });
+
+    const deleteTodo = useMutation<ApiResponse<null>, Error, number>({
+        mutationFn: (id) => deleteJson<ApiResponse<null>>(`/api/todos/${id}`),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['todos'] });
+        },
+    });
+
+    const todos = data?.data ?? [];
+
+    const stats = useMemo(() => {
+        const total = todos.length;
+        const completed = todos.filter((todo) => todo.is_completed).length;
+        const active = total - completed;
+
+        return { total, completed, active };
+    }, [todos]);
+
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        const title = newTitle.trim();
+
+        if (!title) {
+            return;
+        }
+
+        createTodo.mutate(title);
+    }
+
+    return (
+        <>
+            <Head title={title || 'Todo List'} />
+
+            <main className="min-h-screen bg-slate-950 px-6 py-10 text-white">
+                <div className="mx-auto max-w-5xl space-y-8">
+                    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 shadow-2xl shadow-blue-950/40">
+                        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                            <div>
+                                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-blue-300">
+                                    ISAC-2026 Todo System
+                                </p>
+
+                                <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-6xl">
+                                    Todo List
+                                </h1>
+
+                                <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300">
+                                    React TypeScript UI yang connect ke Laravel API, disimpan ke MySQL,
+                                    dan dikelola dengan TanStack Query.
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-3 gap-3 rounded-3xl border border-white/10 bg-slate-900/80 p-3">
+                                <div className="rounded-2xl bg-white/5 p-4 text-center">
+                                    <p className="text-2xl font-bold">{stats.total}</p>
+                                    <p className="text-xs text-slate-400">Total</p>
+                                </div>
+
+                                <div className="rounded-2xl bg-white/5 p-4 text-center">
+                                    <p className="text-2xl font-bold">{stats.active}</p>
+                                    <p className="text-xs text-slate-400">Active</p>
+                                </div>
+
+                                <div className="rounded-2xl bg-white/5 p-4 text-center">
+                                    <p className="text-2xl font-bold">{stats.completed}</p>
+                                    <p className="text-xs text-slate-400">Done</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-xl">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-3 md:flex-row">
+                            <input
+                                type="text"
+                                value={newTitle}
+                                onChange={(event) => setNewTitle(event.target.value)}
+                                placeholder="Tulis todo baru..."
+                                className="min-h-12 flex-1 rounded-2xl border border-white/10 bg-slate-900 px-5 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400"
+                            />
+
+                            <button
+                                type="submit"
+                                disabled={createTodo.isPending || !newTitle.trim()}
+                                className="min-h-12 rounded-2xl bg-blue-500 px-6 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition hover:bg-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                                {createTodo.isPending ? 'Menyimpan...' : 'Tambah Todo'}
+                            </button>
+                        </form>
+
+                        {createTodo.isError && (
+                            <p className="mt-3 text-sm text-red-300">
+                                Gagal menambah todo: {createTodo.error.message}
+                            </p>
+                        )}
+                    </section>
+
+                    <section className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-xl">
+                        <div className="mb-5 flex items-center justify-between gap-3">
+                            <div>
+                                <h2 className="text-xl font-bold">Daftar Todo</h2>
+                                <p className="mt-1 text-sm text-slate-400">
+                                    Data diambil dari /api/todos.
+                                </p>
+                            </div>
+
+                            {isFetching && (
+                                <span className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300">
+                                    Syncing...
+                                </span>
+                            )}
+                        </div>
+
+                        {isLoading && (
+                            <div className="rounded-2xl border border-white/10 bg-slate-900 p-5 text-sm text-slate-300">
+                                Loading todos...
+                            </div>
+                        )}
+
+                        {isError && (
+                            <div className="rounded-2xl border border-red-400/30 bg-red-500/10 p-5 text-sm text-red-200">
+                                Gagal mengambil data: {error.message}
+                            </div>
+                        )}
+
+                        {!isLoading && !isError && todos.length === 0 && (
+                            <div className="rounded-2xl border border-dashed border-white/10 bg-slate-900/70 p-10 text-center">
+                                <p className="text-lg font-semibold">Belum ada todo.</p>
+                                <p className="mt-2 text-sm text-slate-400">
+                                    Tambahkan todo pertama kamu dari form di atas.
+                                </p>
+                            </div>
+                        )}
+
+                        {todos.length > 0 && (
+                            <div className="space-y-3">
+                                {todos.map((todo) => (
+                                    <div
+                                        key={todo.id}
+                                        className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-slate-900/80 p-4 md:flex-row md:items-center md:justify-between"
+                                    >
+                                        <button
+                                            type="button"
+                                            onClick={() => toggleTodo.mutate(todo)}
+                                            disabled={toggleTodo.isPending}
+                                            className="flex min-w-0 flex-1 items-center gap-3 text-left disabled:cursor-not-allowed disabled:opacity-60"
+                                        >
+                                            <span
+                                                className={[
+                                                    'flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs',
+                                                    todo.is_completed
+                                                        ? 'border-emerald-400 bg-emerald-400 text-slate-950'
+                                                        : 'border-slate-500 bg-transparent text-transparent',
+                                                ].join(' ')}
+                                            >
+                                                ✓
+                                            </span>
+
+                                            <span
+                                                className={[
+                                                    'truncate text-sm font-semibold md:text-base',
+                                                    todo.is_completed
+                                                        ? 'text-slate-500 line-through'
+                                                        : 'text-white',
+                                                ].join(' ')}
+                                            >
+                                                {todo.title}
+                                            </span>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => deleteTodo.mutate(todo.id)}
+                                            disabled={deleteTodo.isPending}
+                                            className="rounded-xl border border-red-400/30 px-4 py-2 text-sm font-semibold text-red-200 transition hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-60"
+                                        >
+                                            Hapus
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </section>
+                </div>
+            </main>
+        </>
+    );
+}
+</file>
+
+<file path="resources/js/types/index.ts">
+export type ApiStatus = 'success' | 'error';
+
+export type ApiResponse<T> = {
+    status: ApiStatus;
+    message: string;
+    data: T;
+};
+
+export type SystemStatus = {
+    app: string;
+    environment: string;
+    backend: string;
+    frontend: string;
+    query: string;
+    database: string;
+    timestamp: string;
+};
+
+export type Todo = {
+    id: number;
+    title: string;
+    is_completed: boolean;
+    created_at: string;
+    updated_at: string;
+};
+
+export type TodoListResponse = ApiResponse<Todo[]>;
+
+export type TodoResponse = ApiResponse<Todo>;
+</file>
+
+<file path="resources/js/app.tsx">
+import '../css/app.css';
+
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { createInertiaApp } from '@inertiajs/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const appName = import.meta.env.VITE_APP_NAME || 'ISAC 2026';
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 1000 * 30,
+            retry: 1,
+            refetchOnWindowFocus: false,
+        },
+    },
+});
+
+type PageModule = {
+    default: React.ComponentType<any>;
+};
+
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => {
+        const pages = import.meta.glob<PageModule>('./Pages/**/*.tsx', { eager: true });
+        return pages[`./Pages/${name}.tsx`];
+    },
+    setup({ el, App, props }) {
+        createRoot(el).render(
+            <React.StrictMode>
+                <QueryClientProvider client={queryClient}>
+                    <App {...props} />
+                </QueryClientProvider>
+            </React.StrictMode>,
+        );
+    },
+    progress: {
+        color: '#2563eb',
+    },
+});
+</file>
+
+<file path="resources/js/vite-env.d.ts">
+/// <reference types="vite/client" />
+</file>
+
+<file path="resources/views/app.blade.php">
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title inertia>{{ config('app.name', 'ISAC 2026') }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    @viteReactRefresh
+    @vite(['resources/css/app.css', 'resources/js/app.tsx'])
+    @inertiaHead
+</head>
+<body class="font-sans antialiased bg-slate-50 text-slate-950">
+    @inertia
+</body>
+</html>
+</file>
+
+<file path="routes/api.php">
+<?php
+
+use App\Http\Controllers\Api\TodoController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/system/status', function () {
+    return response()->json([
+        'status' => 'success',
+        'message' => 'ISAC-2026 API is running',
+        'data' => [
+            'app' => config('app.name'),
+            'environment' => app()->environment(),
+            'backend' => 'Laravel',
+            'frontend' => 'React TypeScript',
+            'query' => 'TanStack Query',
+            'database' => config('database.default'),
+            'timestamp' => now()->toISOString(),
+        ],
+    ]);
+});
+
+Route::get('/todos', [TodoController::class, 'index']);
+Route::post('/todos', [TodoController::class, 'store']);
+Route::patch('/todos/{todo}', [TodoController::class, 'update']);
+Route::delete('/todos/{todo}', [TodoController::class, 'destroy']);
+</file>
+
+<file path=".dockerignore">
+.git
+node_modules
+vendor
+storage/logs
+.env
+.DS_Store
+repomix-output.xml
+</file>
+
+<file path="docker-compose.yml">
+services:
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: isac2026-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+      - node
+    develop:
+      watch:
+        - action: sync
+          path: ./public
+          target: /var/www/html/public
+        - action: sync
+          path: ./resources
+          target: /var/www/html/resources
+        - action: sync
+          path: ./routes
+          target: /var/www/html/routes
+        - action: sync+restart
+          path: ./docker/nginx/default.conf
+          target: /etc/nginx/conf.d/default.conf
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: isac2026-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    expose:
+      - "9000"
+    volumes:
+      - .:/var/www/html
+      - vendor:/var/www/html/vendor
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8080
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_DATABASE: isac2026
+      DB_USERNAME: isac
+      DB_PASSWORD: isac_password
+    command: sh -c "composer install && php-fpm"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: sync
+          path: ./app
+          target: /var/www/html/app
+        - action: sync
+          path: ./bootstrap
+          target: /var/www/html/bootstrap
+        - action: sync
+          path: ./config
+          target: /var/www/html/config
+        - action: sync
+          path: ./database
+          target: /var/www/html/database
+        - action: sync
+          path: ./public
+          target: /var/www/html/public
+        - action: sync
+          path: ./resources
+          target: /var/www/html/resources
+        - action: sync
+          path: ./routes
+          target: /var/www/html/routes
+        - action: sync
+          path: ./tests
+          target: /var/www/html/tests
+        - action: sync+restart
+          path: ./.env
+          target: /var/www/html/.env
+        - action: rebuild
+          path: ./Dockerfile
+        - action: rebuild
+          path: ./composer.json
+        - action: rebuild
+          path: ./composer.lock
+
+  node:
+    image: node:22-alpine
+    container_name: isac2026-node
+    restart: unless-stopped
+    working_dir: /var/www/html
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/var/www/html
+      - node_modules:/var/www/html/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    develop:
+      watch:
+        - action: sync
+          path: ./resources
+          target: /var/www/html/resources
+        - action: sync
+          path: ./public
+          target: /var/www/html/public
+        - action: sync+restart
+          path: ./vite.config.js
+          target: /var/www/html/vite.config.js
+        - action: sync+restart
+          path: ./package.json
+          target: /var/www/html/package.json
+        - action: sync+restart
+          path: ./package-lock.json
+          target: /var/www/html/package-lock.json
+
+  mysql:
+    image: mysql:8.4
+    container_name: isac2026-mysql
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: isac2026
+      MYSQL_USER: isac
+      MYSQL_PASSWORD: isac_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  vendor:
+  node_modules:
+  mysql_data:
+</file>
+
+<file path="Dockerfile">
+FROM php:8.4-fpm
+
+WORKDIR /var/www/html
+
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    unzip \
+    zip \
+    default-mysql-client \
+    libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    && docker-php-ext-install \
+    pdo \
+    pdo_mysql \
+    mbstring \
+    zip \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
+</file>
+
+<file path="tsconfig.json">
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": ["DOM", "DOM.Iterable", "ES2020"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "ignoreDeprecations": "6.0",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["resources/js/*"]
+        }
+    },
+    "include": [
+        "resources/js/**/*.ts",
+        "resources/js/**/*.tsx",
+        "resources/js/**/*.d.ts"
+    ]
+}
+</file>
+
+<file path="app/Http/Controllers/Controller.php">
+<?php
+
+namespace App\Http\Controllers;
+
+abstract class Controller
+{
+    //
 }
 </file>
 
@@ -3914,128 +1071,29 @@ class User extends Authenticatable
 }
 </file>
 
-<file path="app/Repositories/Contracts/TodoRepositoryInterface.php">
+<file path="app/Providers/AppServiceProvider.php">
 <?php
 
-namespace App\Repositories\Contracts;
+namespace App\Providers;
 
-use App\Models\Todo;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\ServiceProvider;
 
-interface TodoRepositoryInterface
+class AppServiceProvider extends ServiceProvider
 {
     /**
-     * @return Collection<int, Todo>
+     * Register any application services.
      */
-    public function allLatest(): Collection;
-
-    /**
-     * @param array{title: string, is_completed?: bool} $data
-     */
-    public function create(array $data): Todo;
-
-    /**
-     * @param array{title?: string, is_completed?: bool} $data
-     */
-    public function update(Todo $todo, array $data): Todo;
-
-    public function delete(Todo $todo): void;
-}
-</file>
-
-<file path="app/Repositories/TodoRepository.php">
-<?php
-
-namespace App\Repositories;
-
-use App\Models\Todo;
-use App\Repositories\Contracts\TodoRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
-
-class TodoRepository implements TodoRepositoryInterface
-{
-    /**
-     * @return Collection<int, Todo>
-     */
-    public function allLatest(): Collection
+    public function register(): void
     {
-        return Todo::query()
-            ->latest()
-            ->get();
-    }
-
-    /**
-     * @param array{title: string, is_completed?: bool} $data
-     */
-    public function create(array $data): Todo
-    {
-        return Todo::query()->create($data);
-    }
-
-    /**
-     * @param array{title?: string, is_completed?: bool} $data
-     */
-    public function update(Todo $todo, array $data): Todo
-    {
-        $todo->update($data);
-
-        return $todo->fresh();
-    }
-
-    public function delete(Todo $todo): void
-    {
-        $todo->delete();
-    }
-}
-</file>
-
-<file path="app/Services/TodoService.php">
-<?php
-
-namespace App\Services;
-
-use App\Models\Todo;
-use App\Repositories\Contracts\TodoRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
-
-class TodoService
-{
-    public function __construct(
-        private readonly TodoRepositoryInterface $todoRepository,
-    ) {
         //
     }
 
     /**
-     * @return Collection<int, Todo>
+     * Bootstrap any application services.
      */
-    public function getTodos(): Collection
+    public function boot(): void
     {
-        return $this->todoRepository->allLatest();
-    }
-
-    /**
-     * @param array{title: string} $data
-     */
-    public function createTodo(array $data): Todo
-    {
-        return $this->todoRepository->create([
-            'title' => $data['title'],
-            'is_completed' => false,
-        ]);
-    }
-
-    /**
-     * @param array{title?: string, is_completed?: bool} $data
-     */
-    public function updateTodo(Todo $todo, array $data): Todo
-    {
-        return $this->todoRepository->update($todo, $data);
-    }
-
-    public function deleteTodo(Todo $todo): void
-    {
-        $this->todoRepository->delete($todo);
+        //
     }
 }
 </file>
@@ -4043,6 +1101,34 @@ class TodoService
 <file path="bootstrap/cache/.gitignore">
 *
 !.gitignore
+</file>
+
+<file path="bootstrap/app.php">
+<?php
+
+use App\Http\Middleware\HandleInertiaRequests;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web(append: [
+            HandleInertiaRequests::class,
+        ]);
+    })
+    ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->shouldRenderJsonWhen(
+            fn (Request $request) => $request->is('api/*'),
+        );
+    })->create();
 </file>
 
 <file path="bootstrap/providers.php">
@@ -5578,35 +2664,6 @@ return new class extends Migration
 };
 </file>
 
-<file path="database/migrations/2026_06_09_122240_create_todos_table.php">
-<?php
-
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
-return new class extends Migration
-{
-    public function up(): void
-    {
-        Schema::create('todos', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->boolean('is_completed')->default(false);
-            $table->timestamps();
-
-            $table->index('is_completed');
-            $table->index('created_at');
-        });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('todos');
-    }
-};
-</file>
-
 <file path="database/seeders/DatabaseSeeder.php">
 <?php
 
@@ -5639,45 +2696,60 @@ class DatabaseSeeder extends Seeder
 *.sqlite*
 </file>
 
-<file path="docker/nginx/default.conf">
-server {
-    listen 80;
-    server_name localhost;
+<file path="public/.htaccess">
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
 
-    root /var/www/html/public;
-    index index.php index.html;
+    RewriteEngine On
 
-    client_max_body_size 50M;
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    charset utf-8;
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
 
-    location = /favicon.ico {
-        access_log off;
-        log_not_found off;
-    }
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+</file>
 
-    location = /robots.txt {
-        access_log off;
-        log_not_found off;
-    }
+<file path="public/index.php">
+<?php
 
-    error_page 404 /index.php;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
-    location ~ \.php$ {
-        fastcgi_pass app:9000;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
+define('LARAVEL_START', microtime(true));
 
-    location ~ /\.(?!well-known).* {
-        deny all;
-    }
+// Determine if the application is in maintenance mode...
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
 }
+
+// Register the Composer autoloader...
+require __DIR__.'/../vendor/autoload.php';
+
+// Bootstrap Laravel and handle the request...
+/** @var Application $app */
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$app->handleRequest(Request::capture());
+</file>
+
+<file path="public/robots.txt">
+User-agent: *
+Disallow:
 </file>
 
 <file path="resources/css/app.css">
@@ -5692,301 +2764,6 @@ server {
 }
 </file>
 
-<file path="resources/js/features/todos/api/todoApi.ts">
-import { deleteJson, fetchJson, patchJson, postJson } from '@/lib/api';
-import type {
-    CreateTodoPayload,
-    DeleteTodoResponse,
-    TodoListResponse,
-    TodoResponse,
-    UpdateTodoPayload,
-} from '../types/todoTypes';
-
-const TODO_API_BASE = '/api/todos';
-
-export function getTodos(): Promise<TodoListResponse> {
-    return fetchJson<TodoListResponse>(TODO_API_BASE);
-}
-
-export function createTodo(payload: CreateTodoPayload): Promise<TodoResponse> {
-    return postJson<TodoResponse>(TODO_API_BASE, payload);
-}
-
-export function updateTodo(id: number, payload: UpdateTodoPayload): Promise<TodoResponse> {
-    return patchJson<TodoResponse>(`${TODO_API_BASE}/${id}`, payload);
-}
-
-export function deleteTodo(id: number): Promise<DeleteTodoResponse> {
-    return deleteJson<DeleteTodoResponse>(`${TODO_API_BASE}/${id}`);
-}
-</file>
-
-<file path="resources/js/features/todos/hooks/useTodos.ts">
-import { useMemo } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-    createTodo,
-    deleteTodo,
-    getTodos,
-    updateTodo,
-} from '../api/todoApi';
-import type {
-    CreateTodoPayload,
-    DeleteTodoResponse,
-    Todo,
-    TodoListResponse,
-    TodoResponse,
-    TodoStats,
-} from '../types/todoTypes';
-
-const TODOS_QUERY_KEY = ['todos'] as const;
-
-export function useTodos() {
-    const queryClient = useQueryClient();
-
-    const todosQuery = useQuery<TodoListResponse, Error>({
-        queryKey: TODOS_QUERY_KEY,
-        queryFn: getTodos,
-    });
-
-    const createTodoMutation = useMutation<TodoResponse, Error, CreateTodoPayload>({
-        mutationFn: createTodo,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: TODOS_QUERY_KEY });
-        },
-    });
-
-    const toggleTodoMutation = useMutation<TodoResponse, Error, Todo>({
-        mutationFn: (todo) =>
-            updateTodo(todo.id, {
-                is_completed: !todo.is_completed,
-            }),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: TODOS_QUERY_KEY });
-        },
-    });
-
-    const deleteTodoMutation = useMutation<DeleteTodoResponse, Error, number>({
-        mutationFn: deleteTodo,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: TODOS_QUERY_KEY });
-        },
-    });
-
-    const todos = todosQuery.data?.data ?? [];
-
-    const stats = useMemo<TodoStats>(() => {
-        const total = todos.length;
-        const completed = todos.filter((todo) => todo.is_completed).length;
-        const active = total - completed;
-
-        return {
-            total,
-            active,
-            completed,
-        };
-    }, [todos]);
-
-    return {
-        todos,
-        stats,
-        todosQuery,
-        createTodoMutation,
-        toggleTodoMutation,
-        deleteTodoMutation,
-    };
-}
-</file>
-
-<file path="resources/js/features/todos/schemas/todoSchema.ts">
-import { z } from 'zod';
-
-export const createTodoSchema = z.object({
-    title: z
-        .string()
-        .trim()
-        .min(1, 'Todo title cannot be empty.')
-        .max(255, 'Todo title may not be greater than 255 characters.'),
-});
-
-export const updateTodoSchema = z.object({
-    title: z
-        .string()
-        .trim()
-        .min(1, 'Todo title cannot be empty.')
-        .max(255, 'Todo title may not be greater than 255 characters.')
-        .optional(),
-    is_completed: z.boolean().optional(),
-});
-
-export type CreateTodoInput = z.infer<typeof createTodoSchema>;
-export type UpdateTodoInput = z.infer<typeof updateTodoSchema>;
-
-export function validateCreateTodoInput(input: unknown) {
-    const result = createTodoSchema.safeParse(input);
-
-    if (!result.success) {
-        return {
-            valid: false as const,
-            data: null,
-            error: result.error.issues[0]?.message || 'Invalid todo input.',
-        };
-    }
-
-    return {
-        valid: true as const,
-        data: result.data,
-        error: null,
-    };
-}
-</file>
-
-<file path="resources/js/features/todos/types/todoTypes.ts">
-import type { ApiResponse } from '@/types';
-import type { CreateTodoInput, UpdateTodoInput } from '../schemas/todoSchema';
-
-export type Todo = {
-    id: number;
-    title: string;
-    is_completed: boolean;
-    created_at: string;
-    updated_at: string;
-};
-
-export type TodoStats = {
-    total: number;
-    active: number;
-    completed: number;
-};
-
-export type TodoListResponse = ApiResponse<Todo[]>;
-
-export type TodoResponse = ApiResponse<Todo>;
-
-export type DeleteTodoResponse = ApiResponse<null>;
-
-export type CreateTodoPayload = CreateTodoInput;
-
-export type UpdateTodoPayload = UpdateTodoInput;
-</file>
-
-<file path="resources/js/lib/api.ts">
-export async function fetchJson<T>(
-    url: string,
-    options: RequestInit = {},
-): Promise<T> {
-    const { headers, ...restOptions } = options;
-
-    const response = await fetch(url, {
-        ...restOptions,
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            ...(headers || {}),
-        },
-    });
-
-    const data = await response.json().catch(() => null);
-
-    if (!response.ok) {
-        const validationMessage =
-            data?.errors && typeof data.errors === 'object'
-                ? Object.values(data.errors).flat().join(' ')
-                : null;
-
-        const message = validationMessage || data?.message || 'Request failed';
-
-        throw new Error(message);
-    }
-
-    return data as T;
-}
-
-export function getCsrfToken(): string {
-    const token = document
-        .querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
-        ?.getAttribute('content');
-
-    return token || '';
-}
-
-export async function postJson<T>(
-    url: string,
-    body: unknown,
-    options: RequestInit = {},
-): Promise<T> {
-    const { headers, ...restOptions } = options;
-
-    return fetchJson<T>(url, {
-        ...restOptions,
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-            'X-CSRF-TOKEN': getCsrfToken(),
-            ...(headers || {}),
-        },
-    });
-}
-
-export async function patchJson<T>(
-    url: string,
-    body: unknown,
-    options: RequestInit = {},
-): Promise<T> {
-    const { headers, ...restOptions } = options;
-
-    return fetchJson<T>(url, {
-        ...restOptions,
-        method: 'PATCH',
-        body: JSON.stringify(body),
-        headers: {
-            'X-CSRF-TOKEN': getCsrfToken(),
-            ...(headers || {}),
-        },
-    });
-}
-
-export async function deleteJson<T>(
-    url: string,
-    options: RequestInit = {},
-): Promise<T> {
-    const { headers, ...restOptions } = options;
-
-    return fetchJson<T>(url, {
-        ...restOptions,
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': getCsrfToken(),
-            ...(headers || {}),
-        },
-    });
-}
-</file>
-
-<file path="resources/js/types/index.ts">
-export type ApiStatus = 'success' | 'error';
-
-export type ApiResponse<T> = {
-    status: ApiStatus;
-    message: string;
-    data: T;
-};
-
-export type SystemStatus = {
-    app: string;
-    environment: string;
-    backend: string;
-    frontend: string;
-    query: string;
-    database: string;
-    timestamp: string;
-};
-</file>
-
-<file path="resources/js/vite-env.d.ts">
-/// <reference types="vite/client" />
-</file>
-
 <file path="routes/console.php">
 <?php
 
@@ -5996,6 +2773,19 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+</file>
+
+<file path="routes/web.php">
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
+Route::get('/', function () {
+    return Inertia::render('Todos/Index', [
+        'title' => 'Todo List',
+    ]);
+})->name('todos.index');
 </file>
 
 <file path="storage/app/private/.gitignore">
@@ -6112,16 +2902,6 @@ abstract class TestCase extends BaseTestCase
 }
 </file>
 
-<file path=".dockerignore">
-.git
-node_modules
-vendor
-storage/logs
-.env
-.DS_Store
-repomix-output.xml
-</file>
-
 <file path=".editorconfig">
 root = true
 
@@ -6141,6 +2921,27 @@ indent_size = 2
 
 [{compose,docker-compose}.{yml,yaml}]
 indent_size = 4
+</file>
+
+<file path=".env.example">
+APP_NAME="ISAC 2026"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8080
+
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=isac2026
+DB_USERNAME=isac
+DB_PASSWORD=isac_password
+
+SESSION_DRIVER=database
+QUEUE_CONNECTION=database
+CACHE_STORE=database
+
+VITE_APP_NAME="${APP_NAME}"
 </file>
 
 <file path=".gitattributes">
@@ -6211,640 +3012,6 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 $status = $app->handleCommand(new ArgvInput);
 
 exit($status);
-</file>
-
-<file path="Dockerfile">
-FROM php:8.4-fpm
-
-WORKDIR /var/www/html
-
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    unzip \
-    zip \
-    default-mysql-client \
-    libzip-dev \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    && docker-php-ext-install \
-        pdo \
-        pdo_mysql \
-        mbstring \
-        zip \
-        exif \
-        pcntl \
-        bcmath \
-        gd \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Pre-create Laravel required directories dengan permission yang benar
-RUN mkdir -p \
-        storage/framework/views \
-        storage/framework/cache/data \
-        storage/framework/sessions \
-        storage/framework/testing \
-        storage/app/public \
-        storage/logs \
-        bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache
-
-EXPOSE 9000
-CMD ["php-fpm"]
-</file>
-
-<file path="phpunit.xml">
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         colors="true"
->
-    <testsuites>
-        <testsuite name="Unit">
-            <directory>tests/Unit</directory>
-        </testsuite>
-        <testsuite name="Feature">
-            <directory>tests/Feature</directory>
-        </testsuite>
-    </testsuites>
-    <source>
-        <include>
-            <directory>app</directory>
-        </include>
-    </source>
-    <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
-        <env name="BCRYPT_ROUNDS" value="4"/>
-        <env name="BROADCAST_CONNECTION" value="null"/>
-        <env name="CACHE_STORE" value="array"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
-        <env name="DB_URL" value=""/>
-        <env name="MAIL_MAILER" value="array"/>
-        <env name="QUEUE_CONNECTION" value="sync"/>
-        <env name="SESSION_DRIVER" value="array"/>
-        <env name="PULSE_ENABLED" value="false"/>
-        <env name="TELESCOPE_ENABLED" value="false"/>
-        <env name="NIGHTWATCH_ENABLED" value="false"/>
-    </php>
-</phpunit>
-</file>
-
-<file path="tsconfig.json">
-{
-    "compilerOptions": {
-        "target": "ES2020",
-        "useDefineForClassFields": true,
-        "lib": ["DOM", "DOM.Iterable", "ES2020"],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "module": "ESNext",
-        "moduleResolution": "Node",
-        "ignoreDeprecations": "6.0",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx",
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["resources/js/*"]
-        }
-    },
-    "include": [
-        "resources/js/**/*.ts",
-        "resources/js/**/*.tsx",
-        "resources/js/**/*.d.ts"
-    ]
-}
-</file>
-
-<file path="app/Providers/AppServiceProvider.php">
-<?php
-
-namespace App\Providers;
-
-use App\Repositories\Contracts\TodoRepositoryInterface;
-use App\Repositories\TodoRepository;
-use Illuminate\Support\ServiceProvider;
-
-class AppServiceProvider extends ServiceProvider
-{
-    public function register(): void
-    {
-        $this->app->bind(TodoRepositoryInterface::class, TodoRepository::class);
-    }
-
-    public function boot(): void
-    {
-        //
-    }
-}
-</file>
-
-<file path="bootstrap/app.php">
-<?php
-
-use App\Http\Middleware\HandleInertiaRequests;
-use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Exceptions;
-use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
-
-return Application::configure(basePath: dirname(__DIR__))
-    ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        api: __DIR__.'/../routes/api.php',
-        commands: __DIR__.'/../routes/console.php',
-        health: '/up',
-    )
-    ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [
-            HandleInertiaRequests::class,
-        ]);
-    })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*'),
-        );
-    })->create();
-</file>
-
-<file path="resources/js/features/todos/components/TodoCreateForm.tsx">
-import { FormEvent, useState } from 'react';
-import { validateCreateTodoInput } from '../schemas/todoSchema';
-import type { CreateTodoPayload } from '../types/todoTypes';
-
-type TodoCreateFormProps = {
-    isSubmitting: boolean;
-    errorMessage?: string;
-    onCreate: (payload: CreateTodoPayload) => void;
-};
-
-export function TodoCreateForm({
-    isSubmitting,
-    errorMessage,
-    onCreate,
-}: TodoCreateFormProps) {
-    const [title, setTitle] = useState('');
-    const [validationError, setValidationError] = useState<string | null>(null);
-
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        const result = validateCreateTodoInput({ title });
-
-        if (!result.valid) {
-            setValidationError(result.error);
-            return;
-        }
-
-        console.log('FORM VALID PAYLOAD:', result.data);
-
-        setValidationError(null);
-        onCreate(result.data);
-        setTitle('');
-    }
-
-    return (
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3 md:flex-row">
-                <input
-                    type="text"
-                    value={title}
-                    onChange={(event) => {
-                        setTitle(event.target.value);
-                        setValidationError(null);
-                    }}
-                    placeholder="Tulis todo baru..."
-                    className="min-h-12 flex-1 rounded-2xl border border-slate-200 bg-white px-5 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500"
-                />
-
-                <button
-                    type="submit"
-                    disabled={isSubmitting || !title.trim()}
-                    className="min-h-12 rounded-2xl bg-blue-600 px-6 text-sm font-bold text-white shadow-sm transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                    {isSubmitting ? 'Menyimpan...' : 'Tambah Todo'}
-                </button>
-            </form>
-
-            {validationError && (
-                <p className="mt-3 text-sm text-amber-600">
-                    {validationError}
-                </p>
-            )}
-
-            {errorMessage && (
-                <p className="mt-3 text-sm text-red-600">
-                    Gagal menambah todo: {errorMessage}
-                </p>
-            )}
-        </section>
-    );
-}
-</file>
-
-<file path="resources/js/features/todos/components/TodoEmptyState.tsx">
-export function TodoEmptyState() {
-    return (
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-10 text-center">
-            <p className="text-lg font-semibold">Belum ada todo.</p>
-            <p className="mt-2 text-sm text-slate-500">
-                Tambahkan todo pertama kamu dari form di atas.
-            </p>
-        </div>
-    );
-}
-</file>
-
-<file path="resources/js/features/todos/components/TodoErrorState.tsx">
-type TodoErrorStateProps = {
-    message?: string;
-};
-
-export function TodoErrorState({ message }: TodoErrorStateProps) {
-    return (
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-5 text-sm text-red-700">
-            Gagal mengambil data: {message || 'Unknown error'}
-        </div>
-    );
-}
-</file>
-
-<file path="resources/js/features/todos/components/TodoHero.tsx">
-import { TodoStats } from './TodoStats';
-import type { TodoStats as TodoStatsType } from '../types/todoTypes';
-
-type TodoHeroProps = {
-    stats: TodoStatsType;
-};
-
-export function TodoHero({ stats }: TodoHeroProps) {
-    return (
-        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.25em] text-blue-600">
-                        180DC Uniar Todo System
-                    </p>
-
-                    <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-6xl">
-                        Todo List
-                    </h1>
-
-                    <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-                        React TypeScript UI yang connect ke Laravel API, disimpan ke MySQL,
-                        dan dikelola dengan TanStack Query.
-                    </p>
-                </div>
-
-                <TodoStats stats={stats} />
-            </div>
-        </section>
-    );
-}
-</file>
-
-<file path="resources/js/features/todos/components/TodoItem.tsx">
-import type { Todo } from '../types/todoTypes';
-
-type TodoItemProps = {
-    todo: Todo;
-    isToggling: boolean;
-    isDeleting: boolean;
-    onToggle: (todo: Todo) => void;
-    onDelete: (id: number) => void;
-};
-
-export function TodoItem({
-    todo,
-    isToggling,
-    isDeleting,
-    onToggle,
-    onDelete,
-}: TodoItemProps) {
-    return (
-        <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 md:flex-row md:items-center md:justify-between">
-            <button
-                type="button"
-                onClick={() => onToggle(todo)}
-                disabled={isToggling}
-                className="flex min-w-0 flex-1 items-center gap-3 text-left disabled:cursor-not-allowed disabled:opacity-60"
-            >
-                <span
-                    className={[
-                        'flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs',
-                        todo.is_completed
-                            ? 'border-emerald-400 bg-emerald-400 text-slate-950'
-                            : 'border-slate-300 bg-transparent text-transparent',
-                    ].join(' ')}
-                >
-                    ✓
-                </span>
-
-                <span
-                    className={[
-                        'truncate text-sm font-semibold md:text-base',
-                        todo.is_completed
-                            ? 'text-slate-500 line-through'
-                            : 'text-slate-950',
-                    ].join(' ')}
-                >
-                    {todo.title}
-                </span>
-            </button>
-
-            <button
-                type="button"
-                onClick={() => onDelete(todo.id)}
-                disabled={isDeleting}
-                className="rounded-xl border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-                Hapus
-            </button>
-        </div>
-    );
-}
-</file>
-
-<file path="resources/js/features/todos/components/TodoList.tsx">
-import { TodoEmptyState } from './TodoEmptyState';
-import { TodoErrorState } from './TodoErrorState';
-import { TodoItem } from './TodoItem';
-import { TodoLoadingState } from './TodoLoadingState';
-import type { Todo } from '../types/todoTypes';
-
-type TodoListProps = {
-    todos: Todo[];
-    isLoading: boolean;
-    isError: boolean;
-    errorMessage?: string;
-    isFetching: boolean;
-    isToggling: boolean;
-    isDeleting: boolean;
-    onToggle: (todo: Todo) => void;
-    onDelete: (id: number) => void;
-};
-
-export function TodoList({
-    todos,
-    isLoading,
-    isError,
-    errorMessage,
-    isFetching,
-    isToggling,
-    isDeleting,
-    onToggle,
-    onDelete,
-}: TodoListProps) {
-    return (
-        <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-5 flex items-center justify-between gap-3">
-                <div>
-                    <h2 className="text-xl font-bold">Daftar Todo</h2>
-                    <p className="mt-1 text-sm text-slate-500">
-                        Data diambil dari /api/todos.
-                    </p>
-                </div>
-
-                {isFetching && (
-                    <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-                        Syncing...
-                    </span>
-                )}
-            </div>
-
-            {isLoading && <TodoLoadingState />}
-
-            {isError && <TodoErrorState message={errorMessage} />}
-
-            {!isLoading && !isError && todos.length === 0 && <TodoEmptyState />}
-
-            {todos.length > 0 && (
-                <div className="space-y-3">
-                    {todos.map((todo) => (
-                        <TodoItem
-                            key={todo.id}
-                            todo={todo}
-                            isToggling={isToggling}
-                            isDeleting={isDeleting}
-                            onToggle={onToggle}
-                            onDelete={onDelete}
-                        />
-                    ))}
-                </div>
-            )}
-        </section>
-    );
-}
-</file>
-
-<file path="resources/js/features/todos/components/TodoLoadingState.tsx">
-export function TodoLoadingState() {
-    return (
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
-            Loading todos...
-        </div>
-    );
-}
-</file>
-
-<file path="resources/js/features/todos/components/TodoStats.tsx">
-import type { TodoStats as TodoStatsType } from '../types/todoTypes';
-
-type TodoStatsProps = {
-    stats: TodoStatsType;
-};
-
-export function TodoStats({ stats }: TodoStatsProps) {
-    return (
-        <div className="grid grid-cols-3 gap-3 rounded-3xl border border-slate-200 bg-slate-50 p-3">
-            <div className="rounded-2xl bg-white p-4 text-center">
-                <p className="text-2xl font-bold">{stats.total}</p>
-                <p className="text-xs text-slate-500">Total</p>
-            </div>
-
-            <div className="rounded-2xl bg-white p-4 text-center">
-                <p className="text-2xl font-bold">{stats.active}</p>
-                <p className="text-xs text-slate-500">Active</p>
-            </div>
-
-            <div className="rounded-2xl bg-white p-4 text-center">
-                <p className="text-2xl font-bold">{stats.completed}</p>
-                <p className="text-xs text-slate-500">Done</p>
-            </div>
-        </div>
-    );
-}
-</file>
-
-<file path="resources/js/Pages/Todos/Index.tsx">
-import { Head } from '@inertiajs/react';
-import { TodoCreateForm } from '@/features/todos/components/TodoCreateForm';
-import { TodoHero } from '@/features/todos/components/TodoHero';
-import { TodoList } from '@/features/todos/components/TodoList';
-import { useTodos } from '@/features/todos/hooks/useTodos';
-
-type TodosIndexProps = {
-    title?: string;
-};
-
-export default function TodosIndex({ title }: TodosIndexProps) {
-    const {
-        todos,
-        stats,
-        todosQuery,
-        createTodoMutation,
-        toggleTodoMutation,
-        deleteTodoMutation,
-    } = useTodos();
-
-    return (
-        <>
-            <Head title={title || 'Todo List'} />
-
-            <main className="min-h-screen bg-white px-6 py-10 text-slate-950">
-                <div className="mx-auto max-w-5xl space-y-8">
-                    <TodoHero stats={stats} />
-
-                    <TodoCreateForm
-                        isSubmitting={createTodoMutation.isPending}
-                        errorMessage={createTodoMutation.error?.message}
-                        onCreate={(payload) => createTodoMutation.mutate(payload)}
-                    />
-
-                    <TodoList
-                        todos={todos}
-                        isLoading={todosQuery.isLoading}
-                        isError={todosQuery.isError}
-                        errorMessage={todosQuery.error?.message}
-                        isFetching={todosQuery.isFetching}
-                        isToggling={toggleTodoMutation.isPending}
-                        isDeleting={deleteTodoMutation.isPending}
-                        onToggle={(todo) => toggleTodoMutation.mutate(todo)}
-                        onDelete={(id) => deleteTodoMutation.mutate(id)}
-                    />
-                </div>
-            </main>
-        </>
-    );
-}
-</file>
-
-<file path="resources/js/app.tsx">
-import '../css/app.css';
-
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { createInertiaApp } from '@inertiajs/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-const appName = import.meta.env.VITE_APP_NAME || '180DC Uniar';
-
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            staleTime: 1000 * 30,
-            retry: 1,
-            refetchOnWindowFocus: false,
-        },
-    },
-});
-
-type PageModule = {
-    default: React.ComponentType<any>;
-};
-
-createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) => {
-        const pages = import.meta.glob<PageModule>('./Pages/**/*.tsx', { eager: true });
-        return pages[`./Pages/${name}.tsx`];
-    },
-    setup({ el, App, props }) {
-        createRoot(el).render(
-            <React.StrictMode>
-                <QueryClientProvider client={queryClient}>
-                    <App {...props} />
-                </QueryClientProvider>
-            </React.StrictMode>,
-        );
-    },
-    progress: {
-        color: '#2563eb',
-    },
-});
-</file>
-
-<file path="resources/views/app.blade.php">
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title inertia>{{ config('app.name', '180DC Uniar') }}</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    @viteReactRefresh
-    @vite(['resources/css/app.css', 'resources/js/app.tsx'])
-    @inertiaHead
-</head>
-<body class="font-sans antialiased bg-white text-slate-950">
-    @inertia
-</body>
-</html>
-</file>
-
-<file path="routes/api.php">
-<?php
-
-use App\Http\Controllers\Api\TodoController;
-use Illuminate\Support\Facades\Route;
-
-Route::get('/system/status', function () {
-    return response()->json([
-        'status' => 'success',
-        'message' => '180DC Uniar API is running',
-        'data' => [
-            'app' => config('app.name'),
-            'environment' => app()->environment(),
-            'backend' => 'Laravel',
-            'frontend' => 'React TypeScript',
-            'query' => 'TanStack Query',
-            'database' => config('database.default'),
-            'timestamp' => now()->toISOString(),
-        ],
-    ]);
-});
-
-Route::get('/todos', [TodoController::class, 'index']);
-Route::post('/todos', [TodoController::class, 'store']);
-Route::patch('/todos/{todo}', [TodoController::class, 'update']);
-Route::delete('/todos/{todo}', [TodoController::class, 'destroy']);
-</file>
-
-<file path="routes/web.php">
-<?php
-
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-
-Route::get('/', function () {
-    return Inertia::render('Todos/Index', [
-        'title' => 'Todo List',
-    ]);
-})->name('todos.index');
 </file>
 
 <file path="composer.json">
@@ -6937,168 +3104,6 @@ Route::get('/', function () {
 }
 </file>
 
-<file path="docker-compose.yml">
-services:
-  nginx:
-    image: nginx:1.27-alpine
-    container_name: 180dc-unair-nginx
-    restart: unless-stopped
-    ports:
-      - "8080:80"
-    volumes:
-      - .:/var/www/html
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - app
-      - node
-    develop:
-      watch:
-        - action: sync
-          path: ./public
-          target: /var/www/html/public
-        - action: sync
-          path: ./resources
-          target: /var/www/html/resources
-        - action: sync
-          path: ./routes
-          target: /var/www/html/routes
-        - action: sync+restart
-          path: ./docker/nginx/default.conf
-          target: /etc/nginx/conf.d/default.conf
-
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: 180dc-unair-app
-    restart: unless-stopped
-    working_dir: /var/www/html
-    expose:
-      - "9000"
-    volumes:
-      - .:/var/www/html
-      - vendor:/var/www/html/vendor
-    environment:
-      APP_ENV: local
-      APP_DEBUG: "true"
-      APP_URL: http://localhost:8080
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: "3306"
-      DB_DATABASE: 180dc_unair
-      DB_USERNAME: isac
-      DB_PASSWORD: isac_password
-    # ✅ FIX: Buat & set permission storage sebelum php-fpm jalan
-    command: >
-      sh -c "
-        composer install &&
-        mkdir -p storage/framework/views
-                 storage/framework/cache/data
-                 storage/framework/sessions
-                 storage/framework/testing
-                 storage/app/public
-                 storage/logs
-                 bootstrap/cache &&
-        chmod -R 775 storage bootstrap/cache &&
-        chown -R www-data:www-data storage bootstrap/cache &&
-        php artisan config:clear &&
-        php artisan view:clear &&
-        php artisan storage:link --force &&
-        php-fpm
-      "
-    depends_on:
-      mysql:
-        condition: service_healthy
-    develop:
-      watch:
-        - action: sync
-          path: ./app
-          target: /var/www/html/app
-        - action: sync
-          path: ./bootstrap
-          target: /var/www/html/bootstrap
-        - action: sync
-          path: ./config
-          target: /var/www/html/config
-        - action: sync
-          path: ./database
-          target: /var/www/html/database
-        - action: sync
-          path: ./public
-          target: /var/www/html/public
-        - action: sync
-          path: ./resources
-          target: /var/www/html/resources
-        - action: sync
-          path: ./routes
-          target: /var/www/html/routes
-        - action: sync
-          path: ./tests
-          target: /var/www/html/tests
-        - action: sync+restart
-          path: ./.env
-          target: /var/www/html/.env
-        - action: rebuild
-          path: ./Dockerfile
-        - action: rebuild
-          path: ./composer.json
-        - action: rebuild
-          path: ./composer.lock
-
-  node:
-    image: node:22-alpine
-    container_name: 180dc-unair-node
-    restart: unless-stopped
-    working_dir: /var/www/html
-    ports:
-      - "5173:5173"
-    volumes:
-      - .:/var/www/html
-      - node_modules:/var/www/html/node_modules
-    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
-    develop:
-      watch:
-        - action: sync
-          path: ./resources
-          target: /var/www/html/resources
-        - action: sync
-          path: ./public
-          target: /var/www/html/public
-        - action: sync+restart
-          path: ./vite.config.js
-          target: /var/www/html/vite.config.js
-        - action: sync+restart
-          path: ./package.json
-          target: /var/www/html/package.json
-        - action: sync+restart
-          path: ./package-lock.json
-          target: /var/www/html/package-lock.json
-
-  mysql:
-    image: mysql:8.4
-    container_name: 180dc-unair-mysql
-    restart: unless-stopped
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_DATABASE: 180dc_unair
-      MYSQL_USER: isac
-      MYSQL_PASSWORD: isac_password
-      MYSQL_ROOT_PASSWORD: root_password
-    volumes:
-      - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-volumes:
-  vendor:
-  node_modules:
-  mysql_data:
-</file>
-
 <file path="package.json">
 {
     "$schema": "https://www.schemastore.org/package.json",
@@ -7124,76 +3129,52 @@ volumes:
         "@inertiajs/react": "^3.3.1",
         "@tanstack/react-query": "^5.101.0",
         "react": "^19.2.7",
-        "react-dom": "^19.2.7",
-        "zod": "^4.4.3"
+        "react-dom": "^19.2.7"
     }
 }
 </file>
 
-<file path="vite.config.js">
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import { bunny } from 'laravel-vite-plugin/fonts';
-import tailwindcss from '@tailwindcss/vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-
-export default defineConfig({
-    server: {
-        host: '0.0.0.0',
-        port: 5173,
-        hmr: {
-            host: 'localhost',
-            port: 5173,
-        },
-        watch: {
-            ignored: ['**/storage/framework/views/**'],
-        },
-    },
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, 'resources/js'),
-        },
-    },
-    plugins: [
-        laravel({
-            input: ['resources/css/app.css', 'resources/js/app.tsx'],
-            refresh: true,
-            fonts: [
-                bunny('Instrument Sans', {
-                    weights: [400, 500, 600],
-                }),
-            ],
-        }),
-        tailwindcss(),
-        react(),
-    ],
-});
-</file>
-
-<file path=".env.example">
-APP_NAME="180DC Uniar"
-APP_ENV=local
-APP_KEY=
-APP_DEBUG=true
-APP_URL=http://localhost:8080
-
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=180dc_unair
-DB_USERNAME=isac
-DB_PASSWORD=isac_password
-
-SESSION_DRIVER=database
-QUEUE_CONNECTION=database
-CACHE_STORE=database
-
-VITE_APP_NAME="${APP_NAME}"
+<file path="phpunit.xml">
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="BROADCAST_CONNECTION" value="null"/>
+        <env name="CACHE_STORE" value="array"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="DB_URL" value=""/>
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="PULSE_ENABLED" value="false"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="NIGHTWATCH_ENABLED" value="false"/>
+    </php>
+</phpunit>
 </file>
 
 <file path="README.md">
-# 180DC Uniar
+# ISAC-2026
 
 Laravel 13 + React/Inertia + TanStack Query + Vite + MySQL + Nginx + Docker Compose Watch.
 
@@ -7265,7 +3246,7 @@ Perilaku watch:
 ```bash
 docker compose exec app sh
 docker compose exec node sh
-docker compose exec mysql mysql -uisac -pisac_password 180dc_unair
+docker compose exec mysql mysql -uisac -pisac_password isac2026
 ```
 
 ## Troubleshooting
@@ -7316,7 +3297,47 @@ docker compose logs node
 ```
 
 Pastikan `npm run dev` berjalan dengan host `0.0.0.0` agar bisa diakses dari host.
-# web-180dc-2026
+</file>
+
+<file path="vite.config.js">
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import { bunny } from 'laravel-vite-plugin/fonts';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+    server: {
+        host: '0.0.0.0',
+        port: 5173,
+        hmr: {
+            host: 'localhost',
+            port: 5173,
+        },
+        watch: {
+            ignored: ['**/storage/framework/views/**'],
+        },
+    },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'resources/js'),
+        },
+    },
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.tsx'],
+            refresh: true,
+            fonts: [
+                bunny('Instrument Sans', {
+                    weights: [400, 500, 600],
+                }),
+            ],
+        }),
+        tailwindcss(),
+        react(),
+    ],
+});
 </file>
 
 </files>
