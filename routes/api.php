@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\TodoController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,14 @@ Route::get('/system/status', function () {
     ]);
 });
 
+// Todos
 Route::get('/todos', [TodoController::class, 'index']);
 Route::post('/todos', [TodoController::class, 'store']);
 Route::patch('/todos/{todo}', [TodoController::class, 'update']);
 Route::delete('/todos/{todo}', [TodoController::class, 'destroy']);
+
+//Clients
+Route::get('/clients', [ClientController::class, 'index']);
+Route::post('/clients', [ClientController::class, 'store']);
+Route::patch('/clients/{client}', [ClientController::class, 'update']);
+Route::delete('/clients/{client}', [ClientController::class, 'destroy']);
