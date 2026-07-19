@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\TodoController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,9 @@ Route::get('/clients', [ClientController::class, 'index']);
 Route::post('/clients', [ClientController::class, 'store']);
 Route::patch('/clients/{client}', [ClientController::class, 'update']);
 Route::delete('/clients/{client}', [ClientController::class, 'destroy']);
+
+// Services
+Route::get('/services', [ServiceController::class, 'index']);
+Route::post('/services', [ServiceController::class, 'store']);
+Route::patch('/services/{service}', [ServiceController::class, 'update']);
+Route::delete('/services/{service}', [ServiceController::class, 'destroy']);

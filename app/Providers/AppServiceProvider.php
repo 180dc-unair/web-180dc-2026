@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Repositories\Contracts\TodoRepositoryInterface;
 use App\Repositories\Contracts\ClientRepositoryInterface;
+use App\Repositories\Contracts\ServiceRepositoryInterface;
 
 use App\Repositories\TodoRepository;
 use App\Repositories\ClientRepository;
+use App\Repositories\ServiceRepository;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(TodoRepositoryInterface::class, TodoRepository::class);
         $this->app->bind(ClientRepositoryInterface::class,ClientRepository::class);
+        $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
     }
 
     public function boot(): void
