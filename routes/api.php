@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\TodoController;
@@ -19,6 +20,16 @@ Route::get('/system/status', function () {
             'timestamp' => now()->toISOString(),
         ],
     ]);
+});
+
+// Auth (Public)
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+
+// Auth (Protected)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/auth/me', [AuthController::class, 'me']);
 });
 
 // Todos
