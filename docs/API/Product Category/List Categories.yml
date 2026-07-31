@@ -1,0 +1,29 @@
+info:
+  name: List Categories
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/product-categories"
+  headers:
+    - name: Accept
+      value: application/json
+
+runtime:
+  assertions:
+    - expression: ""
+      operator: eq
+      value: undefined res.status == 200
+    - expression: ""
+      operator: eq
+      value: undefined res.body.status == "success"
+    - expression: ""
+      operator: eq
+      value: undefined Array.isArray(res.body.data)
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

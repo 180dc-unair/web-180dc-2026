@@ -1,0 +1,24 @@
+info:
+  name: Sort Products
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{base_url}}/products"
+  headers:
+    - name: Accept
+      value: application/json
+  params:
+    query:
+      - name: sort_by
+        value: price
+      - name: sort_direction
+        value: desc
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"

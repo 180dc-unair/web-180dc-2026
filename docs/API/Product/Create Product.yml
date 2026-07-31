@@ -1,0 +1,54 @@
+info:
+  name: Create Product
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{base_url}}/products"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "title": "E-Book Consulting 101",
+        "type": "digital",
+        "status": "active",
+        "short_description": "Panduan dasar consulting",
+        "description": "E-book lengkap tentang dasar-dasar consulting untuk pemula.",
+        "price": 50000,
+        "stock": 100,
+        "is_featured": true,
+        "is_best_seller": false,
+        "digital_file_url": "https://example.com/ebook.pdf"
+      }
+
+runtime:
+  assertions:
+    - expression: ""
+      operator: eq
+      value: undefined res.status == 201
+    - expression: ""
+      operator: eq
+      value: undefined res.body.status == "success"
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.title == "E-Book Consulting 101"
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.slug == "e-book-consulting-101"
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.type == "digital"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

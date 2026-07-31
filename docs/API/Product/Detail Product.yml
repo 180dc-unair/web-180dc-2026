@@ -1,0 +1,29 @@
+info:
+  name: Detail Product
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{base_url}}/products/e-book-consulting-101"
+  headers:
+    - name: Accept
+      value: application/json
+
+runtime:
+  assertions:
+    - expression: ""
+      operator: eq
+      value: undefined res.status == 200
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.slug != null
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.category != null
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

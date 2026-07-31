@@ -1,0 +1,31 @@
+info:
+  name: Delete Product
+  type: http
+  seq: 8
+
+http:
+  method: DELETE
+  url: "{{base_url}}/products/id"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+
+runtime:
+  assertions:
+    - expression: ""
+      operator: eq
+      value: undefined res.status == 200
+    - expression: ""
+      operator: eq
+      value: undefined res.body.status == "success"
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data == null
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

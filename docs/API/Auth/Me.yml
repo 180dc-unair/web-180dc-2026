@@ -1,0 +1,22 @@
+info:
+  name: Me
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/auth/me"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Has user data
+      value: res.body.data.email != null
+    - name: Has role string
+      value: typeof res.body.data.role === 'string'

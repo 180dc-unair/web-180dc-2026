@@ -1,0 +1,40 @@
+info:
+  name: Update Category
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: "{{base_url}}/product-categories/id"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Physical Products",
+        "sort_order": 2
+      }
+
+runtime:
+  assertions:
+    - expression: ""
+      operator: eq
+      value: undefined res.status == 200
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.name == "Physical Products"
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.slug == "physical-products"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
