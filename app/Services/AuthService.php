@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-
-use App\Models\Role;
 use App\Models\User;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
@@ -28,10 +26,8 @@ class AuthService
      */
     public function register(array $data): array
     {
-        $defaultRole = Role::query()->where('slug', 'user')->first();
-
         $user = $this->authRepository->create([
-            'role_id' => $defaultRole->id,
+            'role' => 'user',
             'name' => $data['name'],
             'email' => $data['email'],
             'username' => $data['username'],
@@ -39,8 +35,6 @@ class AuthService
         ]);
 
         $token = $user->createToken('auth-token')->plainTextToken;
-
-        $user->load('role');
 
         return [
             'user' => $user,
@@ -65,8 +59,6 @@ class AuthService
         }
 
         $token = $user->createToken('auth-token')->plainTextToken;
-
-        $user->load('role');
 
         return [
             'user' => $user,
