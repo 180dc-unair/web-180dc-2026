@@ -47,7 +47,7 @@ services:
       DB_PORT: "3306"
       DB_DATABASE: 180dc
       DB_USERNAME: 180dc
-      DB_PASSWORD: 180dc_password
+      DB_PASSWORD: 180dc
     command: sh -c "composer install && php-fpm"
     depends_on:
       mysql:
@@ -125,8 +125,8 @@ services:
       - "3307:3306"
     environment:
       MYSQL_DATABASE: 180dc
-      MYSQL_USER: isac
-      MYSQL_PASSWORD: isac_password
+      MYSQL_USER: 180dc
+      MYSQL_PASSWORD: 180dc
       MYSQL_ROOT_PASSWORD: root_password
     volumes:
       - mysql_data:/var/lib/mysql
