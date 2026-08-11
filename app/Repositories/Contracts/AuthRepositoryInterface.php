@@ -10,7 +10,7 @@ interface AuthRepositoryInterface
 
     /**
      * @param array{
-     *      role_id: string,
+     *      role: string,
      *      name: string,
      *      username: string,
      *      email: string,

@@ -1,0 +1,44 @@
+info:
+  name: Update Product
+  type: http
+  seq: 7
+
+http:
+  method: PATCH
+  url: "{{base_url}}/products/id"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "title": "E-Book Consulting Advanced",
+        "price": 75000,
+        "is_best_seller": true
+      }
+
+runtime:
+  assertions:
+    - expression: ""
+      operator: eq
+      value: undefined res.status == 200
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.title == "E-Book Consulting Advanced"
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.price == "75000.00"
+    - expression: ""
+      operator: eq
+      value: undefined res.body.data.is_best_seller == true
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

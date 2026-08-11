@@ -1,0 +1,21 @@
+info:
+  name: Logout
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/auth/logout"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
