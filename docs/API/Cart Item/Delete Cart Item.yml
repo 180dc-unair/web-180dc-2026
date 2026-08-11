@@ -1,0 +1,20 @@
+info:
+  name: Delete Cart Item
+  type: http
+  seq: 3
+
+http:
+  method: DELETE
+  url: "{{base_url}}/cart/items/{{cart_item_id}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"

@@ -1,0 +1,24 @@
+info:
+  name: Get Cart
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/cart"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Items is array
+      value: Array.isArray(res.body.data.items)
+    - name: Has summary
+      value: res.body.data.summary != null

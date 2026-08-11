@@ -1,0 +1,31 @@
+info:
+  name: Add Cart Item
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/cart/items"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+  body:
+    type: json
+    data: |-
+      {
+        "product_id": "{{product_id}}",
+        "quantity": 1
+      }
+
+runtime:
+  assertions:
+    - name: Status is 201
+      value: res.status == 201
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Quantity is positive
+      value: res.body.data.quantity >= 1

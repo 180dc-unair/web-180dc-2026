@@ -1,0 +1,20 @@
+info:
+  name: List Team Members
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/team-members"
+  headers:
+    - name: Accept
+      value: application/json
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Data is array
+      value: Array.isArray(res.body.data)

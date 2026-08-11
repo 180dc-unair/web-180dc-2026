@@ -1,0 +1,31 @@
+info:
+  name: Update Team Member
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{base_url}}/team-members/{{team_member_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+  body:
+    type: json
+    data: |-
+      {
+        "bio": "Bio member yang sudah diperbarui.",
+        "is_active": true
+      }
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Bio is updated
+      value: res.body.data.bio == "Bio member yang sudah diperbarui."

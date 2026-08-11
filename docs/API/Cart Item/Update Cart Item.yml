@@ -1,0 +1,30 @@
+info:
+  name: Update Cart Item
+  type: http
+  seq: 2
+
+http:
+  method: PATCH
+  url: "{{base_url}}/cart/items/{{cart_item_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+  body:
+    type: json
+    data: |-
+      {
+        "quantity": 2
+      }
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Quantity is updated
+      value: res.body.data.quantity == 2

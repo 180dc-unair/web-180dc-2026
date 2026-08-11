@@ -1,0 +1,22 @@
+info:
+  name: Clear Cart
+  type: http
+  seq: 2
+
+http:
+  method: DELETE
+  url: "{{base_url}}/cart"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Cart is empty
+      value: res.body.data.items.length == 0
