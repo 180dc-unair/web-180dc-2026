@@ -11,9 +11,6 @@ return new class extends Migration
         Schema::create('team_members', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('image_id')->nullable()->constrained('media_assets')->onDelete('set null');
-            $table->foreignUuid('division_id')->nullable()->constrained('team_divisions')->onDelete('set null');
-            $table->foreignUuid('position_id')->nullable()->constrained('team_positions')->onDelete('set null');
-            $table->foreignUuid('period_id')->nullable()->constrained('team_periods')->onDelete('set null');
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('email')->nullable();
