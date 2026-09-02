@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { ImageIcon, Loader2, UploadCloud, X } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { ApiError, uploadAdminMedia } from '@/lib/admin-api';
+import { ApiError } from '@/lib/admin-api';
+import { mediaService } from '@/services/admin/media.service';
 import type { MediaPurpose } from '@/types/admin';
 
 type MediaUploadFieldProps = {
@@ -37,7 +38,7 @@ export function MediaUploadField({
         setError('');
 
         try {
-            const media = await uploadAdminMedia(file, purpose);
+            const media = await mediaService.upload(file, purpose);
             setPreviewUrl(media.url);
             onChange(media.id);
         } catch (uploadError) {

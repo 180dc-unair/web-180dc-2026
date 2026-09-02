@@ -1,5 +1,4 @@
 import { Head, Link } from '@inertiajs/react';
-import { useQuery } from '@tanstack/react-query';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import {
     ArrowRight,
@@ -17,23 +16,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { getAdminData } from '@/lib/admin-api';
-
-type DashboardSummary = {
-    metrics: {
-        products: { total: number; active: number; inactive: number };
-        articles: { total: number; published: number; draft: number };
-        services: { total: number; active: number; featured: number };
-        clients: { total: number; featured: number };
-        comments: { total: number; pending: number };
-    };
-    recent: {
-        articles: Array<{ id: string; title: string; status: string; created_at: string }>;
-        products: Array<{ id: string; title: string; status: string; created_at: string }>;
-        comments: Array<{ id: string; content: string; is_approved: boolean; user: string | null; article: string | null; created_at: string }>;
-    };
-    activity: Array<{ date: string; label: string; articles: number; comments: number }>;
-};
+import { useDashboardSummary } from '@/hooks/admin/useDashboard';
+import type { DashboardSummary } from '@/services/admin/dashboard.service';
 
 const activityChartConfig = {
     articles: { label: 'Artikel', color: '#72BB0E' },
@@ -53,10 +37,7 @@ function formatDate(value: string): string {
 }
 
 export default function AdminDashboard() {
-    const summary = useQuery({
-        queryKey: ['admin', 'dashboard'],
-        queryFn: () => getAdminData<DashboardSummary>('/api/admin/dashboard'),
-    });
+    const summary = useDashboardSummary();
 
     return (
         <AdminLayout title="Dashboard" description="Ringkasan aktivitas dan konten 180DC UNAIR">

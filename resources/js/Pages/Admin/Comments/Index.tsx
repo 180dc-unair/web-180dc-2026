@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AlertCircle, Check, CheckCircle2, MessageSquareText, Search, Trash2, Undo2 } from 'lucide-react';
 import { useState } from 'react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
@@ -20,52 +19,18 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { getAdminData, sendAdminData } from '@/lib/admin-api';
-
-type ArticleComment = {
-    id: number;
-    content: string;
-    is_approved: boolean;
-    user: { id: number; name: string; username: string } | null;
-    article: { id: number; title: string; slug: string } | null;
-    created_at: string;
-};
+import { useCommentsQuery, useDeleteComment, useModerateComment } from '@/hooks/admin/useComments';
+import type { ArticleComment } from '@/services/admin/comments.service';
 
 export default function AdminComments() {
-    const queryClient = useQueryClient();
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('all');
     const [deleteTarget, setDeleteTarget] = useState<ArticleComment | null>(null);
     const [feedback, setFeedback] = useState('');
-    const params = new URLSearchParams();
-    if (search.trim()) params.set('search', search.trim());
-    if (filter !== 'all') params.set('is_approved', filter === 'approved' ? '1' : '0');
-    const url = `/api/admin/article-comments${params.size ? `?${params.toString()}` : ''}`;
 
-    const comments = useQuery({
-        queryKey: ['admin', 'comments', search, filter],
-        queryFn: () => getAdminData<ArticleComment[]>(url),
-    });
-
-    const moderate = useMutation({
-        mutationFn: (comment: ArticleComment) => sendAdminData<ArticleComment>(
-            `/api/article-comments/${comment.id}/moderate`,
-            'PATCH',
-            { is_approved: !comment.is_approved },
-        ),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['admin', 'comments'] });
-            setFeedback('Status komentar berhasil diperbarui.');
-        },
-    });
-
-    const remove = useMutation({
-        mutationFn: (comment: ArticleComment) => sendAdminData<void>(`/api/article-comments/${comment.id}`, 'DELETE'),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['admin', 'comments'] });
-            setDeleteTarget(null);
-        },
-    });
+    const comments = useCommentsQuery(search, filter);
+    const moderate = useModerateComment();
+    const remove = useDeleteComment();
 
     return (
         <AdminLayout title="Komentar" description="Kelola komentar pada artikel">
@@ -131,7 +96,9 @@ export default function AdminComments() {
                                                     <div className="flex justify-end gap-1">
                                                         <Button
                                                             variant="ghost" size="icon-sm"
-                                                            onClick={() => moderate.mutate(comment)}
+                                                            onClick={() => moderate.mutate(comment, {
+                                                                onSuccess: () => setFeedback('Status komentar berhasil diperbarui.'),
+                                                            })}
                                                             disabled={moderate.isPending}
                                                             aria-label={comment.is_approved ? 'Batalkan persetujuan' : 'Setujui komentar'}
                                                         >{comment.is_approved ? <Undo2 /> : <Check />}</Button>
@@ -154,7 +121,7 @@ export default function AdminComments() {
                     <AlertDialogHeader><AlertDialogTitle>Hapus komentar?</AlertDialogTitle><AlertDialogDescription>Komentar akan dihapus permanen beserta balasannya.</AlertDialogDescription></AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Batal</AlertDialogCancel>
-                        <AlertDialogAction variant="destructive" disabled={remove.isPending} onClick={() => deleteTarget && remove.mutate(deleteTarget)}>{remove.isPending ? 'Menghapus...' : 'Hapus'}</AlertDialogAction>
+                        <AlertDialogAction variant="destructive" disabled={remove.isPending} onClick={() => deleteTarget && remove.mutate(deleteTarget, { onSuccess: () => setDeleteTarget(null) })}>{remove.isPending ? 'Menghapus...' : 'Hapus'}</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

@@ -1,7 +1,7 @@
 import { Head } from '@inertiajs/react';
-import { AdminCrudPage } from '@/components/admin/AdminCrudPage';
+import { AdminCrudPage } from '@/components/admin/crud/AdminCrudPage';
 import { AdminLayout } from '@/components/admin/AdminLayout';
-import { getResourceConfig } from '@/features/admin/resource-config';
+import { getResourceConfig } from '@/contants/admin/resource-config';
 
 type ResourcePageProps = {
     resourceKey: string;

@@ -19,7 +19,8 @@ import {
 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { ApiError, uploadAdminMedia } from '@/lib/admin-api';
+import { ApiError } from '@/lib/admin-api';
+import { mediaService } from '@/services/admin/media.service';
 import { cn } from '@/lib/utils';
 
 type NotionEditorProps = {
@@ -65,7 +66,7 @@ export function NotionEditor({ value, onChange, invalid = false }: NotionEditorP
         setUploadError('');
 
         try {
-            const media = await uploadAdminMedia(file, 'article-content');
+            const media = await mediaService.upload(file, 'article-content');
             editor.chain().focus().setImage({ src: media.url, alt: file.name, title: file.name }).run();
         } catch (error) {
             setUploadError(error instanceof ApiError ? error.message : 'Gambar artikel gagal diunggah.');
