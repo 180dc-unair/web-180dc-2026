@@ -1,0 +1,28 @@
+info:
+  name: Delete Event
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: "{{base_url}}/events/{{event_id}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Data is null
+      value: res.body.data == null
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

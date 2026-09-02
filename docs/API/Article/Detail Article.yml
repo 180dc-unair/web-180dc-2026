@@ -1,0 +1,26 @@
+info:
+  name: Detail Article
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/articles/{{article_slug}}"
+  headers:
+    - name: Accept
+      value: application/json
+
+runtime:
+  assertions:
+    - name: Status is successful
+      value: res.status >= 200 && res.status < 300
+    - name: Response is success
+      value: res.body.status == "success"
+    - name: Data has slug
+      value: res.body.data.slug == "{{article_slug}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -17,10 +17,10 @@ class ClientResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'type' => $this->type,
-            'logo' => $this->whenLoaded('logo', fn () => [
+            'logo' => $this->whenLoaded('logo', fn () => $this->logo ? [
                 'id' => $this->logo->id,
                 'url' => $this->logo->url,
-            ]),
+            ] : null),
             'website_url' => $this->website_url,
             'is_featured' => (bool) $this->is_featured,
             'sort_order' => (int) $this->sort_order,

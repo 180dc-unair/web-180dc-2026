@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model
 {
     use HasUuids;
-    
+
     protected function casts(): array
     {
         return [

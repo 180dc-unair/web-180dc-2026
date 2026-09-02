@@ -1,0 +1,8 @@
+info:
+  name: Planned
+  type: folder
+  seq: 99
+
+description: |
+  API endpoints yang sudah diencanangkan tapi belum diimplementasikan.
+  Lihat docs/plan/backend/ untuk detail spesifikasi.

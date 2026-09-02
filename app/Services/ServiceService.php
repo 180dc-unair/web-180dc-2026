@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Service;
 use App\Repositories\Contracts\ServiceRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
@@ -21,6 +22,17 @@ class ServiceService
     public function getServices(): Collection
     {
         return $this->serviceRepository->allLatest();
+    }
+
+    /** @param array<string, mixed> $filters */
+    public function paginate(array $filters = [], bool $includeAll = false): LengthAwarePaginator
+    {
+        return $this->serviceRepository->paginate($filters, $includeAll);
+    }
+
+    public function findBySlug(string $slug): ?Service
+    {
+        return $this->serviceRepository->findBySlug($slug);
     }
 
     /**

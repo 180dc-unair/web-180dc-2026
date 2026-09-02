@@ -43,7 +43,7 @@ class ProductController extends Controller
 
         $product = $this->productService->getProductBySlug($slug, $isAdmin);
 
-        if (!$product) {
+        if (! $product) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Product not found.',

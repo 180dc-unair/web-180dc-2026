@@ -1,0 +1,26 @@
+info:
+  name: Delete Service Category
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: "{{base_url}}/service-categories/{{service_category_id}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+
+runtime:
+  assertions:
+    - name: Status is successful
+      value: res.status >= 200 && res.status < 300
+    - name: Response is success
+      value: res.body.status == "success"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,26 @@
+info:
+  name: Delete Article Comment
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: "{{base_url}}/article-comments/{{article_comment_id}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+
+runtime:
+  assertions:
+    - name: Status is successful
+      value: res.status >= 200 && res.status < 300
+    - name: Response is success
+      value: res.body.status == "success"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -28,19 +28,19 @@ class ProductCategoryService
     }
 
     /**
-     * @param array{name: string, sort_order?: int} $data
+     * @param  array{name: string, sort_order?: int}  $data
      */
     public function createProductCategory(array $data): ProductCategory
-    {   
+    {
         return $this->productCategoryRepository->create($data);
     }
 
     /**
-     * @param array{name?: string, sort_order?: int} $data
+     * @param  array{name?: string, sort_order?: int}  $data
      */
     public function updateProductCategory(ProductCategory $productCategory, array $data): ProductCategory
     {
-        return $this->productCategoryRepository->update($productCategory, $data);  
+        return $this->productCategoryRepository->update($productCategory, $data);
     }
 
     public function deleteProductCategory(ProductCategory $productCategory): void

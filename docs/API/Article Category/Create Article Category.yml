@@ -1,0 +1,36 @@
+info:
+  name: Create Article Category
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/article-categories"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "name": "News"
+      }
+
+runtime:
+  assertions:
+    - name: Status is 201
+      value: res.status == 201
+    - name: Response is success
+      value: res.body.status == "success"
+    - name: Slug generated
+      value: res.body.data.slug == "news"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

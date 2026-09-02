@@ -1,0 +1,35 @@
+info:
+  name: Create Article Comment
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/articles/{{article_slug}}/comments"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "content": "Great article!",
+        "parent_id": null
+      }
+
+runtime:
+  assertions:
+    - name: Status is 201
+      value: res.status == 201
+    - name: Response is success
+      value: res.body.status == "success"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

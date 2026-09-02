@@ -1,0 +1,6 @@
+info:
+  name: Event
+  type: folder
+  seq: 11
+
+description: CRUD endpoints for managing events.

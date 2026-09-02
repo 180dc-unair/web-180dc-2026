@@ -3,6 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Service;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 interface ServiceRepositoryInterface
@@ -11,6 +12,11 @@ interface ServiceRepositoryInterface
      * @return Collection<int, Service>
      */
     public function allLatest(): Collection;
+
+    /** @param array<string, mixed> $filters */
+    public function paginate(array $filters = [], bool $includeAll = false): LengthAwarePaginator;
+
+    public function findBySlug(string $slug): ?Service;
 
     /**
      * @param array{
@@ -43,5 +49,4 @@ interface ServiceRepositoryInterface
     public function update(Service $service, array $data): Service;
 
     public function delete(Service $service): void;
-
 }

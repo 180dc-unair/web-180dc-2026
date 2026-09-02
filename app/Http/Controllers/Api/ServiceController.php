@@ -9,6 +9,7 @@ use App\Http\Resources\ServiceResource;
 use App\Models\Service;
 use App\Services\ServiceService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -18,14 +19,49 @@ class ServiceController extends Controller
         //
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $services = $this->serviceService->getServices();
+        $isAdmin = $request->user()?->role === 'admin';
+
+        $filters = $request->only(['search', 'category_id', 'is_active', 'is_featured', 'sort', 'direction', 'per_page', 'page']);
+
+        $paginator = $this->serviceService->paginate($filters, $isAdmin);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Services retrieved successfully.',
-            'data' => ServiceResource::collection($services),
+            'data' => ServiceResource::collection($paginator->items()),
+            'meta' => [
+                'current_page' => $paginator->currentPage(),
+                'last_page' => $paginator->lastPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+            ],
+            'links' => [
+                'first' => $paginator->url(1),
+                'last' => $paginator->url($paginator->lastPage()),
+                'prev' => $paginator->previousPageUrl(),
+                'next' => $paginator->nextPageUrl(),
+            ],
+        ]);
+    }
+
+    public function show(string $slug): JsonResponse
+    {
+        $service = $this->serviceService->findBySlug($slug);
+
+        if (! $service) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Service not found.',
+                'data' => null,
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Service retrieved successfully.',
+            'data' => new ServiceResource($service),
         ]);
     }
 

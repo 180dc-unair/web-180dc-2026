@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Client;
 use App\Repositories\Contracts\ClientRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
@@ -21,6 +22,17 @@ class ClientService
     public function getClients(): Collection
     {
         return $this->clientRepository->allLatest();
+    }
+
+    /** @param array<string, mixed> $filters */
+    public function paginate(array $filters = [], bool $includeAll = false): LengthAwarePaginator
+    {
+        return $this->clientRepository->paginate($filters, $includeAll);
+    }
+
+    public function findBySlug(string $slug): ?Client
+    {
+        return $this->clientRepository->findBySlug($slug);
     }
 
     /**

@@ -17,6 +17,38 @@ Schema sumber saat ini adalah migration `2026_06_25_100007_create_team_members_t
 - `is_active` default `true`
 - timestamps
 
+## Visualisasi database
+
+```mermaid
+erDiagram
+    MEDIA_ASSETS ||--o{ TEAM_MEMBERS : "image_id, SET NULL"
+
+    MEDIA_ASSETS {
+        uuid id PK
+        string file_id
+        string url
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    TEAM_MEMBERS {
+        uuid id PK
+        uuid image_id FK "nullable"
+        string name
+        string slug UK
+        string email "nullable"
+        string linkedin_url "nullable"
+        string instagram_url "nullable"
+        text bio "nullable"
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
+`image_id` bersifat nullable. Jika media dihapus, nilainya menjadi `null`; penghapusan member tidak menghapus record `media_assets`.
+
+
 ## Batasan akses
 
 - `GET` dapat diakses publik dan hanya menampilkan member aktif secara default.

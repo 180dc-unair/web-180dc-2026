@@ -1,0 +1,6 @@
+info:
+  name: System
+  type: folder
+  seq: 1
+
+description: System status and health check endpoints.

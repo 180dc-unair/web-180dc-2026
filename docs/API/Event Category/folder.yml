@@ -1,0 +1,6 @@
+info:
+  name: Event Category
+  type: folder
+  seq: 10
+
+description: CRUD endpoints for managing event categories.

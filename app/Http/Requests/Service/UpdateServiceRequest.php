@@ -16,7 +16,7 @@ class UpdateServiceRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [   
+        return [
             'title' => ['sometimes', 'string', 'min:1', 'max:255'],
             'category_id' => ['sometimes', 'nullable', 'uuid', 'exists:service_categories,id'],
             'icon_id' => ['sometimes', 'nullable', 'uuid', 'exists:media_assets,id'],

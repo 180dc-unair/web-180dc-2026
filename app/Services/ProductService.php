@@ -15,7 +15,7 @@ class ProductService
     }
 
     /**
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      * @return Collection<int, Product>
      */
     public function getProducts(array $filters = [], bool $isAdmin = false): Collection
@@ -29,7 +29,7 @@ class ProductService
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function createProduct(array $data): Product
     {
@@ -37,7 +37,7 @@ class ProductService
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function updateProduct(Product $product, array $data): Product
     {

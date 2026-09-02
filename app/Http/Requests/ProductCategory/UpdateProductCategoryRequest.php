@@ -4,6 +4,7 @@ namespace App\Http\Requests\ProductCategory;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UpdateProductCategoryRequest extends FormRequest
 {
@@ -26,7 +27,7 @@ class UpdateProductCategoryRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'string', 'min:1', 'max:255'],
-            'slug' => ['sometimes', 'string', \Illuminate\Validation\Rule::unique('product_categories', 'slug')->ignore($this->route('productCategory'))],
+            'slug' => ['sometimes', 'string', Rule::unique('product_categories', 'slug')->ignore($this->route('productCategory'))],
             'sort_order' => ['sometimes', 'integer', 'min:0'],
         ];
     }

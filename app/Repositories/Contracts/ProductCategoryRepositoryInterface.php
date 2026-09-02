@@ -26,7 +26,7 @@ interface ProductCategoryRepositoryInterface
     /**
      * @param array{
      *      name?: string,
-     *      slug?: string, 
+     *      slug?: string,
      *      sort_order?: int
      * } $data
      */

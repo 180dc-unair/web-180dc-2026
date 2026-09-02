@@ -1,0 +1,6 @@
+info:
+  name: Admin
+  type: folder
+  seq: 12
+
+description: Admin-only endpoints for dashboard, media, users, and comment management.

@@ -18,15 +18,15 @@ class ServiceResource extends JsonResource
             'slug' => $this->slug,
             'short_description' => $this->short_description,
             'description' => $this->description,
-            'category' => $this->whenLoaded('category', fn () => [
+            'category' => $this->whenLoaded('category', fn () => $this->category ? [
                 'id' => $this->category->id,
                 'name' => $this->category->name,
                 'slug' => $this->category->slug,
-            ]),
-            'icon' => $this->whenLoaded('icon', fn () => [
+            ] : null),
+            'icon' => $this->whenLoaded('icon', fn () => $this->icon ? [
                 'id' => $this->icon->id,
                 'url' => $this->icon->url,
-            ]),
+            ] : null),
             'is_featured' => (bool) $this->is_featured,
             'is_active' => (bool) $this->is_active,
             'sort_order' => (int) $this->sort_order,

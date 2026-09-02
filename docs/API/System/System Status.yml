@@ -1,0 +1,28 @@
+info:
+  name: System Status
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/system/status"
+  headers:
+    - name: Accept
+      value: application/json
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Has app name
+      value: res.body.data.app != null
+    - name: Has environment
+      value: res.body.data.environment != null
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

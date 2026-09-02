@@ -1,0 +1,40 @@
+info:
+  name: Create User
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/users"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Admin Baru",
+        "username": "admin-baru",
+        "email": "adminbaru@180dc.com",
+        "password": "password123",
+        "role": "admin"
+      }
+
+runtime:
+  assertions:
+    - name: Status is 201
+      value: res.status == 201
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Name is correct
+      value: res.body.data.name == "Admin Baru"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,6 @@
+info:
+  name: Service
+  type: folder
+  seq: 9
+
+description: CRUD endpoints for managing services.

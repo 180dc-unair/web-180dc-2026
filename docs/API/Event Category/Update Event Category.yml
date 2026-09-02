@@ -1,0 +1,36 @@
+info:
+  name: Update Event Category
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: "{{base_url}}/event-categories/{{event_category_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Workshop Updated"
+      }
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Name updated
+      value: res.body.data.name == "Workshop Updated"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

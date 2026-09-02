@@ -17,3 +17,54 @@ variables:
   - name: cart_item_id
     value: ""
     secret: false
+  - name: service_category_id
+    value: ""
+    secret: false
+  - name: service_category_slug
+    value: digital-transformation
+    secret: false
+  - name: article_category_id
+    value: ""
+    secret: false
+  - name: article_category_slug
+    value: news
+    secret: false
+  - name: article_id
+    value: ""
+    secret: false
+  - name: article_slug
+    value: annual-impact-report
+    secret: false
+  - name: article_comment_id
+    value: ""
+    secret: false
+  - name: product_slug
+    value: ""
+    secret: false
+  - name: product_category_id
+    value: ""
+    secret: false
+  - name: product_category_slug
+    value: ""
+    secret: false
+  - name: service_id
+    value: ""
+    secret: false
+  - name: client_id
+    value: ""
+    secret: false
+  - name: event_id
+    value: ""
+    secret: false
+  - name: event_slug
+    value: ""
+    secret: false
+  - name: event_category_id
+    value: ""
+    secret: false
+  - name: event_category_slug
+    value: ""
+    secret: false
+  - name: user_id
+    value: ""
+    secret: false

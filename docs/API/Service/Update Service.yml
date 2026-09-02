@@ -1,0 +1,37 @@
+info:
+  name: Update Service
+  type: http
+  seq: 3
+
+http:
+  method: PATCH
+  url: "{{base_url}}/services/{{service_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Strategy Consulting Updated",
+        "is_featured": true
+      }
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Title updated
+      value: res.body.data.title == "Strategy Consulting Updated"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

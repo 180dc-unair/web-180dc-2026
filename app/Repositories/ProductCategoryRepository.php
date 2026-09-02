@@ -28,7 +28,7 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
     }
 
     /**
-     * @param array{name: string, slug:string, sort_order?: int} $data
+     * @param  array{name: string, slug:string, sort_order?: int}  $data
      */
     public function create(array $data): ProductCategory
     {
@@ -36,7 +36,7 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
     }
 
     /**
-     * @param array{name?: string, slug:string, sort_order?: int} $data
+     * @param  array{name?: string, slug:string, sort_order?: int}  $data
      */
     public function update(ProductCategory $productCategory, array $data): ProductCategory
     {

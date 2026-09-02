@@ -1,0 +1,41 @@
+info:
+  name: Create Service
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/services"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Strategy Consulting",
+        "short_description": "Strategic guidance for organizations",
+        "description": "Comprehensive strategy consulting services.",
+        "sort_order": 1,
+        "is_active": true,
+        "is_featured": false
+      }
+
+runtime:
+  assertions:
+    - name: Status is 201
+      value: res.status == 201
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Title is correct
+      value: res.body.data.title == "Strategy Consulting"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

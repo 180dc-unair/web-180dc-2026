@@ -1,0 +1,38 @@
+info:
+  name: Update Article
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{base_url}}/articles/{{article_id}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Annual Impact Report Updated",
+        "content": "Updated article content.",
+        "status": "published"
+      }
+
+runtime:
+  assertions:
+    - name: Status is successful
+      value: res.status >= 200 && res.status < 300
+    - name: Response is success
+      value: res.body.status == "success"
+    - name: Name updated
+      value: res.body.data.title == "Annual Impact Report Updated"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

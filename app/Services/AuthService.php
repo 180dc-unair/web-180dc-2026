@@ -38,14 +38,14 @@ class AuthService
 
         return [
             'user' => $user,
-            'token' => $token, 
+            'token' => $token,
         ];
     }
 
     /**
-     * @param array{email: string, password: string} $data
+     * @param  array{email: string, password: string}  $data
      * @return array{user: User, token: string,}
-     * 
+     *
      * @throws ValidationException
      */
     public function login(array $data): array
@@ -54,7 +54,7 @@ class AuthService
 
         if (! $user || ! Hash::check($data['password'], $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.']
+                'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 

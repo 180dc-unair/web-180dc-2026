@@ -1,0 +1,6 @@
+info:
+  name: Client
+  type: folder
+  seq: 8
+
+description: CRUD endpoints for managing clients and partners.

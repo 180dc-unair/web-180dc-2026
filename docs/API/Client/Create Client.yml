@@ -1,0 +1,40 @@
+info:
+  name: Create Client
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/clients"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "name": "PT Contoh Mitra",
+        "type": "MEDIA_PARTNER",
+        "website_url": "https://contoh.co.id",
+        "sort_order": 1,
+        "is_featured": false
+      }
+
+runtime:
+  assertions:
+    - name: Status is 201
+      value: res.status == 201
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Name is correct
+      value: res.body.data.name == "PT Contoh Mitra"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

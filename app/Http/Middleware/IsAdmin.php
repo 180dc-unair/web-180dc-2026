@@ -10,7 +10,11 @@ class IsAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()) {
+        if (! $request->user()) {
+            if (! $request->expectsJson()) {
+                return redirect()->route('admin.login');
+            }
+
             return response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized.',
@@ -19,6 +23,10 @@ class IsAdmin
         }
 
         if ($request->user()->role !== 'admin') {
+            if (! $request->expectsJson()) {
+                abort(403);
+            }
+
             return response()->json([
                 'status' => 'error',
                 'message' => 'Forbidden. Admin access required.',

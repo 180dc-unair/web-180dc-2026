@@ -1,0 +1,36 @@
+info:
+  name: Moderate Article Comment
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: "{{base_url}}/article-comments/{{article_comment_id}}/moderate"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "is_approved": false
+      }
+
+runtime:
+  assertions:
+    - name: Status is successful
+      value: res.status >= 200 && res.status < 300
+    - name: Response is success
+      value: res.body.status == "success"
+    - name: Approval updated
+      value: res.body.data.is_approved == false
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

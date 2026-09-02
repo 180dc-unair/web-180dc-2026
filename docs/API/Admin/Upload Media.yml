@@ -1,0 +1,37 @@
+info:
+  name: Upload Media
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/media"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: multipart-form
+    params:
+      - name: file
+        type: file
+        value: ""
+      - name: purpose
+        type: text
+        value: general
+
+runtime:
+  assertions:
+    - name: Status is 201
+      value: res.status == 201
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Has url
+      value: res.body.data.url != null
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

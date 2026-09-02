@@ -36,7 +36,7 @@ class ProductCategoryController extends Controller
     {
         $productCategory = $this->productCategoryService->getProductCategoryBySlug($slug);
 
-        if (!$productCategory) {
+        if (! $productCategory) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Product category not found.',

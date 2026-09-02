@@ -4,6 +4,7 @@ namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -26,7 +27,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'title' => ['sometimes', 'string', 'min:1', 'max:255'],
-            'slug' => ['sometimes', 'string', \Illuminate\Validation\Rule::unique('products', 'slug')->ignore($this->route('product'))],
+            'slug' => ['sometimes', 'string', Rule::unique('products', 'slug')->ignore($this->route('product'))],
             'category_id' => ['sometimes', 'nullable', 'uuid', 'exists:product_categories,id'],
             'image_id' => ['sometimes', 'nullable', 'uuid', 'exists:media_assets,id'],
             'type' => ['sometimes', 'string', 'in:digital,physical'],

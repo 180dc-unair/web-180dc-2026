@@ -66,6 +66,7 @@
 }
 
 :root {
+    --radius: 0.75rem;
     /* Neutrals */
     --background: oklch(1 0 0);
     /* Secondary Blue #4058C2 — brand spec: used as text color (subtitle & body) */
@@ -159,7 +160,7 @@
     @apply border-border outline-ring/50;
     }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
     }
   html {
     @apply font-sans;

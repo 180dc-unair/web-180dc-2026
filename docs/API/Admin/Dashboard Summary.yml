@@ -1,0 +1,30 @@
+info:
+  name: Dashboard Summary
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/admin/dashboard"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Has metrics
+      value: res.body.data.metrics != null
+    - name: Has recent
+      value: res.body.data.recent != null
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

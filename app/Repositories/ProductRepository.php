@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Collection;
 class ProductRepository implements ProductRepositoryInterface
 {
     /**
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      * @return Collection<int, Product>
      */
     public function allLatest(array $filters = [], bool $includeInactive = false): Collection
     {
         return Product::query()
             ->with(['category', 'image'])
-            ->when(!$includeInactive, fn ($q) => $q->where('status', 'active'))
+            ->when(! $includeInactive, fn ($q) => $q->where('status', 'active'))
             ->when($filters['search'] ?? null, fn ($q, $search) => $q->where('title', 'like', "%{$search}%"))
             ->when($filters['category_id'] ?? null, fn ($q, $categoryId) => $q->where('category_id', $categoryId))
             ->when($filters['type'] ?? null, fn ($q, $type) => $q->where('type', $type))
@@ -38,13 +38,13 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return Product::query()
             ->with(['category', 'image'])
-            ->when(!$includeInactive, fn ($q) => $q->where('status', 'active'))
+            ->when(! $includeInactive, fn ($q) => $q->where('status', 'active'))
             ->where('slug', $slug)
             ->first();
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function create(array $data): Product
     {
@@ -52,7 +52,7 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function update(Product $product, array $data): Product
     {
@@ -64,7 +64,7 @@ class ProductRepository implements ProductRepositoryInterface
     public function toggleBoolean(Product $product, string $field): Product
     {
         $product->update([
-            $field => !$product->{$field},
+            $field => ! $product->{$field},
         ]);
 
         return $product->fresh();

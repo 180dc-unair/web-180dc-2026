@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-
 #[Fillable(['category_id', 'icon_id', 'title', 'slug', 'short_description', 'description', 'is_featured', 'is_active', 'sort_order'])]
 class Service extends Model
 {
@@ -26,7 +25,7 @@ class Service extends Model
     protected function title(): Attribute
     {
         return Attribute::make(
-            set: fn  (string $value) => trim($value),
+            set: fn (string $value) => trim($value),
         );
     }
 
