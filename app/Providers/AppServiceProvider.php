@@ -6,11 +6,15 @@ use App\Repositories\ArticleCategoryRepository;
 use App\Repositories\ArticleCommentRepository;
 use App\Repositories\ArticleRepository;
 use App\Repositories\AuthRepository;
+use App\Repositories\CartItemRepository;
+use App\Repositories\CartRepository;
 use App\Repositories\ClientRepository;
 use App\Repositories\Contracts\ArticleCategoryRepositoryInterface;
 use App\Repositories\Contracts\ArticleCommentRepositoryInterface;
 use App\Repositories\Contracts\ArticleRepositoryInterface;
 use App\Repositories\Contracts\AuthRepositoryInterface;
+use App\Repositories\Contracts\CartItemRepositoryInterface;
+use App\Repositories\Contracts\CartRepositoryInterface;
 use App\Repositories\Contracts\ClientRepositoryInterface;
 use App\Repositories\Contracts\EventCategoryRepositoryInterface;
 use App\Repositories\Contracts\EventRepositoryInterface;
@@ -44,6 +48,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TeamMemberRepositoryInterface::class, TeamMemberRepository::class);
         $this->app->bind(EventCategoryRepositoryInterface::class, EventCategoryRepository::class);
         $this->app->bind(EventRepositoryInterface::class, EventRepository::class);
+        $this->app->bind(CartRepositoryInterface::class, CartRepository::class);
+        $this->app->bind(CartItemRepositoryInterface::class, CartItemRepository::class);
     }
 
     public function boot(): void

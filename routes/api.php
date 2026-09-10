@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\ArticleCategoryController;
 use App\Http\Controllers\Api\ArticleCommentController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\CartItemController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\EventCategoryController;
 use App\Http\Controllers\Api\EventController;
@@ -41,6 +43,11 @@ Route::post('/auth/login', [AuthController::class, 'login'])->middleware('thrott
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
+    Route::get('/cart', [CartController::class, 'show']);
+    Route::delete('/cart', [CartController::class, 'clear']);
+    Route::post('/cart/items', [CartItemController::class, 'store']);
+    Route::patch('/cart/items/{cartItem}', [CartItemController::class, 'update']);
+    Route::delete('/cart/items/{cartItem}', [CartItemController::class, 'destroy']);
 });
 
 Route::prefix('admin')->middleware(['auth:sanctum', 'admin', 'throttle:30,1'])->group(function () {
