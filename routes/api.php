@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AdminArticleCommentController;
 use App\Http\Controllers\Api\AdminDashboardController;
 use App\Http\Controllers\Api\AdminMediaController;
+use App\Http\Controllers\Api\AdminOrderController;
 use App\Http\Controllers\Api\AdminUserController;
 use App\Http\Controllers\Api\ArticleCategoryController;
 use App\Http\Controllers\Api\ArticleCommentController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Api\CartItemController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\EventCategoryController;
 use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductCategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ServiceCategoryController;
@@ -48,6 +50,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/cart/items', [CartItemController::class, 'store']);
     Route::patch('/cart/items/{cartItem}', [CartItemController::class, 'update']);
     Route::delete('/cart/items/{cartItem}', [CartItemController::class, 'destroy']);
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders/{order}', [OrderController::class, 'show']);
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel']);
 });
 
 Route::prefix('admin')->middleware(['auth:sanctum', 'admin', 'throttle:30,1'])->group(function () {
@@ -58,6 +64,8 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin', 'throttle:30,1'])->
     Route::post('/users', [AdminUserController::class, 'store']);
     Route::patch('/users/{user}', [AdminUserController::class, 'update']);
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy']);
+    Route::get('/orders', [AdminOrderController::class, 'index']);
+    Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus']);
 });
 
 // Clients
