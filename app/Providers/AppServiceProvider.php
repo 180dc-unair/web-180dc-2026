@@ -20,6 +20,9 @@ use App\Repositories\Contracts\EventCategoryRepositoryInterface;
 use App\Repositories\Contracts\EventRepositoryInterface;
 use App\Repositories\Contracts\OrderItemRepositoryInterface;
 use App\Repositories\Contracts\OrderRepositoryInterface;
+use App\Repositories\Contracts\PaymentMethodRepositoryInterface;
+use App\Repositories\Contracts\PaymentRepositoryInterface;
+use App\Repositories\Contracts\PaymentWebhookRepositoryInterface;
 use App\Repositories\Contracts\ProductCategoryRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\ServiceCategoryRepositoryInterface;
@@ -29,12 +32,17 @@ use App\Repositories\EventCategoryRepository;
 use App\Repositories\EventRepository;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\PaymentMethodRepository;
+use App\Repositories\PaymentRepository;
+use App\Repositories\PaymentWebhookRepository;
 use App\Repositories\ProductCategoryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ServiceCategoryRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\TeamMemberRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,6 +64,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CartItemRepositoryInterface::class, CartItemRepository::class);
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(OrderItemRepositoryInterface::class, OrderItemRepository::class);
+        $this->app->bind(PaymentMethodRepositoryInterface::class, PaymentMethodRepository::class);
+        $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
+        $this->app->bind(PaymentWebhookRepositoryInterface::class, PaymentWebhookRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     public function boot(): void

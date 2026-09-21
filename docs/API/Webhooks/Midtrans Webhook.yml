@@ -1,0 +1,33 @@
+info:
+  name: Midtrans Webhook
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/webhooks/midtrans"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "transaction_id": "{{gateway_reference}}",
+        "order_id": "{{payment_id}}",
+        "gross_amount": "300000.00",
+        "transaction_status": "settlement",
+        "status_code": "200",
+        "payment_type": "bank_transfer",
+        "currency": "IDR",
+        "settlement_time": "2026-09-20 14:00:00",
+        "signature_key": "YOUR_CALCULATED_SHA512_SIGNATURE"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

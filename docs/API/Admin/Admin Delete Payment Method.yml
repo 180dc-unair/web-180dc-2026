@@ -1,0 +1,19 @@
+info:
+  name: Admin Delete Payment Method
+  type: http
+  seq: 13
+
+http:
+  method: DELETE
+  url: "{{base_url}}/admin/payment-methods/{{payment_method_id}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
