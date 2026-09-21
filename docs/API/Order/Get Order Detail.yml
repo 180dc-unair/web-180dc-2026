@@ -1,0 +1,28 @@
+info:
+  name: Get Order Detail
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{base_url}}/orders/{{order_id}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Order has id
+      value: res.body.data.id != null
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

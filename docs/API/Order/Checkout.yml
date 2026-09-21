@@ -1,0 +1,42 @@
+info:
+  name: Checkout
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/orders"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+    - name: Idempotency-Key
+      value: "{{$guid}}"
+  body:
+    type: json
+    data: |-
+      {
+        "customer_name": "John Doe",
+        "customer_email": "john@example.com",
+        "notes": "Tolong packing rapi"
+      }
+
+runtime:
+  assertions:
+    - name: Status is 201
+      value: res.status == 201
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Order number exists
+      value: res.body.data.order_number != null
+    - name: Status is pending
+      value: res.body.data.status == "pending"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

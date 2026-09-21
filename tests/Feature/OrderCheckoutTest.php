@@ -3,8 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\Order;
+use App\Models\Payment;
+use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\User;
+use App\Services\OrderNumberService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -19,8 +22,8 @@ class OrderCheckoutTest extends TestCase
         return User::query()->create([
             'role' => 'user',
             'name' => $name,
-            'username' => 'user-' . Str::random(8),
-            'email' => 'user-' . Str::random(8) . '@example.com',
+            'username' => 'user-'.Str::random(8),
+            'email' => 'user-'.Str::random(8).'@example.com',
             'password' => Hash::make('password'),
         ]);
     }
@@ -30,8 +33,8 @@ class OrderCheckoutTest extends TestCase
         return User::query()->create([
             'role' => 'admin',
             'name' => 'Admin',
-            'username' => 'admin-' . Str::random(8),
-            'email' => 'admin-' . Str::random(8) . '@example.com',
+            'username' => 'admin-'.Str::random(8),
+            'email' => 'admin-'.Str::random(8).'@example.com',
             'password' => Hash::make('password'),
         ]);
     }
@@ -40,7 +43,7 @@ class OrderCheckoutTest extends TestCase
     {
         return Product::query()->create(array_merge([
             'title' => 'Kaos 180DC',
-            'slug' => 'kaos-' . Str::uuid(),
+            'slug' => 'kaos-'.Str::uuid(),
             'type' => 'physical',
             'status' => 'active',
             'price' => 150000,
@@ -180,6 +183,14 @@ class OrderCheckoutTest extends TestCase
         $this->assertDatabaseCount('orders', 1);
     }
 
+    public function test_checkout_rejects_invalid_idempotency_key_header(): void
+    {
+        $this->actingAs($this->user())
+            ->postJson('/api/orders', [], ['Idempotency-Key' => 'not-a-uuid'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('idempotency_key');
+    }
+
     public function test_user_cannot_see_other_user_order(): void
     {
         $userA = $this->user('User A');
@@ -253,6 +264,43 @@ class OrderCheckoutTest extends TestCase
             ->assertStatus(409);
     }
 
+    public function test_order_with_pending_midtrans_payment_cannot_be_cancelled_locally(): void
+    {
+        $user = $this->user();
+        $order = Order::query()->create([
+            'user_id' => $user->id,
+            'order_number' => 'ORD-'.strtoupper(Str::random(10)),
+            'status' => 'pending',
+            'customer_name' => $user->name,
+            'customer_email' => $user->email,
+            'subtotal_amount' => 100000,
+            'total_amount' => 100000,
+            'currency' => 'IDR',
+            'expired_at' => now()->addHour(),
+        ]);
+        $method = PaymentMethod::query()->create([
+            'name' => 'Midtrans VA BCA',
+            'code' => 'midtrans_va_bca',
+            'gateway' => 'midtrans',
+            'is_active' => true,
+        ]);
+        Payment::query()->create([
+            'order_id' => $order->id,
+            'payment_method_id' => $method->id,
+            'gateway' => 'midtrans',
+            'status' => 'pending',
+            'amount' => 100000,
+            'gateway_reference' => (string) Str::uuid(),
+            'expired_at' => now()->addHour(),
+        ]);
+
+        $this->actingAs($user)
+            ->postJson("/api/orders/{$order->id}/cancel")
+            ->assertStatus(409);
+
+        $this->assertSame('pending', $order->fresh()->status);
+    }
+
     public function test_order_number_unique(): void
     {
         $user = $this->user();
@@ -278,6 +326,40 @@ class OrderCheckoutTest extends TestCase
             $r1->json('data.order_number'),
             $r2->json('data.order_number')
         );
+    }
+
+    public function test_checkout_retries_order_number_collision(): void
+    {
+        $user = $this->user();
+        $product = $this->createProduct();
+        $collision = 'ORD-20260921-COLLIDE';
+        $unique = 'ORD-20260921-UNIQUE';
+
+        Order::query()->create([
+            'user_id' => $user->id,
+            'order_number' => $collision,
+            'status' => 'pending',
+            'customer_name' => $user->name,
+            'customer_email' => $user->email,
+            'subtotal_amount' => 100000,
+            'total_amount' => 100000,
+            'currency' => 'IDR',
+            'expired_at' => now()->addHour(),
+        ]);
+
+        $this->mock(OrderNumberService::class)
+            ->shouldReceive('generate')
+            ->twice()
+            ->andReturn($collision, $unique);
+
+        $this->actingAs($user)->postJson('/api/cart/items', [
+            'product_id' => $product->id,
+            'quantity' => 1,
+        ])->assertCreated();
+
+        $this->actingAs($user)->postJson('/api/orders')
+            ->assertCreated()
+            ->assertJsonPath('data.order_number', $unique);
     }
 
     public function test_expired_via_scheduler(): void
@@ -428,10 +510,18 @@ class OrderCheckoutTest extends TestCase
         // Simulasi status paid (biasanya via webhook di Fase 3)
         Order::where('id', $orderId)->update(['status' => 'paid', 'paid_at' => now()]);
 
+        $this->actingAs($admin)->patchJson("/api/admin/orders/{$orderId}/status", [
+            'status' => 'cancelled',
+        ])->assertStatus(409);
+
         // Sekarang admin bisa ubah status menjadi completed
         $this->actingAs($admin)->patchJson("/api/admin/orders/{$orderId}/status", [
             'status' => 'completed',
         ])->assertOk()
             ->assertJsonPath('data.status', 'completed');
+
+        $this->actingAs($admin)->patchJson("/api/admin/orders/{$orderId}/status", [
+            'status' => 'cancelled',
+        ])->assertStatus(409);
     }
 }

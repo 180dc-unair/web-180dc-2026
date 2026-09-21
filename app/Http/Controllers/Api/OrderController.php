@@ -40,14 +40,7 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request): JsonResponse
     {
-        $data = $request->validated();
-
-        $idempotencyKey = $request->header('Idempotency-Key');
-        if ($idempotencyKey) {
-            $data['idempotency_key'] = $idempotencyKey;
-        }
-
-        $order = $this->orderService->checkout($request->user(), $data);
+        $order = $this->orderService->checkout($request->user(), $request->validated());
 
         return response()->json([
             'status' => 'success',
@@ -68,7 +61,7 @@ class OrderController extends Controller
             ], 404);
         }
 
-        $found->load(['items.product.image', 'items.event.image']);
+        $found->load(['items.product.image', 'items.event.image', 'payments.method', 'payments.proof']);
 
         return response()->json([
             'status' => 'success',

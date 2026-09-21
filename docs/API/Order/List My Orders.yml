@@ -1,0 +1,30 @@
+info:
+  name: List My Orders
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: "{{base_url}}/orders?page=1&per_page=15"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Data is array
+      value: Array.isArray(res.body.data)
+    - name: Meta exists
+      value: res.body.meta != null
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

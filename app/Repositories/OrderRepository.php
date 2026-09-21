@@ -9,7 +9,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 class OrderRepository implements OrderRepositoryInterface
 {
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function create(array $data): Order
     {
@@ -19,6 +19,11 @@ class OrderRepository implements OrderRepositoryInterface
     public function findById(string $id): ?Order
     {
         return Order::query()->find($id);
+    }
+
+    public function findByIdForUpdate(string $id): ?Order
+    {
+        return Order::query()->lockForUpdate()->find($id);
     }
 
     public function findByIdAndUser(string $orderId, string $userId): ?Order
@@ -36,26 +41,25 @@ class OrderRepository implements OrderRepositoryInterface
             ->first();
     }
 
-    public function findByIdempotencyKey(string $key): ?Order
+    public function findByIdempotencyKey(string $key, string $userId): ?Order
     {
         return Order::query()
             ->where('idempotency_key', $key)
+            ->where('user_id', $userId)
             ->first();
     }
 
     /**
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      */
     public function paginateByUser(string $userId, array $filters = []): LengthAwarePaginator
     {
         return Order::query()
             ->withCount('items')
             ->where('user_id', $userId)
-            ->when($filters['status'] ?? null, fn ($q, $status) =>
-                $q->where('status', $status)
+            ->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', $status)
             )
-            ->when($filters['search'] ?? null, fn ($q, $search) =>
-                $q->where('order_number', 'like', "%{$search}%")
+            ->when($filters['search'] ?? null, fn ($q, $search) => $q->where('order_number', 'like', "%{$search}%")
             )
             ->when(
                 $filters['sort'] ?? null,
@@ -66,20 +70,18 @@ class OrderRepository implements OrderRepositoryInterface
     }
 
     /**
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      */
     public function paginateAll(array $filters = []): LengthAwarePaginator
     {
         return Order::query()
             ->withCount('items')
-            ->when($filters['status'] ?? null, fn ($q, $status) =>
-                $q->where('status', $status)
+            ->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', $status)
             )
-            ->when($filters['search'] ?? null, fn ($q, $search) =>
-                $q->where(function ($q) use ($search) {
-                    $q->where('order_number', 'like', "%{$search}%")
-                      ->orWhere('customer_email', 'like', "%{$search}%");
-                })
+            ->when($filters['search'] ?? null, fn ($q, $search) => $q->where(function ($q) use ($search) {
+                $q->where('order_number', 'like', "%{$search}%")
+                    ->orWhere('customer_email', 'like', "%{$search}%");
+            })
             )
             ->when(
                 $filters['sort'] ?? null,
@@ -90,11 +92,11 @@ class OrderRepository implements OrderRepositoryInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function update(Order $order, array $data): Order
     {
-        Order::query()->where('id', $order->id)->update($data);
+        $order->update($data);
 
         return $order->fresh();
     }

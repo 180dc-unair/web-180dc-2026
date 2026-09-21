@@ -6,6 +6,7 @@ use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\User;
 use App\Repositories\Contracts\CartItemRepositoryInterface;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -61,11 +62,22 @@ class CartItemService
             if ($existingItem) {
                 $item = $this->cartItemRepository->update($existingItem, ['quantity' => $newQty]);
             } else {
-                $item = $this->cartItemRepository->create([
-                    'cart_id' => $cart->id,
-                    'product_id' => $productId,
-                    'quantity' => $quantity,
-                ]);
+                try {
+                    $item = $this->cartItemRepository->create([
+                        'cart_id' => $cart->id,
+                        'product_id' => $productId,
+                        'quantity' => $quantity,
+                    ]);
+                } catch (QueryException $exception) {
+                    if ($exception->errorInfo[1] === 1062) {
+                        $existingItem = $this->cartItemRepository->findByCartAndProduct($cart->id, $productId);
+                        abort_unless($existingItem, 500, 'Cart item race condition could not be resolved.');
+                        $mergedQty = min($existingItem->quantity + $quantity, 99);
+                        $item = $this->cartItemRepository->update($existingItem, ['quantity' => $mergedQty]);
+                    } else {
+                        throw $exception;
+                    }
+                }
             }
 
             $cart->touch();
@@ -91,6 +103,14 @@ class CartItemService
 
             $product = Product::query()->lockForUpdate()->findOrFail($item->product_id);
 
+            if ($product->status !== 'active') {
+                abort(response()->json([
+                    'status' => 'error',
+                    'message' => 'Product not available.',
+                    'errors' => ['product_id' => ['Product is no longer active.']],
+                ], 409));
+            }
+
             if ($product->type == 'physical' && $quantity > $product->stock) {
                 abort(response()->json([
                     'status' => 'error',
@@ -108,19 +128,21 @@ class CartItemService
 
     public function remove(User $user, CartItem $cartItem): void
     {
-        $cart = $this->cartService->getCurrentCart($user);
+        DB::transaction(function () use ($user, $cartItem) {
+            $cart = $this->cartService->getCurrentCart($user);
 
-        $item = $this->cartItemRepository->findByIdAndCart($cartItem->id, $cart->id);
+            $item = $this->cartItemRepository->findByIdAndCart($cartItem->id, $cart->id);
 
-        if (! $item) {
-            abort(response()->json([
-                'status' => 'error',
-                'message' => 'Cart item not found.',
-                'data' => null,
-            ], 404));
-        }
+            if (! $item) {
+                abort(response()->json([
+                    'status' => 'error',
+                    'message' => 'Cart item not found.',
+                    'data' => null,
+                ], 404));
+            }
 
-        $this->cartItemRepository->delete($item);
-        $cart->touch();
+            $this->cartItemRepository->delete($item);
+            $cart->touch();
+        });
     }
 }
