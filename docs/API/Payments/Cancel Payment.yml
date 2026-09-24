@@ -1,0 +1,19 @@
+info:
+  name: Cancel Payment
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{base_url}}/payments/{{payment_id}}/cancel"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

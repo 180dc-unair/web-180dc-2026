@@ -1,0 +1,30 @@
+info:
+  name: Admin Create Payment Method
+  type: http
+  seq: 11
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/payment-methods"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "BCA Virtual Account",
+        "code": "bca_va",
+        "gateway": "manual",
+        "is_active": true
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

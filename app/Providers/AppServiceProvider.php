@@ -6,14 +6,23 @@ use App\Repositories\ArticleCategoryRepository;
 use App\Repositories\ArticleCommentRepository;
 use App\Repositories\ArticleRepository;
 use App\Repositories\AuthRepository;
+use App\Repositories\CartItemRepository;
+use App\Repositories\CartRepository;
 use App\Repositories\ClientRepository;
 use App\Repositories\Contracts\ArticleCategoryRepositoryInterface;
 use App\Repositories\Contracts\ArticleCommentRepositoryInterface;
 use App\Repositories\Contracts\ArticleRepositoryInterface;
 use App\Repositories\Contracts\AuthRepositoryInterface;
+use App\Repositories\Contracts\CartItemRepositoryInterface;
+use App\Repositories\Contracts\CartRepositoryInterface;
 use App\Repositories\Contracts\ClientRepositoryInterface;
 use App\Repositories\Contracts\EventCategoryRepositoryInterface;
 use App\Repositories\Contracts\EventRepositoryInterface;
+use App\Repositories\Contracts\OrderItemRepositoryInterface;
+use App\Repositories\Contracts\OrderRepositoryInterface;
+use App\Repositories\Contracts\PaymentMethodRepositoryInterface;
+use App\Repositories\Contracts\PaymentRepositoryInterface;
+use App\Repositories\Contracts\PaymentWebhookRepositoryInterface;
 use App\Repositories\Contracts\ProductCategoryRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\ServiceCategoryRepositoryInterface;
@@ -21,12 +30,19 @@ use App\Repositories\Contracts\ServiceRepositoryInterface;
 use App\Repositories\Contracts\TeamMemberRepositoryInterface;
 use App\Repositories\EventCategoryRepository;
 use App\Repositories\EventRepository;
+use App\Repositories\OrderItemRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\PaymentMethodRepository;
+use App\Repositories\PaymentRepository;
+use App\Repositories\PaymentWebhookRepository;
 use App\Repositories\ProductCategoryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\ServiceCategoryRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\TeamMemberRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,6 +60,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TeamMemberRepositoryInterface::class, TeamMemberRepository::class);
         $this->app->bind(EventCategoryRepositoryInterface::class, EventCategoryRepository::class);
         $this->app->bind(EventRepositoryInterface::class, EventRepository::class);
+        $this->app->bind(CartRepositoryInterface::class, CartRepository::class);
+        $this->app->bind(CartItemRepositoryInterface::class, CartItemRepository::class);
+        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+        $this->app->bind(OrderItemRepositoryInterface::class, OrderItemRepository::class);
+        $this->app->bind(PaymentMethodRepositoryInterface::class, PaymentMethodRepository::class);
+        $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
+        $this->app->bind(PaymentWebhookRepositoryInterface::class, PaymentWebhookRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     public function boot(): void

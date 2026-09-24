@@ -1,0 +1,28 @@
+info:
+  name: Admin Confirm Payment
+  type: http
+  seq: 15
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/payments/{{payment_id}}/confirm"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Payment is paid
+      value: res.body.data.status == "paid"
+    - name: Proof is present
+      value: res.body.data.proof.id != null
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

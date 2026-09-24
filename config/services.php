@@ -42,4 +42,23 @@ return [
         'folder' => env('IMAGEKIT_FOLDER', '/180dc'),
     ],
 
+    'midtrans' => [
+        'server_key' => env('MIDTRANS_SERVER_KEY'),
+        'base_url' => env('MIDTRANS_BASE_URL', 'https://api.sandbox.midtrans.com'),
+        'is_production' => env('MIDTRANS_IS_PRODUCTION', false),
+    ],
+
+    'payments' => [
+        'ttl_hours' => (int) env('PAYMENTS_TTL_HOURS', 24),
+        'manual' => [
+            'bank' => env('MANUAL_BANK_NAME'),
+            'account_number' => env('MANUAL_BANK_ACCOUNT_NUMBER'),
+            'account_name' => env('MANUAL_BANK_ACCOUNT_NAME'),
+        ],
+    ],
+
+    'orders' => [
+        'expiry_hours' => (int) env('ORDERS_EXPIRY_HOURS', 24),
+    ],
+
 ];

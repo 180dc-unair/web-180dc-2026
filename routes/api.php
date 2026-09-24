@@ -3,19 +3,28 @@
 use App\Http\Controllers\Api\AdminArticleCommentController;
 use App\Http\Controllers\Api\AdminDashboardController;
 use App\Http\Controllers\Api\AdminMediaController;
+use App\Http\Controllers\Api\AdminOrderController;
+use App\Http\Controllers\Api\AdminPaymentController;
+use App\Http\Controllers\Api\AdminPaymentMethodController;
 use App\Http\Controllers\Api\AdminUserController;
 use App\Http\Controllers\Api\ArticleCategoryController;
 use App\Http\Controllers\Api\ArticleCommentController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\CartItemController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\EventCategoryController;
 use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\PaymentMethodController;
 use App\Http\Controllers\Api\ProductCategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ServiceCategoryController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\TeamMemberController;
+use App\Http\Controllers\Api\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/system/status', function () {
@@ -34,13 +43,32 @@ Route::get('/system/status', function () {
     ]);
 });
 
+// Payment Methods (public — active only)
+Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->middleware('throttle:60,1');
+
 // Auth
 Route::post('/auth/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
 Route::post('/auth/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
+    Route::get('/cart', [CartController::class, 'show']);
+    Route::delete('/cart', [CartController::class, 'clear']);
+    Route::post('/cart/items', [CartItemController::class, 'store']);
+    Route::patch('/cart/items/{cartItem}', [CartItemController::class, 'update']);
+    Route::delete('/cart/items/{cartItem}', [CartItemController::class, 'destroy']);
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders/{order}', [OrderController::class, 'show']);
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel']);
+
+    // Payments
+    Route::post('/orders/{order}/payments', [PaymentController::class, 'store']);
+    Route::get('/orders/{order}/payments', [PaymentController::class, 'index']);
+    Route::get('/payments/{payment}', [PaymentController::class, 'show']);
+    Route::post('/payments/{payment}/proof', [PaymentController::class, 'uploadProof']);
+    Route::post('/payments/{payment}/cancel', [PaymentController::class, 'cancel']);
 });
 
 Route::prefix('admin')->middleware(['auth:sanctum', 'admin', 'throttle:30,1'])->group(function () {
@@ -51,6 +79,18 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin', 'throttle:30,1'])->
     Route::post('/users', [AdminUserController::class, 'store']);
     Route::patch('/users/{user}', [AdminUserController::class, 'update']);
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy']);
+    Route::get('/orders', [AdminOrderController::class, 'index']);
+    Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus']);
+
+    // Admin Payment Methods
+    Route::get('/payment-methods', [AdminPaymentMethodController::class, 'index']);
+    Route::post('/payment-methods', [AdminPaymentMethodController::class, 'store']);
+    Route::patch('/payment-methods/{paymentMethod}', [AdminPaymentMethodController::class, 'update']);
+    Route::delete('/payment-methods/{paymentMethod}', [AdminPaymentMethodController::class, 'destroy']);
+
+    // Admin Payments
+    Route::get('/payments', [AdminPaymentController::class, 'index']);
+    Route::post('/payments/{payment}/confirm', [AdminPaymentController::class, 'confirm']);
 });
 
 // Clients
@@ -168,3 +208,9 @@ Route::middleware(['auth:sanctum', 'admin', 'throttle:30,1'])->group(function ()
     Route::patch('/events/{event}', [EventController::class, 'update']);
     Route::delete('/events/{event}', [EventController::class, 'destroy']);
 });
+
+// Webhooks (public — verified by gateway signature)
+Route::post('/webhooks/{gateway}', [WebhookController::class, 'handle'])
+    ->whereIn('gateway', ['midtrans'])
+    ->middleware('throttle:30,1')
+    ->name('webhooks.handle');
