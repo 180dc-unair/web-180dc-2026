@@ -40,6 +40,7 @@ return [
         'private_key' => env('IMAGEKIT_PRIVATE_KEY'),
         'upload_url' => env('IMAGEKIT_UPLOAD_URL', 'https://upload.imagekit.io/api/v1/files/upload'),
         'folder' => env('IMAGEKIT_FOLDER', '/180dc'),
+        'allowed_url_hosts' => array_filter(explode(',', (string) env('IMAGEKIT_ALLOWED_URL_HOSTS', 'ik.imagekit.io,media.imagekit.io'))),
     ],
 
 ];

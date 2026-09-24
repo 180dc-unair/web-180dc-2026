@@ -44,9 +44,21 @@ class ImageKitMediaService
             throw new RuntimeException('Respons ImageKit tidak lengkap.');
         }
 
+        $this->assertAllowedUrl($url);
+
         return MediaAsset::query()->create([
             'file_id' => $fileId,
             'url' => $url,
         ]);
+    }
+
+    private function assertAllowedUrl(string $url): void
+    {
+        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+        $allowed = array_map('strtolower', (array) config('services.imagekit.allowed_url_hosts', []));
+
+        if ($host === '' || ($allowed !== [] && ! in_array($host, $allowed, true))) {
+            throw new RuntimeException('URL media tidak termasuk whitelist.');
+        }
     }
 }

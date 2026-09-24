@@ -35,8 +35,8 @@ Route::get('/system/status', function () {
 });
 
 // Auth
-Route::post('/auth/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
-Route::post('/auth/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+Route::post('/auth/register', [AuthController::class, 'register'])->middleware('throttle:auth-credential');
+Route::post('/auth/login', [AuthController::class, 'login'])->middleware('throttle:auth-credential');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);

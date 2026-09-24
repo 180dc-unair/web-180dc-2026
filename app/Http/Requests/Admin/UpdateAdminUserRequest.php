@@ -22,7 +22,7 @@ class UpdateAdminUserRequest extends FormRequest
             'name' => ['sometimes', 'string', 'max:255'],
             'username' => ['sometimes', 'string', 'max:255', 'alpha_dash', Rule::unique('users', 'username')->ignore($user)],
             'email' => ['sometimes', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user)],
-            'role' => ['sometimes', Rule::in(['admin', 'user'])],
+            'role' => ['prohibited'],
             'password' => ['sometimes', 'nullable', 'string', 'min:8', 'max:255'],
         ];
     }

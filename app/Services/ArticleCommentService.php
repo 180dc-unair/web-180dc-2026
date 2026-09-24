@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Article;
 use App\Models\ArticleComment;
 use App\Models\User;
+use App\Policies\ArticleCommentPolicy;
 use App\Repositories\Contracts\ArticleCommentRepositoryInterface;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
@@ -41,25 +42,29 @@ class ArticleCommentService
 
     public function update(ArticleComment $comment, User $user, array $data): ArticleComment
     {
-        $this->ensureCanManage($comment, $user);
+        $this->authorize($comment, $user, 'update');
 
         return $this->repository->update($comment, ['content' => $data['content']]);
     }
 
     public function delete(ArticleComment $comment, User $user): void
     {
-        $this->ensureCanManage($comment, $user);
+        $this->authorize($comment, $user, 'delete');
         $this->repository->delete($comment);
     }
 
-    public function moderate(ArticleComment $comment, bool $isApproved): ArticleComment
+    public function moderate(ArticleComment $comment, User $user, bool $isApproved): ArticleComment
     {
+        $this->authorize($comment, $user, 'moderate');
+
         return $this->repository->update($comment, ['is_approved' => $isApproved]);
     }
 
-    private function ensureCanManage(ArticleComment $comment, User $user): void
+    private function authorize(ArticleComment $comment, User $user, string $ability): void
     {
-        if ($user->role !== 'admin' && $comment->user_id !== $user->id) {
+        $policy = new ArticleCommentPolicy;
+
+        if (! $policy->{$ability}($user, $comment)) {
             throw new AuthorizationException('You are not allowed to manage this comment.');
         }
     }

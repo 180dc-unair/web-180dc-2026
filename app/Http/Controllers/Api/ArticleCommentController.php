@@ -77,7 +77,7 @@ class ArticleCommentController extends Controller
 
     public function moderate(ModerateArticleCommentRequest $request, ArticleComment $articleComment): JsonResponse
     {
-        $comment = $this->commentService->moderate($articleComment, (bool) ($request->validated()['is_approved'] ?? false));
+        $comment = $this->commentService->moderate($articleComment, $request->user(), (bool) ($request->validated()['is_approved'] ?? false));
 
         return response()->json([
             'status' => 'success',

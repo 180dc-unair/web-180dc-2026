@@ -26,7 +26,11 @@ use App\Repositories\ProductRepository;
 use App\Repositories\ServiceCategoryRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\TeamMemberRepository;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,6 +52,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        RateLimiter::for('auth-credential', function (Request $request) {
+            $identifier = Str::lower((string) $request->input('email')).'|'.$request->ip();
+
+            return Limit::perMinute(5)->by($identifier);
+        });
     }
 }

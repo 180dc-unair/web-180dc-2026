@@ -23,7 +23,10 @@ class AdminUserController extends Controller
 
     public function store(StoreAdminUserRequest $request): JsonResponse
     {
-        $user = User::query()->create($request->validated());
+        $data = $request->validated();
+        $data['role'] = 'user';
+
+        $user = User::query()->create($data);
 
         return response()->json([
             'status' => 'success',

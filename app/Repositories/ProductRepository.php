@@ -63,6 +63,12 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function toggleBoolean(Product $product, string $field): Product
     {
+        $allowed = ['is_best_seller', 'is_featured'];
+
+        if (! in_array($field, $allowed, true)) {
+            throw new \InvalidArgumentException('Field tidak dapat di-toggle.');
+        }
+
         $product->update([
             $field => ! $product->{$field},
         ]);
