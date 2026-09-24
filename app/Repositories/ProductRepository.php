@@ -80,4 +80,22 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product->delete();
     }
+
+    /**
+     * @param array<int, string> $ids
+     * @return Collection<int, Product>
+     */
+    public function lockForSale(array $ids): Collection
+    {
+        return Product::query()->whereIn('id', $ids)->orderBy('id')->lockForUpdate()->get()->keyBy('id');
+    }
+
+    public function recordSale(Product $product, int $quantity): void
+    {
+        if ($product->type === 'physical') {
+            $product->decrement('stock', $quantity);
+        }
+
+        $product->increment('sold_count', $quantity);
+    }
 }

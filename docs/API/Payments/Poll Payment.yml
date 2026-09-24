@@ -1,0 +1,19 @@
+info:
+  name: Poll Payment
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/payments/{{payment_id}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

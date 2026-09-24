@@ -27,5 +27,13 @@ interface ProductRepositoryInterface
 
     public function toggleBoolean(Product $product, string $field): Product;
 
+    /**
+     * @param array<int, string> $ids
+     * @return Collection<int, Product>
+     */
+    public function lockForSale(array $ids): Collection;
+
+    public function recordSale(Product $product, int $quantity): void;
+
     public function delete(Product $product): void;
 }

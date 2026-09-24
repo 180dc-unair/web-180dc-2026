@@ -1,0 +1,28 @@
+info:
+  name: Cancel Order
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{base_url}}/orders/{{order_id}}/cancel"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: "Bearer {{token}}"
+
+runtime:
+  assertions:
+    - name: Status is 200
+      value: res.status == 200
+    - name: Status is success
+      value: res.body.status == "success"
+    - name: Status is cancelled
+      value: res.body.data.status == "cancelled"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

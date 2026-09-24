@@ -1,0 +1,6 @@
+info:
+  name: Order
+  type: folder
+  seq: 15
+
+description: Order and checkout management endpoints (checkout, list, detail, cancel, and admin status management).
