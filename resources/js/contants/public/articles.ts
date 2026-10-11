@@ -1,4 +1,4 @@
-import type { FilterOption } from '@/types/public';
+import type { FilterOption, Shard } from '@/types/public';
 
 export const ARTICLES_HERO = {
     eyebrow: 'Publication',
@@ -15,4 +15,22 @@ export const ARTICLE_SORT_OPTIONS: FilterOption[] = [
     { label: 'Newest', value: 'newest' },
     { label: 'Oldest', value: 'oldest' },
     { label: 'Most Viewed', value: 'popular' },
+];
+
+export const RELATED_ARTICLES_LIMIT = 3;
+
+export const AUTHOR_ORGANIZATION = '180DC UNAIR';
+
+export const ARTICLE_HERO_SHARDS: Shard[] = [
+    { x: '81.67%', y: '12.57%', width: 120, height: 130, opacity: 0.22 },
+    { x: '92.56%', y: '24.19%', width: 70, height: 76, opacity: 0.22 },
+    { x: '76.6%', y: '28.03%', width: 26, height: 28, opacity: 1 },
+    { x: '88.11%', y: '47.67%', width: 54, height: 58, opacity: 0.18 },
+];
+
+export const AUTHOR_BANNER_SHARDS: Shard[] = [
+    { x: '80.3%', y: '33.8%', width: 90, height: 98, opacity: 0.2 },
+    { x: '89.45%', y: '59.8%', width: 54, height: 58, opacity: 0.2 },
+    { x: '96.26%', y: '-1.5%', width: 24, height: 26, opacity: 1 },
+    { x: '86.24%', y: '109.8%', width: 44, height: 48, opacity: 0.18 },
 ];

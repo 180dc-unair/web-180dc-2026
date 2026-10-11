@@ -11,6 +11,15 @@ export function formatNumber(value: number): string {
     return numberFormatter.format(value);
 }
 
+export function getInitials(name: string): string {
+    return name
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part.charAt(0).toUpperCase())
+        .join('');
+}
+
 export function estimateReadingMinutes(html: string): number {
     const words = html.replace(/<[^>]*>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
 

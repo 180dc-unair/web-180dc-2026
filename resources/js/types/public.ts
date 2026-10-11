@@ -12,6 +12,19 @@ export type SocialLink = NavLink & {
     icon: string;
 };
 
+export type BreadcrumbEntry = {
+    label: string;
+    href?: string;
+};
+
+export type Shard = {
+    x: string;
+    y: string;
+    width: number;
+    height: number;
+    opacity: number;
+};
+
 export type FilterOption = {
     label: string;
     value: string;
