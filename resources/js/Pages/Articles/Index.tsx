@@ -3,6 +3,7 @@ import garudaAmerta from '@/assets/hero/garuda-amerta.png';
 import rhombusCluster from '@/assets/hero/rhombus-cluster-articles.svg';
 import { ArticleCard, ArticleCardSkeleton } from '@/components/public/articles/ArticleCard';
 import { FeaturedArticleCard, FeaturedArticleCardSkeleton } from '@/components/public/articles/FeaturedArticleCard';
+import { EmptyState } from '@/components/public/EmptyState';
 import { FilterChips } from '@/components/public/FilterChips';
 import { Container } from '@/components/public/layout/Container';
 import { PublicLayout } from '@/components/public/layout/PublicLayout';
@@ -47,20 +48,6 @@ function ArticleListSkeleton() {
                 ))}
             </div>
         </>
-    );
-}
-
-function ArticleListMessage({ title, description, onRetry }: { title: string; description: string; onRetry?: () => void }) {
-    return (
-        <div className="flex flex-col items-center gap-3 rounded-md border border-dashed border-border px-6 py-16 text-center">
-            <p className="text-lg font-semibold text-muted-foreground">{title}</p>
-            <p className="max-w-md text-sm text-muted-foreground/85">{description}</p>
-            {onRetry && (
-                <Button variant="outline" onClick={onRetry} className="mt-2">
-                    Try again
-                </Button>
-            )}
-        </div>
     );
 }
 
@@ -121,15 +108,19 @@ export default function ArticlesIndex() {
                 {articlesQuery.isPending && <ArticleListSkeleton />}
 
                 {articlesQuery.isError && (
-                    <ArticleListMessage
+                    <EmptyState
                         title="Articles could not be loaded"
                         description="Something went wrong while fetching articles. Please try again."
-                        onRetry={() => articlesQuery.refetch()}
+                        actions={
+                            <Button variant="outline" onClick={() => articlesQuery.refetch()}>
+                                Try again
+                            </Button>
+                        }
                     />
                 )}
 
                 {articlesQuery.isSuccess && !featured && (
-                    <ArticleListMessage
+                    <EmptyState
                         title="No articles yet"
                         description="There are no published articles in this category. Check back soon."
                     />
