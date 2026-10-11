@@ -121,4 +121,6 @@ docker compose logs node
 ```
 
 Pastikan `npm run dev` berjalan dengan host `0.0.0.0` agar bisa diakses dari host.
+
+Service `node` memakai polling (`CHOKIDAR_USEPOLLING=true`, interval `CHOKIDAR_INTERVAL=300` ms) karena event perubahan file dari bind mount tidak sampai ke container di Docker Desktop Windows, sehingga HMR tidak jalan. Jika di macOS/Linux ingin mematikannya, set `CHOKIDAR_USEPOLLING=false` di `.env`, lalu jalankan ulang `docker compose up -d node`.
 # web-180dc-2026
