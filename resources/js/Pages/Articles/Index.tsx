@@ -1,6 +1,4 @@
 import { useMemo, useRef } from 'react';
-import garudaAmerta from '@/assets/hero/garuda-amerta.webp';
-import rhombusCluster from '@/assets/hero/rhombus-cluster-articles.svg';
 import { ArticleCard, ArticleCardSkeleton } from '@/components/public/articles/ArticleCard';
 import { FeaturedArticleCard, FeaturedArticleCardSkeleton } from '@/components/public/articles/FeaturedArticleCard';
 import { EmptyState } from '@/components/public/EmptyState';
@@ -11,18 +9,14 @@ import { PageHero } from '@/components/public/PageHero';
 import { PaginationNav } from '@/components/public/PaginationNav';
 import { SortSelect } from '@/components/public/SortSelect';
 import { Button } from '@/components/ui/button';
-import {
-    ALL_CATEGORIES_OPTION,
-    ARTICLE_SORT_OPTIONS,
-    ARTICLES_HERO,
-    ARTICLES_PER_PAGE,
-} from '@/contants/public/articles';
+import { ARTICLE_SORT_OPTIONS, ARTICLES_HERO, ARTICLES_PER_PAGE } from '@/contants/public/articles';
+import { ALL_FILTER_OPTION } from '@/contants/public/filters';
 import { useArticleCategories, useArticles } from '@/hooks/public/useArticles';
 import { useQueryParams } from '@/hooks/public/useQueryParams';
 import { paginate } from '@/lib/pagination';
 import type { Article } from '@/types/public';
 
-const DEFAULT_FILTERS = { category: ALL_CATEGORIES_OPTION.value, sort: 'newest', page: '1' };
+const DEFAULT_FILTERS = { category: ALL_FILTER_OPTION.value, sort: 'newest', page: '1' };
 
 const publishedTime = (article: Article) => new Date(article.published_at ?? article.created_at).getTime();
 
@@ -54,14 +48,14 @@ function ArticleListSkeleton() {
 export default function ArticlesIndex() {
     const listRef = useRef<HTMLDivElement>(null);
     const [filters, setFilters] = useQueryParams(DEFAULT_FILTERS);
-    const category = filters.category === ALL_CATEGORIES_OPTION.value ? undefined : filters.category;
+    const category = filters.category === ALL_FILTER_OPTION.value ? undefined : filters.category;
 
     const articlesQuery = useArticles({ category });
     const categoriesQuery = useArticleCategories();
 
     const categoryOptions = useMemo(
         () => [
-            ALL_CATEGORIES_OPTION,
+            ALL_FILTER_OPTION,
             ...(categoriesQuery.data ?? []).map((item) => ({ label: item.name, value: item.slug })),
         ],
         [categoriesQuery.data],
@@ -83,12 +77,7 @@ export default function ArticlesIndex() {
 
     return (
         <PublicLayout title="Articles">
-            <PageHero
-                {...ARTICLES_HERO}
-                decoration={rhombusCluster}
-                illustration={garudaAmerta}
-                illustrationClassName="top-[calc(50%-31px)] h-125.5 w-105 -translate-y-1/2"
-            />
+            <PageHero {...ARTICLES_HERO} />
 
             <Container className="flex flex-col gap-4 py-8 md:flex-row md:items-start md:justify-between">
                 <FilterChips
