@@ -10,6 +10,7 @@ export const MAIN_NAV_LINKS: NavLink[] = [
     { label: 'About', href: '/about' },
     { label: 'Services', href: '/#services' },
     { label: 'Articles', href: '/articles' },
+    { label: 'Store', href: '/store' },
 ];
 
 export const SIGN_IN_LINK: NavLink = { label: 'Sign In', href: '/login' };
