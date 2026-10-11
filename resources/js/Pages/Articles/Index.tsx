@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react';
-import garudaAmerta from '@/assets/hero/garuda-amerta.png';
+import garudaAmerta from '@/assets/hero/garuda-amerta.webp';
 import rhombusCluster from '@/assets/hero/rhombus-cluster-articles.svg';
 import { ArticleCard, ArticleCardSkeleton } from '@/components/public/articles/ArticleCard';
 import { FeaturedArticleCard, FeaturedArticleCardSkeleton } from '@/components/public/articles/FeaturedArticleCard';

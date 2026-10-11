@@ -1,6 +1,6 @@
-import grainTexture from '@/assets/hero/grain-texture.jpg';
 import { AUTHOR_BANNER_SHARDS, AUTHOR_ORGANIZATION } from '@/contants/public/articles';
 import { BRAND_HASHTAGS } from '@/contants/public/brand';
+import { GrainOverlay } from '../GrainOverlay';
 import { Container } from '../layout/Container';
 import { ShardCluster } from '../ShardCluster';
 import { AuthorAvatar } from './AuthorAvatar';
@@ -8,11 +8,7 @@ import { AuthorAvatar } from './AuthorAvatar';
 export function AuthorBanner({ name }: { name: string }) {
     return (
         <section aria-label="Author" className="relative overflow-hidden bg-primary">
-            <img
-                src={grainTexture}
-                alt=""
-                className="pointer-events-none absolute inset-0 size-full object-cover opacity-16 mix-blend-multiply"
-            />
+            <GrainOverlay loading="lazy" />
             <Container className="relative flex items-center gap-6 py-11">
                 <ShardCluster shards={AUTHOR_BANNER_SHARDS} className="hidden md:block" />
                 <AuthorAvatar name={name} size="lg" className="relative" />

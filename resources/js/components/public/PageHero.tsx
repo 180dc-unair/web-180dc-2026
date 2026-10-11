@@ -1,6 +1,6 @@
-import grainTexture from '@/assets/hero/grain-texture.jpg';
 import { BRAND_HASHTAGS } from '@/contants/public/brand';
 import { cn } from '@/lib/utils';
+import { GrainOverlay } from './GrainOverlay';
 import { Container } from './layout/Container';
 
 type PageHeroProps = {
@@ -16,20 +16,20 @@ type PageHeroProps = {
 export function PageHero({ eyebrow, title, tagline, description, decoration, illustration, illustrationClassName }: PageHeroProps) {
     return (
         <section className="relative overflow-hidden bg-primary">
-            <img
-                src={grainTexture}
-                alt=""
-                className="pointer-events-none absolute inset-0 size-full object-cover opacity-16 mix-blend-multiply"
-            />
+            <GrainOverlay />
             <Container className="relative py-16 lg:py-22">
                 <img
                     src={decoration}
                     alt=""
+                    loading="lazy"
+                    decoding="async"
                     className="pointer-events-none absolute -top-13 left-180 hidden h-108 w-150 max-w-none lg:block"
                 />
                 <img
                     src={illustration}
                     alt=""
+                    loading="lazy"
+                    decoding="async"
                     className={cn(
                         'pointer-events-none absolute right-5 hidden object-contain opacity-70 lg:block',
                         illustrationClassName,
