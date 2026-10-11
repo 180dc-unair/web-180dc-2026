@@ -7,6 +7,8 @@ use Inertia\Inertia;
 
 Route::get('/', fn () => Inertia::render('Landing/Index'))->name('landing');
 
+Route::get('/articles', fn () => Inertia::render('Articles/Index'))->name('articles.index');
+
 Route::get('/admin/login', [AdminAuthController::class, 'create'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'store'])->name('admin.login.store');
 
