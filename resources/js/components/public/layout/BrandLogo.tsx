@@ -12,7 +12,7 @@ export function BrandLogo({ className }: { className?: string }) {
             <span className="absolute top-0 left-0 h-[41.5px] w-[42.5px] overflow-hidden rounded-full">
                 <img src={logoHorizontalWhite} alt="" className="absolute top-0 left-[-0.29%] h-full w-[299.48%] max-w-none" />
             </span>
-            <span className="absolute top-[2px] left-[48.5px] h-[41px] w-[88.5px] overflow-hidden">
+            <span className="absolute top-0.5 left-[48.5px] h-[41px] w-[88.5px] overflow-hidden">
                 <img src={logoStacked} alt="" className="absolute top-[-148.6%] left-0 h-[248.75%] w-full max-w-none" />
             </span>
         </span>
