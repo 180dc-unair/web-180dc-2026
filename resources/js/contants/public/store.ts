@@ -38,3 +38,36 @@ export const PARTNERS_SECTION = {
     description: 'Proyek pro bono dan kolaborasi bersama organisasi mahasiswa, UMKM, dan social enterprise di Surabaya.',
     limit: 12,
 };
+
+export const RELATED_PRODUCTS_LIMIT = 4;
+
+export const MAX_ORDER_QUANTITY = 99;
+
+export const PRODUCT_DETAIL_COPY = {
+    buy: 'Beli Sekarang',
+    descriptionTab: 'Deskripsi',
+    faqTab: 'FAQ',
+    specTitle: 'Detail Produk',
+    relatedTitle: 'Sering Dibeli Bersamaan',
+    emptyDescription: 'Deskripsi produk belum tersedia.',
+};
+
+export const PRODUCT_PURCHASE_NOTES: Record<ProductType, string[]> = {
+    digital: ['Pembayaran via QRIS & transfer bank', 'File dikirim otomatis ke email setelah pembayaran terverifikasi'],
+    physical: ['Pembayaran via QRIS & transfer bank'],
+};
+
+export const PRODUCT_FAQ = [
+    {
+        question: 'Metode pembayaran apa saja yang tersedia?',
+        answer: 'Pembayaran dapat dilakukan melalui QRIS dan transfer bank.',
+    },
+    {
+        question: 'Kapan saya menerima produk digital?',
+        answer: 'File produk digital dikirim otomatis ke email setelah pembayaran terverifikasi.',
+    },
+    {
+        question: 'Apakah saya perlu akun untuk membeli?',
+        answer: 'Ya, masuk ke akun Anda terlebih dahulu untuk menyelesaikan pembelian.',
+    },
+];
