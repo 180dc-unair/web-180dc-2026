@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useActiveHeading } from '@/hooks/public/useActiveHeading';
 import type { ArticleHeading } from '@/lib/article-content';
 import { cn } from '@/lib/utils';
-import { SidebarCard } from './SidebarCard';
+import { SidebarCard } from '../SidebarCard';
 
 export function ArticleTableOfContents({ headings, className }: { headings: ArticleHeading[]; className?: string }) {
     const headingIds = useMemo(() => headings.map((heading) => heading.id), [headings]);

@@ -30,7 +30,7 @@ export function ProductCard({ product }: { product: Product }) {
                             />
                         )}
                     </div>
-                    <CategoryBadge className="absolute top-4 left-4 px-3 py-1 text-[11px] leading-4">
+                    <CategoryBadge size="sm" className="absolute top-4 left-4">
                         {PRODUCT_TYPE_LABELS[product.type] ?? product.type}
                     </CategoryBadge>
                 </div>

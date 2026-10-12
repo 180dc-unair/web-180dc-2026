@@ -16,7 +16,7 @@ export function ArticleHeader({ article }: { article: Article }) {
             />
 
             {article.category && (
-                <CategoryBadge tone="secondary" className="px-3 py-1.25 text-[11px] leading-4 tracking-[1.2px] uppercase">
+                <CategoryBadge tone="secondary" size="sm" uppercase>
                     {article.category.name}
                 </CategoryBadge>
             )}

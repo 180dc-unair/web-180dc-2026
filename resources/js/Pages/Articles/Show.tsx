@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { Link } from '@inertiajs/react';
 import { ArticleCard } from '@/components/public/articles/ArticleCard';
-import { ArticleContent } from '@/components/public/articles/ArticleContent';
+import { RichContent } from '@/components/public/RichContent';
 import { ArticleHeader } from '@/components/public/articles/ArticleHeader';
 import { ArticleTableOfContents } from '@/components/public/articles/ArticleTableOfContents';
 import { AuthorBanner } from '@/components/public/articles/AuthorBanner';
-import { SidebarCard } from '@/components/public/articles/SidebarCard';
+import { SidebarCard } from '@/components/public/SidebarCard';
 import { EmptyState } from '@/components/public/EmptyState';
 import { Container } from '@/components/public/layout/Container';
 import { PublicLayout } from '@/components/public/layout/PublicLayout';
@@ -15,21 +15,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { AUTHOR_ORGANIZATION, RELATED_ARTICLES_LIMIT } from '@/contants/public/articles';
 import { useArticle, useArticles } from '@/hooks/public/useArticles';
 import { prepareArticleContent } from '@/lib/article-content';
-import type { Article } from '@/types/public';
+import { pickRelated } from '@/lib/related';
 
 type ArticleShowProps = {
     slug: string;
 };
-
-function pickRelatedArticles(articles: Article[], current: Article): Article[] {
-    const others = articles.filter((article) => article.id !== current.id);
-    const isSameCategory = (article: Article) => article.category?.id === current.category?.id;
-
-    return [...others.filter(isSameCategory), ...others.filter((article) => !isSameCategory(article))].slice(
-        0,
-        RELATED_ARTICLES_LIMIT,
-    );
-}
 
 function ArticleDetailSkeleton() {
     return (
@@ -56,7 +46,15 @@ export default function ArticleShow({ slug }: ArticleShowProps) {
 
     const content = useMemo(() => (article ? prepareArticleContent(article.content) : null), [article]);
     const relatedArticles = useMemo(
-        () => (article ? pickRelatedArticles(articlesQuery.data ?? [], article) : []),
+        () =>
+            article
+                ? pickRelated(
+                      articlesQuery.data ?? [],
+                      article,
+                      (item) => item.category?.id === article.category?.id,
+                      RELATED_ARTICLES_LIMIT,
+                  )
+                : [],
         [article, articlesQuery.data],
     );
 
@@ -91,7 +89,7 @@ export default function ArticleShow({ slug }: ArticleShowProps) {
 
                     <Container className="flex flex-col gap-12 pt-6 pb-20 lg:flex-row lg:items-start">
                         <article className="min-w-0 max-w-190 flex-1">
-                            <ArticleContent html={content.html} />
+                            <RichContent html={content.html} />
                         </article>
                         <aside className="flex flex-col gap-5 lg:sticky lg:top-36 lg:w-86 lg:shrink-0">
                             <ArticleTableOfContents headings={content.headings} className="hidden lg:flex" />

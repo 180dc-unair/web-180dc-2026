@@ -1,4 +1,4 @@
-import DOMPurify from 'dompurify';
+import { sanitizeHtml } from './html';
 
 export type ArticleHeading = {
     id: string;
@@ -20,7 +20,7 @@ function slugify(text: string): string {
 }
 
 export function prepareArticleContent(html: string): PreparedArticleContent {
-    const { body } = new DOMParser().parseFromString(DOMPurify.sanitize(html), 'text/html');
+    const { body } = new DOMParser().parseFromString(sanitizeHtml(html), 'text/html');
     const usedIds = new Map<string, number>();
     const headings: ArticleHeading[] = [];
 
