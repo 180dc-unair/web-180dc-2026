@@ -1,3 +1,5 @@
+import garudaAmerta from '@/assets/hero/garuda-amerta.webp';
+import rhombusCluster from '@/assets/hero/rhombus-cluster-articles.svg';
 import type { FilterOption, Shard } from '@/types/public';
 
 export const ARTICLES_HERO = {
@@ -5,11 +7,14 @@ export const ARTICLES_HERO = {
     title: 'Our Articles',
     tagline: 'sharpening the #180Way',
     description: 'Frameworks, case notes, and perspectives written by consultants of 180 Degrees Consulting Universitas Airlangga.',
+    decoration: { src: rhombusCluster, className: '-top-13 left-180 h-108 w-150' },
+    illustration: {
+        src: garudaAmerta,
+        className: 'top-[calc(50%-31px)] right-5 h-125.5 w-105 -translate-y-1/2 object-contain opacity-70',
+    },
 };
 
 export const ARTICLES_PER_PAGE = 6;
-
-export const ALL_CATEGORIES_OPTION: FilterOption = { label: 'All', value: 'all' };
 
 export const ARTICLE_SORT_OPTIONS: FilterOption[] = [
     { label: 'Newest', value: 'newest' },

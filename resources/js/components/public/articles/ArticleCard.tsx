@@ -19,7 +19,13 @@ export function ArticleCard({ article }: { article: Article }) {
             <article>
                 <div className="relative h-50 bg-muted">
                     {article.thumbnail && (
-                        <img src={article.thumbnail.url} alt="" loading="lazy" className="size-full object-cover" />
+                        <img
+                            src={article.thumbnail.url}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            className="size-full object-cover"
+                        />
                     )}
                     {article.category && (
                         <CategoryBadge className="absolute top-4 left-4">{article.category.name}</CategoryBadge>

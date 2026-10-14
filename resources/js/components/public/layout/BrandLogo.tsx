@@ -1,5 +1,5 @@
-import logoHorizontalWhite from '@/assets/brand/logo-horizontal-white.png';
-import logoStacked from '@/assets/brand/logo-stacked.png';
+import logoHorizontalWhite from '@/assets/brand/logo-horizontal-white.webp';
+import logoStacked from '@/assets/brand/logo-stacked.webp';
 import { cn } from '@/lib/utils';
 
 export function BrandLogo({ className }: { className?: string }) {

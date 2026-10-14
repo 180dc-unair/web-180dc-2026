@@ -16,7 +16,7 @@ export function ArticleHeader({ article }: { article: Article }) {
             />
 
             {article.category && (
-                <CategoryBadge tone="secondary" className="px-3 py-1.25 text-[11px] leading-4 tracking-[1.2px] uppercase">
+                <CategoryBadge tone="secondary" size="sm" uppercase>
                     {article.category.name}
                 </CategoryBadge>
             )}
@@ -45,7 +45,7 @@ export function ArticleHeader({ article }: { article: Article }) {
 
             {article.thumbnail && (
                 <div className="relative aspect-1152/460 w-full overflow-hidden rounded-md bg-muted">
-                    <img src={article.thumbnail.url} alt="" className="size-full object-cover" />
+                    <img src={article.thumbnail.url} alt="" fetchPriority="high" className="size-full object-cover" />
                     <ShardCluster shards={ARTICLE_HERO_SHARDS} className="hidden lg:block" />
                 </div>
             )}

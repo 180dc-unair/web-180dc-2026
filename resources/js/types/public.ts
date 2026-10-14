@@ -12,6 +12,11 @@ export type SocialLink = NavLink & {
     icon: string;
 };
 
+export type HeroImage = {
+    src: string;
+    className: string;
+};
+
 export type BreadcrumbEntry = {
     label: string;
     href?: string;
@@ -61,4 +66,43 @@ export type Article = {
     thumbnail: MediaRef | null;
     created_at: string;
     updated_at: string;
+};
+
+export type ProductType = 'digital' | 'physical';
+
+export type ProductCategory = {
+    id: string;
+    name: string;
+    slug: string;
+};
+
+export type Product = {
+    id: string;
+    title: string;
+    slug: string;
+    type: ProductType;
+    status: string;
+    short_description: string | null;
+    description: string | null;
+    price: string;
+    stock: number;
+    is_featured: boolean;
+    is_best_seller: boolean;
+    sold_count: number;
+    digital_file_url: string | null;
+    category: ProductCategory | null;
+    image: MediaRef | null;
+    created_at: string;
+    updated_at: string;
+};
+
+export type Client = {
+    id: string;
+    name: string;
+    slug: string;
+    type: string;
+    logo: MediaRef | null;
+    website_url: string | null;
+    is_featured: boolean;
+    sort_order: number;
 };

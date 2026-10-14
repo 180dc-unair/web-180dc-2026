@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-const articleContentClassName = cn(
+const richContentClassName = cn(
     'text-base leading-7.5 text-muted-foreground [&>*+*]:mt-6',
     '[&_h1]:scroll-mt-36 [&_h1]:text-[28px] [&_h1]:leading-9.5 [&_h1]:font-extrabold [&_h1]:text-foreground',
     '[&_h2]:scroll-mt-36 [&_h2]:text-[28px] [&_h2]:leading-9.5 [&_h2]:font-extrabold [&_h2]:text-foreground',
@@ -17,6 +17,6 @@ const articleContentClassName = cn(
     '[&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:bg-muted [&_pre]:p-4',
 );
 
-export function ArticleContent({ html }: { html: string }) {
-    return <div className={articleContentClassName} dangerouslySetInnerHTML={{ __html: html }} />;
+export function RichContent({ html }: { html: string }) {
+    return <div className={richContentClassName} dangerouslySetInnerHTML={{ __html: html }} />;
 }

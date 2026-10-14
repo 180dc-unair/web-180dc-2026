@@ -12,7 +12,12 @@ export function FeaturedArticleCard({ article }: { article: Article }) {
         >
             <div className="relative aspect-video bg-muted md:aspect-auto">
                 {article.thumbnail && (
-                    <img src={article.thumbnail.url} alt="" className="absolute inset-0 size-full object-cover" />
+                    <img
+                        src={article.thumbnail.url}
+                        alt=""
+                        decoding="async"
+                        className="absolute inset-0 size-full object-cover"
+                    />
                 )}
                 <span className="absolute top-6 left-6 rounded-xs bg-primary px-4 py-2 text-[13px] leading-4.5 font-bold text-white">
                     ✦ Featured
