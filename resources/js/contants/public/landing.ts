@@ -17,3 +17,11 @@ export const LANDING_STATS: { value: string; label: string; icon: LucideIcon }[]
     { value: '100+', label: 'Members', icon: LayoutGrid },
     { value: '2+', label: 'Years', icon: CalendarDays },
 ];
+
+export const LANDING_CTA = {
+    title: 'Ready to Start Your Journey?',
+    description:
+        "Whether you're a student looking to make an impact or a social enterprise seeking growth, we're here to help.",
+    primaryCta: { label: 'Partner With Us', href: '/contact' } satisfies NavLink,
+    secondaryCta: { label: 'Join the Team', href: '/about#team' } satisfies NavLink,
+};
