@@ -1,10 +1,10 @@
-import { Head } from '@inertiajs/react';
+import { LandingHero } from '@/components/public/landing/LandingHero';
+import { PublicLayout } from '@/components/public/layout/PublicLayout';
 
 export default function LandingPage() {
     return (
-        <>
-            <Head title="180DC UNAIR" />
-            <main className="min-h-screen bg-background" />
-        </>
+        <PublicLayout title="180DC UNAIR">
+            <LandingHero />
+        </PublicLayout>
     );
 }
