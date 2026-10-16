@@ -1,5 +1,7 @@
+import { LandingAbout } from '@/components/public/landing/LandingAbout';
 import { LandingCta } from '@/components/public/landing/LandingCta';
 import { LandingHero } from '@/components/public/landing/LandingHero';
+import { LandingImpact } from '@/components/public/landing/LandingImpact';
 import { LandingStats } from '@/components/public/landing/LandingStats';
 import { PublicLayout } from '@/components/public/layout/PublicLayout';
 
@@ -8,6 +10,8 @@ export default function LandingPage() {
         <PublicLayout title="180DC UNAIR">
             <LandingHero />
             <LandingStats />
+            <LandingAbout />
+            <LandingImpact />
             <LandingCta />
         </PublicLayout>
     );
