@@ -4,6 +4,7 @@ import { LandingHero } from '@/components/public/landing/LandingHero';
 import { LandingImpact } from '@/components/public/landing/LandingImpact';
 import { LandingServices } from '@/components/public/landing/LandingServices';
 import { LandingStats } from '@/components/public/landing/LandingStats';
+import { LandingToolkit } from '@/components/public/landing/LandingToolkit';
 import { PublicLayout } from '@/components/public/layout/PublicLayout';
 
 export default function LandingPage() {
@@ -14,6 +15,7 @@ export default function LandingPage() {
             <LandingAbout />
             <LandingImpact />
             <LandingServices />
+            <LandingToolkit />
             <LandingCta />
         </PublicLayout>
     );

@@ -1,7 +1,11 @@
 import { CalendarDays, LayoutGrid, Search, Tag, Target, TrendingUp, Users, type LucideIcon } from 'lucide-react';
-import type { NavLink } from '@/types/public';
+import type { NavLink, Product } from '@/types/public';
 import aboutTeam from '@/assets/landing/about-team.jpg';
 import impactPreview from '@/assets/landing/impact-preview.png';
+import toolkitDashboard from '@/assets/landing/toolkit-impact-dashboard.jpg';
+import toolkitDeck from '@/assets/landing/toolkit-consulting-deck.jpg';
+import toolkitFinancial from '@/assets/landing/toolkit-financial-model.jpg';
+import toolkitBook from '@/assets/landing/toolkit-impact-book.jpg';
 
 export const LANDING_HERO = {
     titleLines: ['Accelerating Social', 'Impact Through'],
@@ -77,5 +81,36 @@ export const LANDING_SERVICES: {
             description: 'Deep-dive analysis into social sectors to uncover opportunities and risks.',
             icon: Search,
         },
+    ],
+};
+
+const toolkitItem = (slug: string, title: string, shortDescription: string, price: string, image: string): Product => ({
+    id: slug,
+    title,
+    slug,
+    type: 'digital',
+    status: 'published',
+    short_description: shortDescription,
+    description: null,
+    price,
+    stock: 0,
+    is_featured: false,
+    is_best_seller: false,
+    sold_count: 0,
+    digital_file_url: null,
+    category: null,
+    image: { id: slug, url: image },
+    created_at: '',
+    updated_at: '',
+});
+
+export const LANDING_TOOLKIT = {
+    title: 'Toolkit & Digital Assets',
+    limit: 4,
+    fallbackItems: [
+        toolkitItem('impact-dashboard', 'Impact Dashboard', 'Strategic measurement tool for NGOs.', '29000', toolkitDashboard),
+        toolkitItem('consulting-deck', 'Consulting Deck', 'Premium PowerPoint templates.', '15000', toolkitDeck),
+        toolkitItem('financial-model', 'Financial Model', 'Automated Excel impact modeling.', '0', toolkitFinancial),
+        toolkitItem('impact-book', 'The Impact Book', 'Guide to social entrepreneurship.', '120000', toolkitBook),
     ],
 };
