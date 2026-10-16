@@ -114,3 +114,9 @@ export const LANDING_TOOLKIT = {
         toolkitItem('impact-book', 'The Impact Book', 'Guide to social entrepreneurship.', '120000', toolkitBook),
     ],
 };
+
+export const LANDING_PARTNERS = {
+    badge: 'Trusted By',
+    limit: 12,
+    fallbackNames: ['Goto', 'Shopee', 'Deloitte', 'PWC', 'KPMG', 'Telkom Indonesia', 'McKinsey'],
+};
