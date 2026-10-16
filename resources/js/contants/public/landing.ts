@@ -1,4 +1,4 @@
-import { CalendarDays, LayoutGrid, Tag, Users, type LucideIcon } from 'lucide-react';
+import { CalendarDays, LayoutGrid, Search, Tag, Target, TrendingUp, Users, type LucideIcon } from 'lucide-react';
 import type { NavLink } from '@/types/public';
 import aboutTeam from '@/assets/landing/about-team.jpg';
 import impactPreview from '@/assets/landing/impact-preview.png';
@@ -54,4 +54,28 @@ export const LANDING_IMPACT = {
     ],
     image: impactPreview,
     imageAlt: 'Maximizing impact, driving growth',
+};
+
+export const LANDING_SERVICES: {
+    title: string;
+    items: { title: string; description: string; icon: LucideIcon }[];
+} = {
+    title: 'Our Consulting Services',
+    items: [
+        {
+            title: 'Operational Growth',
+            description: 'Optimizing internal processes and resources for maximum efficiency and reach.',
+            icon: TrendingUp,
+        },
+        {
+            title: 'Strategic Planning',
+            description: 'Developing long-term roadmaps to scale impact and ensure organizational sustainability.',
+            icon: Target,
+        },
+        {
+            title: 'Market Research',
+            description: 'Deep-dive analysis into social sectors to uncover opportunities and risks.',
+            icon: Search,
+        },
+    ],
 };
