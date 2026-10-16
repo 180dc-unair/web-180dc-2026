@@ -1,11 +1,15 @@
 import { CalendarDays, LayoutGrid, Search, Tag, Target, TrendingUp, Users, type LucideIcon } from 'lucide-react';
-import type { NavLink, Product } from '@/types/public';
+import type { Article, NavLink, Product } from '@/types/public';
 import aboutTeam from '@/assets/landing/about-team.jpg';
 import impactPreview from '@/assets/landing/impact-preview.png';
 import toolkitDashboard from '@/assets/landing/toolkit-impact-dashboard.jpg';
 import toolkitDeck from '@/assets/landing/toolkit-consulting-deck.jpg';
 import toolkitFinancial from '@/assets/landing/toolkit-financial-model.jpg';
 import toolkitBook from '@/assets/landing/toolkit-impact-book.jpg';
+import articleFeatured from '@/assets/landing/article-featured.jpg';
+import articleImpact from '@/assets/landing/article-impact-measurement.jpg';
+import articleEco from '@/assets/landing/article-eco-tourism.jpg';
+import articleSystems from '@/assets/landing/article-systems-thinking.jpg';
 
 export const LANDING_HERO = {
     titleLines: ['Accelerating Social', 'Impact Through'],
@@ -119,4 +123,49 @@ export const LANDING_PARTNERS = {
     badge: 'Trusted By',
     limit: 12,
     fallbackNames: ['Goto', 'Shopee', 'Deloitte', 'PWC', 'KPMG', 'Telkom Indonesia', 'McKinsey'],
+};
+
+// Placeholder sampai API artikel berisi data: isi dibuat panjang agar estimasi waktu baca sesuai desain.
+const placeholderContent = (minutes: number) => 'word '.repeat(minutes * 200);
+
+const articleItem = (
+    slug: string,
+    title: string,
+    excerpt: string,
+    categoryName: string,
+    image: string,
+    minutes: number,
+): Article => ({
+    id: slug,
+    title,
+    slug,
+    excerpt,
+    content: placeholderContent(minutes),
+    status: 'published',
+    view_count: 0,
+    published_at: null,
+    author: null,
+    category: { id: categoryName, name: categoryName, slug: categoryName.toLowerCase().replace(/\s+/g, '-') },
+    thumbnail: { id: slug, url: image },
+    created_at: '',
+    updated_at: '',
+});
+
+export const LANDING_ARTICLES = {
+    title: 'Latest Articles & Perspectives',
+    viewAll: { label: 'View All', href: '/articles' } satisfies NavLink,
+    sideLimit: 3,
+    fallbackItems: [
+        articleItem(
+            'future-of-social-entrepreneurship',
+            'The Future of Social Entrepreneurship in Southeast Asia',
+            'How emerging technologies and new funding models are reshaping the landscape for social enterprises in developing nations...',
+            'Strategy',
+            articleFeatured,
+            10,
+        ),
+        articleItem('impact-measurement-101', 'Impact Measurement 101', '', 'Insights', articleImpact, 5),
+        articleItem('revitalizing-local-eco-tourism', 'Revitalizing Local Eco-Tourism', '', 'Case Study', articleEco, 6),
+        articleItem('systems-thinking-for-ngos', 'Systems Thinking for NGOs', '', 'Theory', articleSystems, 7),
+    ],
 };

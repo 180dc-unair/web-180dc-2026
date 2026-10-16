@@ -7,7 +7,41 @@ import { ArticleMeta } from './ArticleMeta';
 
 const cardClassName = 'flex flex-col overflow-hidden rounded-md border border-muted-foreground/20 bg-card';
 
-export function ArticleCard({ article }: { article: Article }) {
+type ArticleCardProps = {
+    article: Article;
+    variant?: 'default' | 'compact';
+};
+
+export function ArticleCard({ article, variant = 'default' }: ArticleCardProps) {
+    if (variant === 'compact') {
+        return (
+            <Link
+                href={`/articles/${article.slug}`}
+                className="group flex items-center gap-4 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+            >
+                <div className="size-24 shrink-0 overflow-hidden rounded-lg bg-muted">
+                    {article.thumbnail && (
+                        <img
+                            src={article.thumbnail.url}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            className="size-full object-cover"
+                        />
+                    )}
+                </div>
+                <article className="flex flex-col gap-1.5">
+                    {article.category && (
+                        <p className="text-xs font-bold tracking-[1.5px] text-primary uppercase">{article.category.name}</p>
+                    )}
+                    <h3 className="font-semibold text-muted-foreground transition-colors group-hover:text-primary">
+                        {article.title}
+                    </h3>
+                </article>
+            </Link>
+        );
+    }
+
     return (
         <Link
             href={`/articles/${article.slug}`}

@@ -1,4 +1,5 @@
 import { LandingAbout } from '@/components/public/landing/LandingAbout';
+import { LandingArticles } from '@/components/public/landing/LandingArticles';
 import { LandingCta } from '@/components/public/landing/LandingCta';
 import { LandingHero } from '@/components/public/landing/LandingHero';
 import { LandingImpact } from '@/components/public/landing/LandingImpact';
@@ -18,6 +19,7 @@ export default function LandingPage() {
             <LandingServices />
             <LandingToolkit />
             <LandingPartners />
+            <LandingArticles />
             <LandingCta />
         </PublicLayout>
     );
