@@ -106,3 +106,28 @@ export type Client = {
     is_featured: boolean;
     sort_order: number;
 };
+
+export type MissionItem = {
+    title: string;
+    description: string;
+};
+
+export type JourneyEntry = {
+    year: string;
+    title: string;
+    description: string;
+    badge?: string;
+};
+
+export type ValuePill = {
+    label: string;
+    tone: 'primary' | 'secondary' | 'dark';
+};
+
+export type LeadershipMember = {
+    id: string;
+    name: string;
+    position: string;
+    photo: string | null;
+    linkedinUrl?: string;
+};

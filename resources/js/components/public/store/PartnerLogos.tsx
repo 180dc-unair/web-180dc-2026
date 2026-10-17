@@ -7,7 +7,7 @@ import { Container } from '../layout/Container';
 
 const logoTileClassName = 'flex h-22 w-37 items-center justify-center rounded-md border border-muted-foreground/16 bg-card px-4';
 
-function PartnerLogo({ client }: { client: Client }) {
+export function PartnerLogo({ client }: { client: Client }) {
     const content = client.logo ? (
         <img
             src={client.logo.url}
