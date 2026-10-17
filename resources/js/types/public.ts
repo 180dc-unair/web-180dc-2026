@@ -123,3 +123,11 @@ export type ValuePill = {
     label: string;
     tone: 'primary' | 'secondary' | 'dark';
 };
+
+export type LeadershipMember = {
+    id: string;
+    name: string;
+    position: string;
+    photo: string | null;
+    linkedinUrl?: string;
+};

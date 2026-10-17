@@ -5,8 +5,9 @@ import mckinseyLogo from '@/assets/about/partners/mckinsey.png';
 import pwcLogo from '@/assets/about/partners/pwc.png';
 import shopeeLogo from '@/assets/about/partners/shopee.png';
 import telkomLogo from '@/assets/about/partners/telkom.png';
+import teamPlaceholder from '@/assets/about/team-placeholder.jpg';
 import { ALL_FILTER_OPTION } from '@/contants/public/filters';
-import type { Client, FilterOption, JourneyEntry, MissionItem, ValuePill } from '@/types/public';
+import type { Client, FilterOption, JourneyEntry, LeadershipMember, MissionItem, ValuePill } from '@/types/public';
 
 export const ABOUT_HERO = {
     eyebrow: 'About Our Branch',
@@ -107,4 +108,62 @@ export const ABOUT_JOURNEY: JourneyEntry[] = [
 
 export const ABOUT_JOURNEY_SECTION = {
     title: 'Our Journey',
+};
+
+const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+// Foto sementara (satu foto untuk semua anggota) sampai foto asli dari API tersedia.
+// TODO: tabel team_members belum punya kolom jabatan (position), tanyakan ke manajer/backend.
+const leadershipRow = (...entries: [name: string, position: string][]): LeadershipMember[] =>
+    entries.map(([name, position]) => ({
+        id: slugify(name),
+        name,
+        position,
+        photo: teamPlaceholder,
+    }));
+
+export const ABOUT_LEADERSHIP = {
+    title: 'Leadership Team',
+    description: 'The minds driving impact at 180DC UNAIR.',
+    rows: [
+        leadershipRow(
+            ['Muhammad Dafi Aritama', 'External Vice President'],
+            ['Amabel Maritza Maudina', 'Branch President'],
+            ['Farrelindra Nadhif Islami F', 'Internal Vice President'],
+        ),
+        leadershipRow(
+            ['Delfin Erwi Anggara', 'Director of Consulting'],
+            ['Christiana I. Larasati Rubino', 'Co-Director of Consulting'],
+            ['Gerard Viriyandra', 'Director of Client Engagement'],
+            ['Ahmad Hasan Fataihi', 'Director of Marketing Communication'],
+        ),
+        leadershipRow(
+            ['M. Noermario Valentino', 'Co-Director of Marketing Communication'],
+            ['M. Rafif Fawwaz Akilah', 'Manager of Strategic Marketing'],
+            ['Muhammad Ra’uf Alfarizi', 'Manager of Brand Motion'],
+            ['Alya Shafiqa Abdullah', 'Management of Brand Design'],
+        ),
+        leadershipRow(
+            ['Misbahul Muttaqin', 'Manager of Information Technology'],
+            ['Olyvia Nthania Sundoro', 'Manager of Partnership'],
+            ['Ryan Arsito Pahlevi', 'Director of Strategy & Growth'],
+            ['Jessica Rachel Enoch', 'Manager of Human Resources'],
+        ),
+        leadershipRow(
+            ['Natasya Alifia Putri', 'Director of Talent Management'],
+            ['Nelson Rachel Rafael', 'Director of Finance & Legal'],
+            ['Muhammad Rifki Ardiansyah', 'Legal Manager'],
+        ),
+    ],
+};
+
+export const ABOUT_CTA = {
+    titleLead: 'Become Part of',
+    titleHighlight: 'The Legacy',
+    description: 'Every story of impact starts with a single decision to act.',
+    cta: {
+        label: 'Join the Team',
+        // TODO: samakan dengan tujuan tombol "Join the Team" di landing page. Sementara '#'.
+        href: '#',
+    },
 };
