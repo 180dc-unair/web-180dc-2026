@@ -1,4 +1,4 @@
-import type { JourneyEntry, MissionItem } from '@/types/public';
+import type { JourneyEntry, MissionItem, ValuePill } from '@/types/public';
 
 export const ABOUT_HERO = {
     eyebrow: 'About Our Branch',
@@ -31,8 +31,14 @@ export const ABOUT_MISSION: { title: string; items: MissionItem[] } = {
     ],
 };
 
-// TODO: cek teks pill di Figma, di screenshot terlalu kecil. Pill kelima belum terbaca.
-export const ABOUT_VALUES = ['One Vision', 'Infinite Growth', 'Radical Honesty', 'Social Heart'];
+// TODO: cocokkan teks pill dengan Figma, dan tambahkan pill kelima yang belum terbaca dari screenshot.
+export const ABOUT_VALUES: ValuePill[] = [
+    { label: 'One Vision', tone: 'primary' },
+    { label: 'Infinite Growth', tone: 'secondary' },
+    { label: 'Radical Honesty', tone: 'primary' },
+    { label: 'Social Heart', tone: 'dark' },
+    { label: 'Innovative Solutions', tone: 'secondary' },
+];
 
 export const ABOUT_ALUMNI = {
     value: '150+',

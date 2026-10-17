@@ -118,3 +118,8 @@ export type JourneyEntry = {
     description: string;
     badge?: string;
 };
+
+export type ValuePill = {
+    label: string;
+    tone: 'primary' | 'secondary' | 'dark';
+};
