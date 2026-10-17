@@ -104,3 +104,7 @@ export const ABOUT_JOURNEY: JourneyEntry[] = [
         badge: 'Milestone',
     },
 ];
+
+export const ABOUT_JOURNEY_SECTION = {
+    title: 'Our Journey',
+};
