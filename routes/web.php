@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', fn () => Inertia::render('Landing/Index'))->name('landing');
+Route::get('/about', fn () => Inertia::render('About/Index'))->name('about');
 
 Route::get('/articles', fn () => Inertia::render('Articles/Index'))->name('articles.index');
 Route::get('/articles/{slug}', fn (string $slug) => Inertia::render('Articles/Show', ['slug' => $slug]))->name('articles.show');

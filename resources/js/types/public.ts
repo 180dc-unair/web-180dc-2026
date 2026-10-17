@@ -106,3 +106,15 @@ export type Client = {
     is_featured: boolean;
     sort_order: number;
 };
+
+export type MissionItem = {
+    title: string;
+    description: string;
+};
+
+export type JourneyEntry = {
+    year: string;
+    title: string;
+    description: string;
+    badge?: string;
+};
