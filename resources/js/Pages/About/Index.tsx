@@ -1,3 +1,4 @@
+import { AboutAlumni } from '@/components/public/about/AboutAlumni';
 import { AboutHero } from '@/components/public/about/AboutHero';
 import { AboutPartners } from '@/components/public/about/AboutPartners';
 import { AboutVisionMission } from '@/components/public/about/AboutVisionMission';
@@ -9,6 +10,7 @@ export default function AboutIndex() {
             <AboutHero />
             <AboutVisionMission />
             <AboutPartners />
+            <AboutAlumni />
         </PublicLayout>
     );
 }
