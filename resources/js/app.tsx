@@ -4,7 +4,9 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Provider } from 'react-redux';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { store } from '@/store';
 
 const appName = import.meta.env.VITE_APP_NAME || '180DC Uniar';
 
@@ -34,11 +36,13 @@ createInertiaApp({
     setup({ el, App, props }) {
         createRoot(el).render(
             <React.StrictMode>
-                <QueryClientProvider client={queryClient}>
-                    <TooltipProvider>
-                        <App {...props} />
-                    </TooltipProvider>
-                </QueryClientProvider>
+                <Provider store={store}>
+                    <QueryClientProvider client={queryClient}>
+                        <TooltipProvider>
+                            <App {...props} />
+                        </TooltipProvider>
+                    </QueryClientProvider>
+                </Provider>
             </React.StrictMode>,
         );
     },
