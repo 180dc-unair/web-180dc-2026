@@ -107,27 +107,22 @@ export type Client = {
     sort_order: number;
 };
 
-export type MissionItem = {
-    title: string;
-    description: string;
-};
-
-export type JourneyEntry = {
-    year: string;
-    title: string;
-    description: string;
-    badge?: string;
-};
-
-export type ValuePill = {
-    label: string;
-    tone: 'primary' | 'secondary' | 'dark';
-};
-
-export type LeadershipMember = {
-    id: string;
+export type AuthUser = {
+    id: string | number;
     name: string;
-    position: string;
-    photo: string | null;
-    linkedinUrl?: string;
+    username: string;
+    email: string;
+    role: string;
+    created_at: string;
+    updated_at: string;
+};
+
+export type LoginPayload = {
+    email: string;
+    password: string;
+};
+
+export type AuthResult = {
+    user: AuthUser;
+    token: string;
 };
