@@ -106,3 +106,23 @@ export type Client = {
     is_featured: boolean;
     sort_order: number;
 };
+
+export type AuthUser = {
+    id: string | number;
+    name: string;
+    username: string;
+    email: string;
+    role: string;
+    created_at: string;
+    updated_at: string;
+};
+
+export type LoginPayload = {
+    email: string;
+    password: string;
+};
+
+export type AuthResult = {
+    user: AuthUser;
+    token: string;
+};
