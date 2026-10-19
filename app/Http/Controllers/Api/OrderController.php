@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Order\ListOrderRequest;
 use App\Http\Requests\Order\StoreOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
@@ -15,14 +16,13 @@ class OrderController extends Controller
     public function __construct(
         private readonly OrderService $orderService,
     ) {
-        //
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(ListOrderRequest $request): JsonResponse
     {
         $orders = $this->orderService->listForUser(
             $request->user(),
-            $request->all()
+            $request->validated()
         );
 
         return response()->json([

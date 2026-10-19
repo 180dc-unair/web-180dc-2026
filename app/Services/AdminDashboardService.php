@@ -5,13 +5,36 @@ namespace App\Services;
 use App\Models\Article;
 use App\Models\ArticleComment;
 use App\Models\Client;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Service;
+use Illuminate\Support\Facades\Cache;
 
 class AdminDashboardService
 {
+    public function __construct(
+        private readonly int $cacheTtlSeconds = 60,
+    ) {
+    }
+
     /** @return array<string, mixed> */
     public function summary(): array
+    {
+        return Cache::remember(
+            'admin:dashboard:summary',
+            now()->addSeconds($this->cacheTtlSeconds),
+            fn () => $this->buildSummary(),
+        );
+    }
+
+    public function flush(): void
+    {
+        Cache::forget('admin:dashboard:summary');
+    }
+
+    /** @return array<string, mixed> */
+    private function buildSummary(): array
     {
         $startDate = now()->startOfDay()->subDays(6);
         $articleActivity = Article::query()
@@ -48,6 +71,22 @@ class AdminDashboardService
                     'total' => ArticleComment::query()->count(),
                     'pending' => ArticleComment::query()->where('is_approved', false)->count(),
                 ],
+                'orders' => [
+                    'total' => Order::query()->count(),
+                    'pending' => Order::query()->where('status', 'pending')->count(),
+                    'paid' => Order::query()->where('status', 'paid')->count(),
+                    'completed' => Order::query()->where('status', 'completed')->count(),
+                    'cancelled' => Order::query()->where('status', 'cancelled')->count(),
+                    'revenue_idr' => (string) Order::query()
+                        ->where('status', 'completed')
+                        ->sum('total_amount'),
+                ],
+                'payments' => [
+                    'total' => Payment::query()->count(),
+                    'pending' => Payment::query()->where('status', 'pending')->count(),
+                    'paid' => Payment::query()->where('status', 'paid')->count(),
+                    'failed' => Payment::query()->where('status', 'failed')->count(),
+                ],
             ],
             'recent' => [
                 'articles' => Article::query()
@@ -72,6 +111,18 @@ class AdminDashboardService
                         'user' => $comment->user?->name,
                         'article' => $comment->article?->title,
                         'created_at' => $comment->created_at?->toISOString(),
+                    ]),
+                'orders' => Order::query()
+                    ->select(['id', 'order_number', 'status', 'total_amount', 'created_at'])
+                    ->latest()
+                    ->limit(5)
+                    ->get()
+                    ->map(fn (Order $order) => [
+                        'id' => $order->id,
+                        'order_number' => $order->order_number,
+                        'status' => $order->status,
+                        'total_amount' => (string) $order->total_amount,
+                        'created_at' => $order->created_at?->toISOString(),
                     ]),
             ],
             'activity' => collect(range(0, 6))->map(function (int $offset) use ($startDate, $articleActivity, $commentActivity) {

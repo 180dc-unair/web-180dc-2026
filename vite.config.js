@@ -5,6 +5,20 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+const vendorChunks = {
+    react: ['react', 'react-dom'],
+    inertia: ['@inertiajs/react'],
+    tanstack: ['@tanstack/react-query'],
+    icons: ['lucide-react'],
+    radix: [
+        '@radix-ui/react-dialog',
+        '@radix-ui/react-select',
+        '@radix-ui/react-alert-dialog',
+        '@radix-ui/react-dropdown-menu',
+        '@radix-ui/react-tooltip',
+    ],
+};
+
 export default defineConfig({
     server: {
         host: '0.0.0.0',
@@ -35,4 +49,21 @@ export default defineConfig({
         tailwindcss(),
         react(),
     ],
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks(id) {
+                    if (!id.includes('node_modules')) {
+                        return undefined;
+                    }
+                    for (const [chunk, modules] of Object.entries(vendorChunks)) {
+                        if (modules.some((m) => id.includes(`node_modules/${m}/`) || id.includes(`node_modules/${m}`))) {
+                            return chunk;
+                        }
+                    }
+                    return 'vendor';
+                },
+            },
+        },
+    },
 });

@@ -3,6 +3,7 @@ import {
     Boxes,
     BriefcaseBusiness,
     CalendarDays,
+    CreditCard,
     FolderKanban,
     FolderTree,
     Handshake,
@@ -337,6 +338,34 @@ export const resourceConfigs: Record<string, ResourceConfig> = {
             { key: 'is_featured', label: 'Unggulan', type: 'boolean' },
         ],
         searchKeys: ['title', 'slug', 'category.name', 'status', 'location'],
+    },
+    'payment-methods': {
+        key: 'payment-methods',
+        title: 'Metode Pembayaran',
+        singular: 'Metode Pembayaran',
+        description: 'Kelola metode pembayaran aktif (manual atau gateway).',
+        endpoint: '/api/admin/payment-methods',
+        icon: CreditCard,
+        columns: [
+            { key: 'name', label: 'Nama' },
+            { key: 'code', label: 'Kode' },
+            { key: 'gateway', label: 'Gateway', type: 'status' },
+            { key: 'is_active', label: 'Aktif', type: 'boolean' },
+            { key: 'updated_at', label: 'Diperbarui', type: 'date' },
+        ],
+        fields: [
+            { key: 'name', label: 'Nama', type: 'text', required: true, placeholder: 'Bank Transfer BCA' },
+            { key: 'code', label: 'Kode', type: 'text', required: true, placeholder: 'bca-va' },
+            {
+                key: 'gateway', label: 'Gateway', type: 'select', required: true,
+                options: [
+                    { label: 'Manual', value: 'manual' },
+                    { label: 'Midtrans', value: 'midtrans' },
+                ],
+            },
+            { key: 'is_active', label: 'Aktif', type: 'boolean' },
+        ],
+        searchKeys: ['name', 'code', 'gateway'],
     },
 };
 

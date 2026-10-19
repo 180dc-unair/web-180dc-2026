@@ -23,6 +23,7 @@ class OrderService
         private readonly CartService $cartService,
         private readonly OrderNumberService $orderNumberService,
         private readonly PaymentRepositoryInterface $paymentRepository,
+        private readonly ?AdminDashboardService $dashboardService = null,
     ) {
         //
     }
@@ -243,6 +244,8 @@ class OrderService
             return $this->orderRepository->update($locked, ['status' => 'cancelled']);
         }, 3);
 
+        $this->dashboardService?->flush();
+
         return $this->prepareOrder($cancelled);
     }
 
@@ -259,6 +262,8 @@ class OrderService
 
             return $this->orderRepository->update($locked, ['status' => 'completed']);
         }, 3);
+
+        $this->dashboardService?->flush();
 
         return $this->prepareOrder($updated);
     }

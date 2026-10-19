@@ -80,6 +80,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin', 'throttle:30,1'])->
     Route::patch('/users/{user}', [AdminUserController::class, 'update']);
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy']);
     Route::get('/orders', [AdminOrderController::class, 'index']);
+    Route::get('/orders/{order}', [AdminOrderController::class, 'show']);
     Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus']);
 
     // Admin Payment Methods
@@ -90,6 +91,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin', 'throttle:30,1'])->
 
     // Admin Payments
     Route::get('/payments', [AdminPaymentController::class, 'index']);
+    Route::get('/payments/{payment}', [AdminPaymentController::class, 'show']);
     Route::post('/payments/{payment}/confirm', [AdminPaymentController::class, 'confirm']);
 });
 

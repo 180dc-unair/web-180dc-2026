@@ -8,6 +8,7 @@ import {
     CalendarDays,
     ChevronRight,
     CircleGauge,
+    CreditCard,
     FolderKanban,
     FolderTree,
     Handshake,
@@ -17,9 +18,11 @@ import {
     Package,
     PanelLeftClose,
     PanelLeftOpen,
+    ReceiptText,
     Tags,
     Users,
     UsersRound,
+    Wallet,
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -53,6 +56,9 @@ const navigation = [
     { label: 'Kategori Event', href: '/admin/event-categories', icon: FolderKanban },
     { label: 'Event', href: '/admin/events', icon: CalendarDays },
     { label: 'Komentar', href: '/admin/comments', icon: MessageSquareText },
+    { label: 'Pesanan', href: '/admin/orders', icon: ReceiptText },
+    { label: 'Pembayaran', href: '/admin/payments', icon: Wallet },
+    { label: 'Metode Pembayaran', href: '/admin/payment-methods', icon: CreditCard },
     { label: 'Pengguna', href: '/admin/users', icon: Users },
 ];
 

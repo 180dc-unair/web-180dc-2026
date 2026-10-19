@@ -7,6 +7,8 @@ export type DashboardSummary = {
         services: { total: number; active: number; featured: number };
         clients: { total: number; featured: number };
         comments: { total: number; pending: number };
+        orders: { total: number; pending: number; paid: number; completed: number; cancelled: number; revenue_idr: string };
+        payments: { total: number; pending: number; paid: number; failed: number };
     };
     recent: {
         articles: Array<{ id: string; title: string; status: string; created_at: string }>;
@@ -17,6 +19,13 @@ export type DashboardSummary = {
             is_approved: boolean;
             user: string | null;
             article: string | null;
+            created_at: string;
+        }>;
+        orders?: Array<{
+            id: string;
+            order_number: string;
+            status: string;
+            total_amount: string;
             created_at: string;
         }>;
     };

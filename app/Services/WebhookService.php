@@ -21,6 +21,7 @@ class WebhookService
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly PaymentGatewayFactory $gatewayFactory,
         private readonly PaymentService $paymentService,
+        private readonly ?AdminDashboardService $dashboardService = null,
     ) {
         //
     }
@@ -61,6 +62,8 @@ class WebhookService
                 $this->paymentService->settlePayment($order, $locked, array_merge($data, ['gateway' => $gateway]));
                 $this->webhookRepository->update($webhook, ['is_processed' => true, 'processing_error' => null]);
             }, 3);
+
+            $this->dashboardService?->flush();
         } catch (Throwable $exception) {
             $message = $exception instanceof HttpExceptionInterface ? $exception->getMessage() : 'Webhook processing failed.';
             $this->webhookRepository->update($webhook, ['processing_error' => $message]);
@@ -92,7 +95,7 @@ class WebhookService
         ]);
 
         try {
-            return DB::transaction(function () use ($payment, $data, $webhook) {
+            $confirmed = DB::transaction(function () use ($payment, $data, $webhook) {
                 $order = $this->orderRepository->findByIdForUpdate($payment->order_id);
                 $locked = $this->paymentRepository->findById($payment->id, true);
                 abort_unless($order && $locked, 404, 'Payment not found.');
@@ -100,7 +103,7 @@ class WebhookService
                 $updated = $this->paymentService->settlePayment($order, $locked, $data);
                 $this->webhookRepository->update($webhook, ['is_processed' => true, 'processing_error' => null]);
 
-                return $updated->load(['method', 'proof']);
+                return $updated;
             }, 3);
         } catch (Throwable $exception) {
             $message = $exception instanceof HttpExceptionInterface ? $exception->getMessage() : 'Manual confirmation failed.';
@@ -108,5 +111,9 @@ class WebhookService
             Log::error('payment.manual.confirmation.failed', ['webhook_id' => $webhook->id, 'payment_id' => $payment->id, 'error' => $message]);
             throw $exception;
         }
+
+        $this->dashboardService?->flush();
+
+        return $confirmed->load(['method', 'proof']);
     }
 }

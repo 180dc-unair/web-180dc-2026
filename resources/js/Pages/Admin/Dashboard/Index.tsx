@@ -8,6 +8,8 @@ import {
     MessageSquareText,
     Package,
     Plus,
+    ReceiptText,
+    Wallet,
 } from 'lucide-react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -30,6 +32,8 @@ const metricCards = [
     { key: 'services', label: 'Total Layanan', detailKey: 'active', detailLabel: 'aktif', icon: BriefcaseBusiness, href: '/admin/services' },
     { key: 'clients', label: 'Klien & Partner', detailKey: 'featured', detailLabel: 'unggulan', icon: Handshake, href: '/admin/clients' },
     { key: 'comments', label: 'Total Komentar', detailKey: 'pending', detailLabel: 'menunggu', icon: MessageSquareText, href: '/admin/comments' },
+    { key: 'orders', label: 'Pesanan Tertunda', detailKey: 'pending', detailLabel: 'menunggu', icon: ReceiptText, href: '/admin/orders' },
+    { key: 'payments', label: 'Pembayaran Tertunda', detailKey: 'pending', detailLabel: 'menunggu', icon: Wallet, href: '/admin/payments' },
 ] as const;
 
 function formatDate(value: string): string {
@@ -61,7 +65,7 @@ export default function AdminDashboard() {
                     </Alert>
                 )}
 
-                <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5" aria-label="Ringkasan data">
+                <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-7" aria-label="Ringkasan data">
                     {metricCards.map((metric) => {
                         const Icon = metric.icon;
                         const values = summary.data?.metrics[metric.key];
@@ -108,7 +112,7 @@ export default function AdminDashboard() {
                     </CardContent>
                 </Card>
 
-                <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+                <section className="grid gap-6 xl:grid-cols-3">
                     <Card>
                         <CardHeader className="flex-row items-center justify-between">
                             <div>
@@ -132,6 +136,35 @@ export default function AdminDashboard() {
                                             </TableRow>
                                         ))}
                                         {!summary.data?.recent.articles.length && <TableRow><TableCell colSpan={3} className="h-28 text-center text-black/55">Belum ada artikel.</TableCell></TableRow>}
+                                    </TableBody>
+                                </Table>
+                            )}
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader className="flex-row items-center justify-between">
+                            <div>
+                                <CardTitle className="text-base text-black">Pesanan Terbaru</CardTitle>
+                                <CardDescription className="text-black/60">5 transaksi terakhir.</CardDescription>
+                            </div>
+                            <Link href="/admin/orders" className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Kelola <ArrowRight /></Link>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                            {summary.isLoading ? (
+                                <div className="space-y-3 p-6">{[1, 2, 3].map((item) => <Skeleton key={item} className="h-11 w-full" />)}</div>
+                            ) : (
+                                <Table>
+                                    <TableHeader><TableRow><TableHead className="text-black">Nomor</TableHead><TableHead className="text-black">Status</TableHead><TableHead className="text-right text-black">Total</TableHead></TableRow></TableHeader>
+                                    <TableBody>
+                                        {summary.data?.recent.orders?.map((order) => (
+                                            <TableRow key={order.id}>
+                                                <TableCell className="font-mono text-xs text-black">{order.order_number}</TableCell>
+                                                <TableCell className="font-medium text-black">{order.status}</TableCell>
+                                                <TableCell className="text-right text-black">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(Number(order.total_amount))}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                        {!summary.data?.recent.orders?.length && <TableRow><TableCell colSpan={3} className="h-28 text-center text-black/55">Belum ada pesanan.</TableCell></TableRow>}
                                     </TableBody>
                                 </Table>
                             )}

@@ -21,12 +21,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::get('/', [AdminPageController::class, 'dashboard'])->name('dashboard');
     Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
     Route::get('/comments', [AdminPageController::class, 'comments'])->name('comments');
+    Route::get('/orders', [AdminPageController::class, 'orders'])->name('orders');
+    Route::get('/payments', [AdminPageController::class, 'payments'])->name('payments');
     Route::get('/{resourceKey}', [AdminPageController::class, 'resource'])
         ->whereIn('resourceKey', [
             'products', 'product-categories', 'services', 'service-categories',
             'clients', 'articles', 'article-categories',
             'team-members', 'event-categories', 'events',
             'users',
+            'payment-methods',
         ])
         ->name('resource');
 });
