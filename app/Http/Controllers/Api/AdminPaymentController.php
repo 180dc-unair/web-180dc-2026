@@ -40,6 +40,17 @@ class AdminPaymentController extends Controller
         ]);
     }
 
+    public function show(Payment $payment): JsonResponse
+    {
+        $payment->load(['method', 'order', 'proof']);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Payment retrieved successfully.',
+            'data' => new PaymentResource($payment),
+        ]);
+    }
+
     /**
      * POST /api/admin/payments/{payment}/confirm — Admin confirm manual payment.
      * Marks payment as paid, order as paid, and decrements physical stock.

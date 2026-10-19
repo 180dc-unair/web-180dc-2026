@@ -8,7 +8,6 @@ use Inertia\Response;
 
 class AdminPageController extends Controller
 {
-    /** @var array<string, string> */
     private const RESOURCES = [
         'products' => 'Produk',
         'product-categories' => 'Kategori Produk',
@@ -21,6 +20,7 @@ class AdminPageController extends Controller
         'event-categories' => 'Kategori Event',
         'events' => 'Event',
         'users' => 'Pengguna',
+        'payment-methods' => 'Metode Pembayaran',
     ];
 
     public function dashboard(): Response
@@ -41,5 +41,15 @@ class AdminPageController extends Controller
     public function comments(): Response
     {
         return Inertia::render('Admin/Comments/Index');
+    }
+
+    public function orders(): Response
+    {
+        return Inertia::render('Admin/Orders/Index');
+    }
+
+    public function payments(): Response
+    {
+        return Inertia::render('Admin/Payments/Index');
     }
 }

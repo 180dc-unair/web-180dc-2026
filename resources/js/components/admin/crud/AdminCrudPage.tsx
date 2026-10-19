@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useResourceQuery } from '@/hooks/admin/useResourceQuery';
 import { useDeleteResource, useToggleResource } from '@/hooks/admin/useResourceMutation';
+import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import type { AdminRecord, ResourceConfig } from '@/types/admin';
 import { ResourceTable } from './ResourceTable';
 import { ResourceForm } from './ResourceForm';
@@ -13,7 +14,8 @@ import { ResourcePagination } from './ResourcePagination';
 import { DeleteDialog } from './DeleteDialog';
 
 export function AdminCrudPage({ config }: { config: ResourceConfig }) {
-    const [search, setSearch] = useState('');
+    const [searchInput, setSearchInput] = useState('');
+    const [search, setSearch] = useDebouncedValue(searchInput, 300);
     const [formOpen, setFormOpen] = useState(false);
     const [selected, setSelected] = useState<AdminRecord | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<AdminRecord | null>(null);
@@ -33,7 +35,7 @@ export function AdminCrudPage({ config }: { config: ResourceConfig }) {
     }, [meta, page]);
 
     const handleSearch = (value: string) => {
-        setSearch(value);
+        setSearchInput(value);
         setPage(1);
     };
 
@@ -76,7 +78,7 @@ export function AdminCrudPage({ config }: { config: ResourceConfig }) {
                     <div className="relative w-full sm:max-w-xs">
                         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-black/45" />
                         <Input
-                            value={search}
+                            value={searchInput}
                             onChange={(event) => handleSearch(event.target.value)}
                             placeholder="Cari data..."
                             className="pl-9"
