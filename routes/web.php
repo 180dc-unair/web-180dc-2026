@@ -6,6 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', fn () => Inertia::render('Landing/Index'))->name('landing');
+Route::get('/login', fn () => Inertia::render('Auth/Login'))->name('auth.login');
+
+Route::get('/articles', fn () => Inertia::render('Articles/Index'))->name('articles.index');
+Route::get('/articles/{slug}', fn (string $slug) => Inertia::render('Articles/Show', ['slug' => $slug]))->name('articles.show');
+
+Route::get('/store', fn () => Inertia::render('Store/Index'))->name('store.index');
+Route::get('/store/{slug}', fn (string $slug) => Inertia::render('Store/Show', ['slug' => $slug]))->name('store.show');
 
 Route::get('/admin/login', [AdminAuthController::class, 'create'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'store'])->name('admin.login.store');
