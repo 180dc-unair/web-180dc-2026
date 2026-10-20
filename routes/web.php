@@ -16,6 +16,7 @@ Route::get('/store/{slug}', fn (string $slug) => Inertia::render('Store/Show', [
 
 Route::get('/admin/login', [AdminAuthController::class, 'create'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'store'])->name('admin.login.store');
+Route::get('/register', fn () => Inertia::render('Auth/Register'))->name('auth.register');
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
     Route::get('/', [AdminPageController::class, 'dashboard'])->name('dashboard');
