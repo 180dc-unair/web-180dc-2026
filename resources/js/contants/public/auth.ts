@@ -1,4 +1,5 @@
 import loginHero from '@/assets/auth/login-hero.jpg';
+import registerHero from '@/assets/auth/register-hero.jpg';
 import type { NavLink } from '@/types/public';
 
 export const LOGIN_PAGE = {
@@ -25,4 +26,39 @@ export const LOGIN_PAGE = {
     termsPrefix: 'By signing in, you agree to our',
     termsLink: { label: 'Terms of Service', href: '/terms' } satisfies NavLink,
     privacyLink: { label: 'Privacy Policy', href: '/privacy-policy' } satisfies NavLink,
+};
+
+export const REGISTER_PAGE = {
+    hero: {
+        image: registerHero,
+        title: 'Join the',
+        highlight: '180DC UNAIR Community',
+        points: [
+            { icon: 'book', text: 'Access exclusive case studies and learning resources' },
+            { icon: 'users', text: 'Grow with a network of student consultants' },
+        ],
+    },
+    form: {
+        title: 'Create Account',
+        description: 'Fill in your details to get started',
+        nameLabel: 'Full Name',
+        namePlaceholder: 'Your full name',
+        usernameLabel: 'Username',
+        usernamePlaceholder: 'yourusername',
+        emailLabel: 'Email Address',
+        emailPlaceholder: 'consultant@180dc.org',
+        passwordLabel: 'Password',
+        confirmLabel: 'Confirm Password',
+        submitLabel: 'Create Account',
+        submittingLabel: 'Creating account...',
+        errorTitle: 'Registrasi gagal',
+    },
+    terms: {
+        prefix: 'I agree to the',
+        and: 'and',
+        termsLink: { label: 'Terms of Service', href: '/terms' } satisfies NavLink,
+        privacyLink: { label: 'Privacy Policy', href: '/privacy-policy' } satisfies NavLink,
+    },
+    divider: 'or',
+    signIn: { prompt: 'Already have an account?', label: 'Sign In', href: '/login' },
 };
